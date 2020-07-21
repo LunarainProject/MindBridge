@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 
 import Counter from "../components/Counter";
 
-export default class MainScreen extends React.Component {
+export default class TestScreen extends React.Component {
   render() {
     return (
       <View style={styles.main}>
