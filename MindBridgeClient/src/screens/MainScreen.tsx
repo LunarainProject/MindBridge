@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   Button,
+  Image,
   NativeSyntheticEvent,
   NativeTouchEvent,
 } from "react-native";
@@ -19,7 +20,7 @@ import MoreRoute from "./routes/MoreRoute";
 import Background from "../components/Background";
 
 export default class MainScreen extends React.Component<Props> {
-  
+
   state = {
     index: 0,
   };
@@ -54,6 +55,17 @@ export default class MainScreen extends React.Component<Props> {
     more: this.MoreRoute,
   });
 
+  private renderIcon = ({route, focused, color}: any) => {
+    console.log(route);
+    switch(route.key)
+    {
+      case "collect":
+        return <Image style={{width: 20, height: 20, resizeMode: 'contain'}} source={{uri: require("../drawables/icon_collect.png")}} />
+      default:
+        return <Image style={{width: 20, height: 20, resizeMode: 'contain'}} source={{uri: require("../drawables/icon_more.png")}} />
+    }
+  }
+
   private setIndex = (index: number) => {
     this.setState({ index });
   };
@@ -82,6 +94,7 @@ export default class MainScreen extends React.Component<Props> {
           }}
           onIndexChange={this.setIndex}
           renderScene={this.renderScene}
+          renderIcon={this.renderIcon}
         />
       </View>
     );
