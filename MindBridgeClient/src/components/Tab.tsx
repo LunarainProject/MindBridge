@@ -1,10 +1,23 @@
 import React from "react";
 import { TouchableNativeFeedback, StyleSheet, View } from "react-native";
-import { Title } from "react-native-paper";
+import GestureRecognizer from "react-native-swipe-gestures";
+import { Title, Text } from "react-native-paper";
 
 export default class Tab extends React.Component<Props> {
   state = {
     focused: 0,
+  };
+
+  private onSwipeLeft = () => {
+    if (this.state.focused < this.props.tabs.length - 1) {
+      this.setState({ focused: this.state.focused + 1 });
+    }
+  };
+
+  private onSwipeRight = () => {
+    if (this.state.focused > 0) {
+      this.setState({ focused: this.state.focused - 1 });
+    }
   };
 
   render() {
@@ -52,7 +65,20 @@ export default class Tab extends React.Component<Props> {
             </View>
           ))}
         </View>
-        {RenderComp}
+        <GestureRecognizer
+          onSwipeRight={this.onSwipeRight}
+          onSwipeLeft={this.onSwipeLeft}
+          config={{
+            velocityThreshold: 0.02,
+            directionalOffsetThreshold: 80,
+            gestureIsClickThreshold: 50,
+          }}
+          style={{
+            flex: 1,
+          }}
+        >
+          {RenderComp}
+        </GestureRecognizer>
       </View>
     );
   }
@@ -66,7 +92,6 @@ type Props = {
 };
 
 const styles = StyleSheet.create({
-
   main: {
     flex: 1,
   },
@@ -98,7 +123,7 @@ const styles = StyleSheet.create({
 
   tabBar: {
     height: 2,
-    backgroundColor: "#FF83B0"
+    backgroundColor: "#FF83B0",
     /* width must be set to half of props.tapWidth */
   },
 });
