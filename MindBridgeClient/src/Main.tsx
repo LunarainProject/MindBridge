@@ -2,6 +2,8 @@ import React from "react";
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from "@react-navigation/native";
 
+import LogoTitle from "./components/LogoTitle";
+
 import MainScreen         from "./screens/MainScreen";
 import TestScreen         from "./screens/TestScreen";
 import SurveyWebScreen    from "./screens/SurveyWebScreen";
@@ -15,7 +17,7 @@ export default function Main() {
       <Stack.Navigator>
         <Stack.Screen name="Main"         component={MainScreen}
                       options={{
-                        title: "",
+                        headerTitle: props => <LogoTitle/>,
                         headerStyle: {
                           backgroundColor: '#FCDCFA'
                         },
@@ -28,4 +30,5 @@ export default function Main() {
     </NavigationContainer>
   );
 }
+
 

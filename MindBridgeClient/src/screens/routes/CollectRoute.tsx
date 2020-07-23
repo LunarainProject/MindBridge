@@ -7,22 +7,20 @@ import {
   NativeSyntheticEvent,
   NativeTouchEvent,
 } from "react-native";
-import Background from "../../components/Background";
-
-import Counter from "../../components/Counter";
+import Card from "../../components/Card";
 
 export default class CollectRoute extends React.Component {
-  private OnClickTestHandler: (
+  private OnClickHandler: (
     arg1: NativeSyntheticEvent<NativeTouchEvent>
   ) => void;
 
   constructor(props: any) {
     super(props);
 
-    this.OnClickTestHandler = (
+    this.OnClickHandler = (
       e: NativeSyntheticEvent<NativeTouchEvent>
     ): void => {
-      props.navigation.navigate("Test");
+      alert("hello");
       return;
     };
   }
@@ -30,8 +28,18 @@ export default class CollectRoute extends React.Component {
   render() {
     return (
       <View style={styles.main}>
-        <Text>Open up App.tsx to start working on your app!</Text>
-        <Counter />
+        {[1, 2, 3, 4].map((val) => (
+          <View style={styles.cardMargin} key={val}>
+            <Card
+              Title="배고파"
+              Subtitle="왜 배고픈 걸까?"
+              Description="돼지라서"
+              ButtonLabel="버튼"
+              InfoLabel="돼지"
+              OnClick={this.OnClickHandler}
+            />
+          </View>
+        ))}
       </View>
     );
   }
@@ -42,6 +50,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "whitesmoke",
+  },
+
+  cardMargin: {
+    width: "100%",
+    marginBottom: 20,
   },
 });

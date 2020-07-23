@@ -12,6 +12,7 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: 'white',
+    surface: 'white',
     accent: '#FCDCFA',
   }
 }

@@ -1,19 +1,18 @@
 import React from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View, ScrollView, Dimensions } from "react-native";
 import { Headline, Surface } from "react-native-paper";
 
 export default class Background extends React.Component<Props> {
   render() {
     return (
-      <View style={styles.main}>
-        <View />
+      <ScrollView style={styles.main}>
         <Surface style={styles.screen}>
-          <Headline style={styles.headlineTitle}>
+            <Headline style={styles.headlineTitle}>
             {this.props.Title || "제목"}
           </Headline>
           <View style={styles.children}>{this.props.children}</View>
         </Surface>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -22,14 +21,17 @@ type Props = {
   Title: string;
 };
 
+const radius = 60;
+
 const styles = StyleSheet.create({
+
   main: {
-    flex: 1,
+    width: "100%",
     backgroundColor: "whitesmoke",
   },
 
   headlineTitle: {
-    fontSize: 50,
+    fontSize: 30,
     fontWeight: "bold",
   },
 
@@ -39,10 +41,10 @@ const styles = StyleSheet.create({
 
   screen: {
     flex: 1,
-    borderTopLeftRadius: 60,
+    borderTopLeftRadius: radius,
     backgroundColor: "white",
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingLeft: 20,
+    paddingRight: 20,
     paddingTop: 40,
     ...Platform.select({
       ios: {
