@@ -1,15 +1,15 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import BackgroundBase from "./BackgroundBase";
 
-export default class Background extends React.Component<Props> {
+export default class ScrollBackground extends React.Component<Props> {
   render() {
     return (
-      <View style={styles.main}>
+      <ScrollView style={styles.main}>
         <BackgroundBase {...this.props}>
           {this.props.children}
         </BackgroundBase>
-      </View>
+      </ScrollView>
     );
   }
 }

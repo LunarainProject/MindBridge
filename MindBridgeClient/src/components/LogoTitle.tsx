@@ -5,7 +5,7 @@ export default function LogoTitle() {
     return (
         <View style={styles.logo}>
             <Image
-                style={{ width: 105, height: 50 }}
+                style={{ width: 84, height: 40 }}
                 resizeMode="contain"
                 source={require('../drawables/title.png')}
             ></Image>

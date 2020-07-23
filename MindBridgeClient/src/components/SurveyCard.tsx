@@ -15,43 +15,40 @@ export default class SurveyCard extends React.Component<Props> {
     return (
       <Surface style={styles.cardContainer} onTouchEnd={this.props.OnClick}>
         <View style={styles.dataContainer}>
-            <View style={styles.imageAvatar}>
-                <Image 
-                    style={styles.image}
-                    resizeMode="cover"
-                    source={require('../drawables/wait.jpg')}
-                >
-                </Image>
-            </View>  
-            <View style={styles.textContainer}>
-                <View style={styles.titleContainer}>
-                    <Text style={{ fontSize: 14 }}>
-                        {this.props.Subtitle}
-                    </Text>
-                    <Text style={{ fontWeight: "bold", fontSize: 23 }}>
-                        {this.props.Title}
-                    </Text>
-                </View>
-                <View style={styles.buttonContainer}>
-                    <Text style={{ fontSize: 14, color: "#F970B9" }}>
-                        {this.props.ButtonLabel}
-                    </Text>
-                    <AntDesign name="right" size={14} color="#F970B9" />
-                </View>
+          <View style={styles.imageAvatar}>
+            <Image
+              style={styles.image}
+              resizeMode="cover"
+              source={require("../drawables/wait.jpg")}
+            ></Image>
+          </View>
+          <View style={styles.textContainer}>
+            <View style={styles.titleContainer}>
+              <Text style={{ fontSize: 14 }}>{this.props.Subtitle}</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 23 }}>
+                {this.props.Title}
+              </Text>
             </View>
+            <View style={styles.buttonContainer}>
+              <Text style={{ fontSize: 14, color: "#F970B9" }}>
+                {this.props.ButtonLabel}
+              </Text>
+              <AntDesign name="right" size={14} color="#F970B9" />
+            </View>
+          </View>
         </View>
         <View style={styles.infoContainer}>
-              <Image
-                style={{ width: 110, height: 32 }}
-                resizeMode="stretch"
-                source={require("../drawables/info.png")}
-              ></Image>
-              <View style={styles.infoText}>
-                <Caption style={{ marginLeft: 15, color: "white" }}>
-                  {this.props.InfoLabel}
-                </Caption>
-              </View>
-            </View>
+          <Image
+            style={{ width: 110, height: 32 }}
+            resizeMode="stretch"
+            source={require("../drawables/info.png")}
+          ></Image>
+          <View style={styles.infoText}>
+            <Caption style={{ marginLeft: 15, color: "white" }}>
+              {this.props.InfoLabel}
+            </Caption>
+          </View>
+        </View>
       </Surface>
     );
   }
@@ -145,5 +142,5 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 });

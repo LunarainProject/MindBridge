@@ -38,7 +38,6 @@ export default class AdvertiseRoute extends React.Component {
 
 const styles = StyleSheet.create({
   main: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "whitesmoke",

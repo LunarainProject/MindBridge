@@ -20,7 +20,7 @@ export default class CollectRoute extends React.Component {
     this.OnClickHandler = (
       e: NativeSyntheticEvent<NativeTouchEvent>
     ): void => {
-      alert("hello");
+      //alert("hello");
       return;
     };
   }
@@ -35,7 +35,7 @@ export default class CollectRoute extends React.Component {
               Subtitle="왜 배고픈 걸까?"
               Description="돼지라서"
               ButtonLabel="버튼"
-              InfoLabel="돼지"
+              InfoLabel="8문항"
               OnClick={this.OnClickHandler}
             />
           </View>

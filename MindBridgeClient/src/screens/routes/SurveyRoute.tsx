@@ -20,7 +20,7 @@ export default class SurveyRoute extends React.Component {
     this.OnClickHandler = (
       e: NativeSyntheticEvent<NativeTouchEvent>
     ): void => {
-      alert("hello");
+      //alert("hello");
       return;
     };
   }
@@ -46,9 +46,6 @@ export default class SurveyRoute extends React.Component {
 
 const styles = StyleSheet.create({
   main: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
 
   cardMargin: {

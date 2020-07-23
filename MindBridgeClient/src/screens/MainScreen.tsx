@@ -18,6 +18,7 @@ import TipRoute from "./routes/TipRoute";
 import AdvertiseRoute from "./routes/AdvertiseRoute";
 import MoreRoute from "./routes/MoreRoute";
 import Background from "../components/Background";
+import ScrollBackground from "../components/ScrollBackground";
 
 export default class MainScreen extends React.Component<Props> {
   state = {
@@ -29,15 +30,17 @@ export default class MainScreen extends React.Component<Props> {
   ) => void;
 
   private CollectRoute = () =>
-    this.DrawBackground(<CollectRoute />, "모아보기");
-  private SurveyRoute = () => this.DrawBackground(<SurveyRoute />, "테스트");
+    this.DrawBackground(<CollectRoute />, "모아보기", true);
+  private SurveyRoute = () => this.DrawBackground(<SurveyRoute />, "테스트",);
   private TipRoute = () => this.DrawBackground(<TipRoute />, "팁");
   private AdvertiseRoute = () =>
     this.DrawBackground(<AdvertiseRoute />, "부부학교");
-  private MoreRoute = () => this.DrawBackground(<MoreRoute />, "더보기");
+  private MoreRoute = () => this.DrawBackground(<MoreRoute />, "더보기", false, false);
 
-  private DrawBackground = (childcontent: any, title: string) => {
-    return <Background Title={title}>{childcontent}</Background>;
+  private DrawBackground = (childContent: any, title: string, scroll: boolean = false, childMargin: boolean = true) => {
+    return scroll?
+      <ScrollBackground ChildMargin={childMargin} Title={title}>{childContent}</ScrollBackground> :
+      <Background ChildMargin={childMargin} Title={title}>{childContent}</Background>
   };
 
   private routes = [
@@ -57,7 +60,6 @@ export default class MainScreen extends React.Component<Props> {
   });
 
   private renderIcon = ({ route, focused, color }: any) => {
-    console.log(route);
     switch (route.key) {
       case "collect":
         return (

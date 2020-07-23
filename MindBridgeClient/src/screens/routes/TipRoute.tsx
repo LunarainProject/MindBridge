@@ -30,7 +30,8 @@ export default class TipRoute extends React.Component {
     return (
       <View style={styles.main}>
         <Text>Open up App.tsx to start working on your app!</Text>
-        <Counter />
+        <Counter/>
+
       </View>
     );
   }
@@ -38,7 +39,6 @@ export default class TipRoute extends React.Component {
 
 const styles = StyleSheet.create({
   main: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "whitesmoke",
