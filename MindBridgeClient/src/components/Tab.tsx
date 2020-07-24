@@ -33,36 +33,47 @@ export default class Tab extends React.Component<Props> {
                 this.setState({ focused: ind });
                 this.props.onChange(this.state.focused);
               }}
+              background={TouchableNativeFeedback.Ripple(
+                "rgba(0, 0, 0, 0.3)",
+                false
+              )}
             >
-              <View
-                style={[styles.centerContainer, { width: this.props.tabWidth }]}
-              >
-                <Title
+              <View>
+                <View
                   style={[
-                    styles.tabText,
-                    this.state.focused == ind
-                      ? styles.focusedText
-                      : styles.blurredText,
+                    styles.centerContainer,
+                    { width: this.props.tabWidth },
                   ]}
                 >
-                  {val.title}
-                </Title>
+                  <Title
+                    style={[
+                      styles.tabText,
+                      this.state.focused == ind
+                        ? styles.focusedText
+                        : styles.blurredText,
+                    ]}
+                  >
+                    {val.title}
+                  </Title>
+                </View>
+                <View
+                  style={[
+                    styles.centerContainer,
+                    { width: this.props.tabWidth },
+                  ]}
+                  key={ind}
+                >
+                  {this.state.focused === ind && (
+                    <View
+                      style={[
+                        styles.tabBar,
+                        { width: this.props.tabWidth / 2 },
+                      ]}
+                    />
+                  )}
+                </View>
               </View>
             </TouchableNativeFeedback>
-          ))}
-        </View>
-        <View style={[styles.tabContainer, this.props.style]}>
-          {this.props.tabs.map((val, ind) => (
-            <View
-              style={[styles.centerContainer, { width: this.props.tabWidth }]}
-              key={ind}
-            >
-              {this.state.focused === ind && (
-                <View
-                  style={[styles.tabBar, { width: this.props.tabWidth / 2 }]}
-                />
-              )}
-            </View>
           ))}
         </View>
         <GestureRecognizer

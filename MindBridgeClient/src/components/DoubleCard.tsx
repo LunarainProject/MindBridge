@@ -1,6 +1,10 @@
 import React from "react";
-import { Platform, StyleSheet, View } from "react-native";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import {
+  TouchableNativeFeedback,
+  Platform,
+  StyleSheet,
+  View,
+} from "react-native";
 import { Surface, Text } from "react-native-paper";
 import DoubleCardBase from "./DoubleCardBase";
 
@@ -10,7 +14,13 @@ export default class DoubleCard extends React.Component<Props> {
       <DoubleCardBase>
         <View style={styles.main}>
           <View style={styles.button}>
-            <TouchableNativeFeedback onPress={this.props.upperButton.onClick}>
+            <TouchableNativeFeedback
+              onPress={this.props.upperButton.onClick}
+              background={TouchableNativeFeedback.Ripple(
+                "rgba(0, 0, 0, 0.3)",
+                false
+              )}
+            >
               <View style={styles.textContainer}>
                 <Text>{this.props.upperButton.text}</Text>
               </View>
@@ -21,7 +31,13 @@ export default class DoubleCard extends React.Component<Props> {
             <View style={styles.divider} />
           </View>
           <View style={styles.button}>
-            <TouchableNativeFeedback onPress={this.props.upperButton.onClick}>
+            <TouchableNativeFeedback
+              background={TouchableNativeFeedback.Ripple(
+                "rgba(0, 0, 0, 0.3)",
+                false
+              )}
+              onPress={this.props.upperButton.onClick}
+            >
               <View style={styles.textContainer}>
                 <Text>{this.props.downerButton.text}</Text>
               </View>
@@ -42,10 +58,9 @@ const radius = 10;
 
 const styles = StyleSheet.create({
   textContainer: {
-    width: "100%",
-    height: "100%",
+    flex: 1,
     justifyContent: "center",
-    marginLeft: 30,
+    paddingLeft: 30,
   },
 
   button: {
