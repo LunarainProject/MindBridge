@@ -31,8 +31,8 @@ export default class MainScreen extends React.Component<Props> {
 
   private CollectRoute = () =>
     this.DrawBackground(<CollectRoute />, "모아보기", true);
-  private SurveyRoute = () => this.DrawBackground(<SurveyRoute />, "테스트",);
-  private TipRoute = () => this.DrawBackground(<TipRoute />, "부부생활 팁");
+  private SurveyRoute = () => this.DrawBackground(<SurveyRoute />, "테스트", true);
+  private TipRoute = () => this.DrawBackground(<TipRoute />, "부부생활 팁", true);
   private AdvertiseRoute = () =>
     this.DrawBackground(<AdvertiseRoute />, "알콩달콩 부부학교");
   private MoreRoute = () => this.DrawBackground(<MoreRoute />, "더보기", false, false);

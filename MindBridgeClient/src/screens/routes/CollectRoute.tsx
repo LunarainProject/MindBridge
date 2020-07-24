@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Paragraph } from "react-native-paper";
 import Card from "../../components/Card";
-import RatioImage from "../../components/RatioImage";
+import Divider from "../../components/Divider";
 import Title from "../../components/Title";
 
 export default class CollectRoute extends React.Component {
@@ -47,6 +47,18 @@ export default class CollectRoute extends React.Component {
             Description="부부관계 건강검진 풀세트"
             ButtonLabel="무료 테스트하기"
             InfoLabel="8종"
+            OnClick={this.OnClickHandler}
+          />
+        </View>
+        <Divider />
+        <Title>추천 영상</Title>
+        <View style={styles.cardMargin}>
+          <Card
+            Title="온기 있는 집"
+            Subtitle="가족을 긴장시키는 아빠, 해결책은?"
+            Description="김성목, 한은경 부부 이야기"
+            ButtonLabel="보러가기"
+            InfoLabel=""
             OnClick={this.OnClickHandler}
           />
         </View>
@@ -92,28 +104,12 @@ export default class CollectRoute extends React.Component {
   }
 }
 
-class Divider extends React.Component {
-  render() {
-    return (
-      <View style={styles.dividerMargin}>
-        <RatioImage Ratio={13.33} Source={require("../../drawables/divider.png")} ></RatioImage>
-      </View>
-      
-    );
-  }
-}
-
 const styles = StyleSheet.create({
   main: {
     flex: 1,
   },
 
   cardMargin: {
-    width: "100%",
-    marginBottom: 20,
-  },
-
-  dividerMargin: {
     width: "100%",
     marginBottom: 20,
   },

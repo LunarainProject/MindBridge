@@ -25,8 +25,8 @@ export default class SurveyCard extends React.Component<Props> {
           </View>
           <View style={styles.textContainer}>
             <View style={styles.titleContainer}>
-              <Text style={{ fontSize: 14 }}>{this.props.Subtitle}</Text>
-              <Text style={{ fontWeight: "bold", fontSize: 23 }}>
+              <Text style={{ fontSize: 12 }}>{this.props.Subtitle}</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 22 }}>
                 {this.props.Title}
               </Text>
             </View>
