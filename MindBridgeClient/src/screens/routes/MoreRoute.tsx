@@ -23,6 +23,18 @@ export default class MoreRoute extends React.Component {
 }
 
 class MyPage extends React.Component {
+
+  private buttonInfo: [{text: string, onClick: Function}, {text: string, onClick: Function}][] = [
+    [{text: "내 프로필", onClick: ()=>{}},
+    {text: "배우자 프로필", onClick: ()=>{}}],
+  
+    [{text: "테스트 결과 보기", onClick: ()=>{}},
+    {text: "My 포인트", onClick: ()=>{}}],
+  
+    [{text: "로그아웃", onClick: ()=>{}},
+    {text: "회원 탈퇴", onClick: ()=>{}}],
+  ]
+
   render() {
     return (
       <View style={styles.pageLeftContainer}>
@@ -34,11 +46,11 @@ class MyPage extends React.Component {
             spouseState="아내"
           />
         </View>
-        {[1, 2, 3].map((val) => (
-        <View style={styles.cardMargin} key={val}>
+        {this.buttonInfo.map((val, ind) => (
+        <View style={styles.cardMargin} key={ind}>
           <DoubleCard
-            upperButton={{ text: "위 버튼", onClick: () => {} }}
-            downerButton={{ text: "아래 버튼", onClick: () => {} }}
+            upperButton={val[0]}
+            downerButton={val[1]}
           />
         </View>
         ))}
@@ -48,14 +60,29 @@ class MyPage extends React.Component {
 }
 
 class Info extends React.Component {
+
+  private buttonInfo: [{text: string, onClick: Function}, {text: string, onClick: Function}][] = [
+    [{text: "공지사항", onClick: ()=>{}},
+    {text: "자주 묻는 질문", onClick: ()=>{}}],
+  
+    [{text: "문의하기", onClick: ()=>{}},
+    {text: "버전 정보", onClick: ()=>{}}],
+  
+    [{text: "후원하기", onClick: ()=>{}},
+    {text: "후원 내역 보기", onClick: ()=>{}}],
+  
+    [{text: "부부학교 신청하기", onClick: ()=>{}},
+    {text: "설정", onClick: ()=>{}}],
+  ]
+
   render() {
     return (
       <View style={styles.pageRightContainer}>
-        {[1, 2, 3, 4].map((val) => (
-        <View style={styles.cardMargin} key={val}>
+        {this.buttonInfo.map((val, ind) => (
+        <View style={styles.cardMargin} key={ind}>
           <DoubleCard
-            upperButton={{ text: "위 버튼", onClick: () => {} }}
-            downerButton={{ text: "아래 버튼", onClick: () => {} }}
+            upperButton={val[0]}
+            downerButton={val[1]}
           />
         </View>
         ))}
