@@ -17,7 +17,7 @@ export default class DoubleCard extends React.Component<Props> {
             <TouchableNativeFeedback
               onPress={this.props.upperButton.onClick}
               background={TouchableNativeFeedback.Ripple(
-                "rgba(0, 0, 0, 0.3)",
+                "rgba(0, 0, 0, 0.08)",
                 false
               )}
             >
@@ -33,7 +33,7 @@ export default class DoubleCard extends React.Component<Props> {
           <View style={styles.button}>
             <TouchableNativeFeedback
               background={TouchableNativeFeedback.Ripple(
-                "rgba(0, 0, 0, 0.3)",
+                "rgba(0, 0, 0, 0.08)",
                 false
               )}
               onPress={this.props.upperButton.onClick}

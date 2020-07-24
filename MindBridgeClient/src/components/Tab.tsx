@@ -34,7 +34,7 @@ export default class Tab extends React.Component<Props> {
                 this.props.onChange(this.state.focused);
               }}
               background={TouchableNativeFeedback.Ripple(
-                "rgba(0, 0, 0, 0.3)",
+                "rgba(0, 0, 0, 0.08)",
                 false
               )}
             >

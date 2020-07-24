@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 
   children: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 15,
   },
 
   screenPadder: {

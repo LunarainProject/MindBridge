@@ -27,7 +27,12 @@ class MyPage extends React.Component {
     return (
       <View style={styles.pageLeftContainer}>
         <View style={styles.cardMargin}>
-          <Profile/>
+          <Profile
+            myName="망둥이1"
+            myState="남편"
+            spouseName="망둥이2"
+            spouseState="아내"
+          />
         </View>
         {[1, 2, 3].map((val) => (
         <View style={styles.cardMargin} key={val}>

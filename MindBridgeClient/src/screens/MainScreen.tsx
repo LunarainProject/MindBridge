@@ -32,9 +32,9 @@ export default class MainScreen extends React.Component<Props> {
   private CollectRoute = () =>
     this.DrawBackground(<CollectRoute />, "모아보기", true);
   private SurveyRoute = () => this.DrawBackground(<SurveyRoute />, "테스트",);
-  private TipRoute = () => this.DrawBackground(<TipRoute />, "팁");
+  private TipRoute = () => this.DrawBackground(<TipRoute />, "부부생활 팁");
   private AdvertiseRoute = () =>
-    this.DrawBackground(<AdvertiseRoute />, "부부학교");
+    this.DrawBackground(<AdvertiseRoute />, "알콩달콩 부부학교");
   private MoreRoute = () => this.DrawBackground(<MoreRoute />, "더보기", false, false);
 
   private DrawBackground = (childContent: any, title: string, scroll: boolean = false, childMargin: boolean = true) => {
@@ -44,11 +44,11 @@ export default class MainScreen extends React.Component<Props> {
   };
 
   private routes = [
-    { key: "collect", title: "모아보기", icon: "history" },
-    { key: "survey", title: "테스트", icon: "album" },
-    { key: "tip", title: "팁", icon: "history" },
-    { key: "advertise", title: "부부학교", icon: "album" },
-    { key: "more", title: "더보기", icon: "history" },
+    { key: "collect", title: "모아보기" },
+    { key: "survey", title: "테스트" },
+    { key: "tip", title: "부부팁" },
+    { key: "advertise", title: "부부학교" },
+    { key: "more", title: "더보기" },
   ];
 
   private renderScene = BottomNavigation.SceneMap({

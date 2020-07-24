@@ -51,16 +51,18 @@ class Card extends React.Component<Props> {
             </Text>
             <AntDesign name="right" size={14} color="#F970B9" />
           </View>
-          <View style={styles.footerInfoLabel}>
-            <View style={{ width: 90, height: 32 }}>
-              <InfoContainer />
+          {this.props.InfoLabel !== "" && (
+            <View style={styles.footerInfoLabel}>
+              <View style={{ width: 90, height: 32 }}>
+                <InfoContainer />
+              </View>
+              <View style={styles.infoText}>
+                <Caption style={{ marginLeft: 15, color: "white" }}>
+                  {this.props.InfoLabel}
+                </Caption>
+              </View>
             </View>
-            <View style={styles.infoText}>
-              <Caption style={{ marginLeft: 15, color: "white" }}>
-                {this.props.InfoLabel}
-              </Caption>
-            </View>
-          </View>
+          )}
         </View>
       </Surface>
     );
