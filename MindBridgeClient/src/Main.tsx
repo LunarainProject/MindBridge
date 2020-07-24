@@ -14,13 +14,14 @@ const Stack = createStackNavigator();
 export default function Main() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{
+        headerStyle: {
+          backgroundColor: '#FCDCFA'
+        },
+      }}>
         <Stack.Screen name="Main"         component={MainScreen}
                       options={{
-                        headerTitle: props => <LogoTitle/>,
-                        headerStyle: {
-                          backgroundColor: '#FCDCFA'
-                        },
+                        headerShown: false,
                       }}
         />
         <Stack.Screen name="Test"         component={TestScreen} />

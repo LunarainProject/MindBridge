@@ -20,7 +20,7 @@ export default class SurveyCard extends React.Component<Props> {
             <Image
               style={styles.image}
               resizeMode="cover"
-              source={require("../drawables/wait.jpg")}
+              source={require("../drawables/wait_normal.png")}
             ></Image>
           </View>
           <View style={styles.textContainer}>

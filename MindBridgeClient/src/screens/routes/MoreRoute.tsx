@@ -1,11 +1,13 @@
+import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import DoubleCard from "../../components/DoubleCard";
 import Profile from "../../components/Profile";
 
 import Tab from "../../components/Tab";
+import StackParamList from "../StackParamList";
 
-export default class MoreRoute extends React.Component {
+export default class MoreRoute extends React.Component<Props> {
   render() {
     return (
       <View style={styles.main}>
@@ -21,6 +23,8 @@ export default class MoreRoute extends React.Component {
     );
   }
 }
+
+type Props = StackScreenProps<StackParamList, "Main">;
 
 class MyPage extends React.Component {
 
@@ -56,7 +60,7 @@ class MyPage extends React.Component {
         ))}
       </View>
     );
-  }
+  } 
 }
 
 class Info extends React.Component {

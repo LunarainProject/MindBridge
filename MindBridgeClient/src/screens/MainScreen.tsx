@@ -30,12 +30,12 @@ export default class MainScreen extends React.Component<Props> {
   ) => void;
 
   private CollectRoute = () =>
-    this.DrawBackground(<CollectRoute />, "모아보기", true);
-  private SurveyRoute = () => this.DrawBackground(<SurveyRoute />, "테스트", true);
-  private TipRoute = () => this.DrawBackground(<TipRoute />, "부부생활 팁", true);
+    this.DrawBackground(<CollectRoute {...this.props}/>, "모아보기", true);
+  private SurveyRoute = () => this.DrawBackground(<SurveyRoute {...this.props}/>, "테스트", true);
+  private TipRoute = () => this.DrawBackground(<TipRoute {...this.props}/>, "부부생활 팁", true);
   private AdvertiseRoute = () =>
-    this.DrawBackground(<AdvertiseRoute />, "알콩달콩 부부학교");
-  private MoreRoute = () => this.DrawBackground(<MoreRoute />, "더보기", false, false);
+    this.DrawBackground(<AdvertiseRoute {...this.props}/>, "알콩달콩 부부학교");
+  private MoreRoute = () => this.DrawBackground(<MoreRoute {...this.props}/>, "더보기", false, false);
 
   private DrawBackground = (childContent: any, title: string, scroll: boolean = false, childMargin: boolean = true) => {
     return scroll?

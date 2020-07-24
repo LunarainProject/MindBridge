@@ -1,3 +1,4 @@
+import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
 import {
   StyleSheet,
@@ -11,6 +12,7 @@ import {
 import Card from "../../components/Card";
 import Tab from "../../components/Tab";
 import Title from "../../components/Title";
+import StackParamList from "../StackParamList";
 
 export default class TipRoute extends React.Component {
   private OnClickTestHandler: (
@@ -72,7 +74,7 @@ class Video extends React.Component {
   }
 }
 
-class Column extends React.Component {
+class Column extends React.Component<Props> {
   render() {
     return (
       <View style={[styles.background, styles.paddingContainer]}>
@@ -101,6 +103,8 @@ class Column extends React.Component {
     );
   }
 }
+
+type Props = StackScreenProps<StackParamList, "Main">;
 
 const video = <Video />;
 const column = <Column />;

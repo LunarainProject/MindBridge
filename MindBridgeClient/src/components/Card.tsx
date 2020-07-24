@@ -20,7 +20,7 @@ class Card extends React.Component<Props> {
         <View style={styles.imageContainer}>
           <RatioImage
             Ratio={16 / 9}
-            Source={require("../drawables/wait.jpg")}
+            Source={require("../drawables/wait_normal.png")}
           />
           <View style={styles.imageCoverGrad}>
             <LinearGradient

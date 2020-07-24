@@ -1,3 +1,4 @@
+import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
 import {
   StyleSheet,
@@ -11,8 +12,9 @@ import { Paragraph } from "react-native-paper";
 import Card from "../../components/Card";
 import Divider from "../../components/Divider";
 import Title from "../../components/Title";
+import StackParamList from "../StackParamList";
 
-export default class CollectRoute extends React.Component {
+export default class CollectRoute extends React.Component<Props> {
   private OnClickHandler: (
     arg1: NativeSyntheticEvent<NativeTouchEvent>
   ) => void;
@@ -103,6 +105,8 @@ export default class CollectRoute extends React.Component {
     );
   }
 }
+
+type Props = StackScreenProps<StackParamList, "Main">;
 
 const styles = StyleSheet.create({
   main: {

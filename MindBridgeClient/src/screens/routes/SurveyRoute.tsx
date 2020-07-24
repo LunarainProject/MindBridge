@@ -1,3 +1,4 @@
+import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
 import {
   StyleSheet,
@@ -10,8 +11,9 @@ import {
 import Divider from "../../components/Divider";
 import SurveyCard from "../../components/SurveyCard";
 import Title from "../../components/Title";
+import StackParamList from "../StackParamList";
 
-export default class SurveyRoute extends React.Component {
+export default class SurveyRoute extends React.Component<Props> {
   private OnClickHandler: (
     arg1: NativeSyntheticEvent<NativeTouchEvent>
   ) => void;
@@ -22,7 +24,7 @@ export default class SurveyRoute extends React.Component {
     this.OnClickHandler = (
       e: NativeSyntheticEvent<NativeTouchEvent>
     ): void => {
-      //alert("hello");
+      this.props.navigation.navigate("SurveyWeb");
       return;
     };
   }
@@ -59,6 +61,8 @@ export default class SurveyRoute extends React.Component {
     );
   }
 }
+
+type Props = StackScreenProps<StackParamList, "Main">;
 
 const styles = StyleSheet.create({
   main: {

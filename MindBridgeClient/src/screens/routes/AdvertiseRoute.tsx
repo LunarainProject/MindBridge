@@ -1,3 +1,4 @@
+import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
 import {
   StyleSheet,
@@ -10,8 +11,9 @@ import {
 import { Paragraph, Text } from "react-native-paper";
 
 import Tab from "../../components/Tab";
+import StackParamList from "../StackParamList";
 
-export default class AdvertiseRoute extends React.Component {
+export default class AdvertiseRoute extends React.Component<Props> {
   private OnClickTestHandler: (
     arg1: NativeSyntheticEvent<NativeTouchEvent>
   ) => void;
@@ -35,6 +37,8 @@ export default class AdvertiseRoute extends React.Component {
     );
   }
 }
+
+type Props = StackScreenProps<StackParamList, "Main">;
 
 class Introduction extends React.Component {
   render() {
