@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Text, Caption, Surface } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
+import InfoContainer from "./InfoContainer";
 
 export default class SurveyCard extends React.Component<Props> {
   render() {
@@ -38,11 +39,9 @@ export default class SurveyCard extends React.Component<Props> {
           </View>
         </View>
         <View style={styles.infoContainer}>
-          <Image
-            style={{ width: 110, height: 32 }}
-            resizeMode="stretch"
-            source={require("../drawables/info.png")}
-          ></Image>
+        <View style={{ width: 90, height: 32}}>
+          <InfoContainer />
+        </View>
           <View style={styles.infoText}>
             <Caption style={{ marginLeft: 15, color: "white" }}>
               {this.props.InfoLabel}

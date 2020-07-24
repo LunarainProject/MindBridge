@@ -11,58 +11,57 @@ import { Text, Caption, Surface } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import RatioImage from "../components/RatioImage";
 import { AntDesign } from "@expo/vector-icons";
+import InfoContainer from "./InfoContainer";
 
 class Card extends React.Component<Props> {
   render() {
     return (
       <Surface style={styles.cardContainer} onTouchEnd={this.props.OnClick}>
-          <View style={styles.imageContainer}>
-            <RatioImage
-              Ratio={16 / 9}
-              Source={require("../drawables/wait.jpg")}
-            />
-            <View style={styles.imageCoverGrad}>
-              <LinearGradient
-                colors={[
-                  "rgba(0, 0, 0, 0)",
-                  "rgba(0, 0, 0, 0.2)",
-                  "rgba(0, 0, 0, 0.8)",
-                ]}
-                style={styles.grad}
-              ></LinearGradient>
-              <View style={styles.subtitleContainer}>
-                <Text style={{ color: "white", fontSize: 21 }}>
-                  {this.props.Subtitle}
-                </Text>
-              </View>
+        <View style={styles.imageContainer}>
+          <RatioImage
+            Ratio={16 / 9}
+            Source={require("../drawables/wait.jpg")}
+          />
+          <View style={styles.imageCoverGrad}>
+            <LinearGradient
+              colors={[
+                "rgba(0, 0, 0, 0)",
+                "rgba(0, 0, 0, 0.2)",
+                "rgba(0, 0, 0, 0.8)",
+              ]}
+              style={styles.grad}
+            ></LinearGradient>
+            <View style={styles.subtitleContainer}>
+              <Text style={{ color: "white", fontSize: 16 }}>
+                {this.props.Subtitle}
+              </Text>
             </View>
           </View>
-          <View style={styles.footerContainer}>
-            <View style={styles.footerTextContainer}>
-              <Text style={{ fontWeight: "bold", fontSize: 28 }}>
-                {this.props.Title}
-              </Text>
-              <Text style={{ fontSize: 20 }}>{this.props.Description}</Text>
+        </View>
+        <View style={styles.footerContainer}>
+          <View style={styles.footerTextContainer}>
+            <Text style={{ fontWeight: "bold", fontSize: 24 }}>
+              {this.props.Title}
+            </Text>
+            <Text style={{ fontSize: 14 }}>{this.props.Description}</Text>
+          </View>
+          <View style={styles.footerButtonLabel}>
+            <Text style={{ fontSize: 14, color: "#F970B9" }}>
+              {this.props.ButtonLabel}
+            </Text>
+            <AntDesign name="right" size={14} color="#F970B9" />
+          </View>
+          <View style={styles.footerInfoLabel}>
+            <View style={{ width: 90, height: 32 }}>
+              <InfoContainer />
             </View>
-            <View style={styles.footerButtonLabel}>
-              <Text style={{ fontSize: 14, color: "#F970B9" }}>
-                {this.props.ButtonLabel}
-              </Text>
-              <AntDesign name="right" size={14} color="#F970B9" />
-            </View>
-            <View style={styles.footerInfoLabel}>
-              <Image
-                style={{ width: 110, height: 32 }}
-                resizeMode="stretch"
-                source={require("../drawables/info.png")}
-              ></Image>
-              <View style={styles.infoText}>
-                <Caption style={{ marginLeft: 15, color: "white" }}>
-                  {this.props.InfoLabel}
-                </Caption>
-              </View>
+            <View style={styles.infoText}>
+              <Caption style={{ marginLeft: 15, color: "white" }}>
+                {this.props.InfoLabel}
+              </Caption>
             </View>
           </View>
+        </View>
       </Surface>
     );
   }
@@ -144,7 +143,7 @@ const styles = StyleSheet.create({
   },
 
   footerTextContainer: {
-    marginBottom: 20,
+    marginBottom: 15,
   },
 
   footerButtonLabel: {

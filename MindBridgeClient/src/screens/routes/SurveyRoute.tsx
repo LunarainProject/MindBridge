@@ -7,6 +7,7 @@ import {
   NativeSyntheticEvent,
   NativeTouchEvent,
 } from "react-native";
+import InfoContainer from "../../components/InfoContainer";
 import SurveyCard from "../../components/SurveyCard";
 
 export default class SurveyRoute extends React.Component {

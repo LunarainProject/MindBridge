@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import DoubleCard from "../../components/DoubleCard";
-import DoubleCardBase from "../../components/DoubleCardBase";
+import Profile from "../../components/Profile";
 
 import Tab from "../../components/Tab";
 
@@ -27,7 +27,7 @@ class MyPage extends React.Component {
     return (
       <View style={styles.pageLeftContainer}>
         <View style={styles.cardMargin}>
-          <DoubleCardBase />
+          <Profile/>
         </View>
         {[1, 2, 3].map((val) => (
         <View style={styles.cardMargin} key={val}>

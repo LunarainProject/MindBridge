@@ -9,6 +9,7 @@ import {
 } from "react-native";
 
 import Counter from "../../components/Counter";
+import InfoContainer from "../../components/InfoContainer";
 
 export default class TipRoute extends React.Component {
   private OnClickTestHandler: (
@@ -31,7 +32,6 @@ export default class TipRoute extends React.Component {
       <View style={styles.main}>
         <Text>Open up App.tsx to start working on your app!</Text>
         <Counter/>
-
       </View>
     );
   }

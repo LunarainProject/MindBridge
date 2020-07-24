@@ -32,7 +32,7 @@ type Props = {
   ChildMargin: boolean;
 };
 
-const radius = 60;
+const radius = 42;
 
 const styles = StyleSheet.create({
   headlineTitle: {
