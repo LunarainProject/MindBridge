@@ -4,7 +4,7 @@ import CombineAction from '../CombineAction';
 
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-class Count extends React.Component<ICountProperties> {
+class Counter extends React.Component<ICountProperties> {
     render() {
       return (
         <View style={s.container}>
@@ -69,4 +69,4 @@ class Count extends React.Component<ICountProperties> {
     };
   }
   
-  export default connect(mapStateToProps, mapDispatchToProps)(Count);
+  export default connect(mapStateToProps, mapDispatchToProps)(Counter);

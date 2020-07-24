@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Image } from "react-native";
 
-export default class Card extends React.Component<Props> {
+export default class RatioImage extends React.Component<Props> {
     render() {
         return (
             <View style={styles.relativeContainer}>
