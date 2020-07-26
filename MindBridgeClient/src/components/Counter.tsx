@@ -54,7 +54,7 @@ class Counter extends React.Component<ICountProperties> {
 
   function mapStateToProps(state: any) {
     return {
-      Count: state.count
+      Count: state.Count.Count
     };
   }
   

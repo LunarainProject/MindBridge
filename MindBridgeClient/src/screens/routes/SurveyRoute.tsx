@@ -8,12 +8,14 @@ import {
   NativeSyntheticEvent,
   NativeTouchEvent,
 } from "react-native";
+import { connect } from "react-redux";
 import Divider from "../../components/Divider";
 import SurveyCard from "../../components/SurveyCard";
 import Title from "../../components/Title";
+import { CardCategoryType, CardState, CardType } from "../../StateTypes";
 import StackParamList from "../StackParamList";
 
-export default class SurveyRoute extends React.Component<Props> {
+class SurveyRoute extends React.Component<Props> {
   private OnClickHandler: (
     arg1: NativeSyntheticEvent<NativeTouchEvent>
   ) => void;
@@ -21,9 +23,7 @@ export default class SurveyRoute extends React.Component<Props> {
   constructor(props: any) {
     super(props);
 
-    this.OnClickHandler = (
-      e: NativeSyntheticEvent<NativeTouchEvent>
-    ): void => {
+    this.OnClickHandler = (e: NativeSyntheticEvent<NativeTouchEvent>): void => {
       this.props.navigation.navigate("SurveyWeb");
       return;
     };
@@ -32,41 +32,49 @@ export default class SurveyRoute extends React.Component<Props> {
   render() {
     return (
       <View style={styles.main}>
-        <Title>부부행동 유형 테스트</Title>
-        <View style={styles.cardMargin}>
-            <SurveyCard
-              Title="부부행동 유형 테스트"
-              Subtitle="우리 부부는 서로에게 어떻게 행동할까?"
-              ButtonLabel="무료 테스트하기"
-              InfoLabel="40문항"
-              OnClick={this.OnClickHandler}
-            />
-          </View>
-
-          <Divider/>
-
-          <Title>부부 관계성 테스트</Title>
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((val) => (
-          <View style={styles.cardMargin} key={val}>
-            <SurveyCard
-              Title="부부 존경지수 테스트"
-              Subtitle="나의 결혼생활은 얼마나 행복할까?"
-              ButtonLabel="무료 테스트하기"
-              InfoLabel="8+6문항"
-              OnClick={this.OnClickHandler}
-            />
-          </View>
-        ))}
+        {this.props.Card.SurveyCategories.map(
+          (category: CardCategoryType, ind) => (
+            <View key={ind}>
+              <Title>{category.Title}</Title>
+              {category.Cards.map((card: CardType, card_ind) => (
+                <View style={styles.cardMargin} key={card_ind}>
+                  <SurveyCard
+                    Title={card.Title}
+                    Subtitle={card.Subtitle}
+                    ButtonLabel={card.ButtonLabel}
+                    InfoLabel={card.InfoLabel}
+                    OnClick={this.OnClickHandler}
+                  />
+                </View>
+              ))}
+              <Divider />
+            </View>
+          )
+        )}
       </View>
     );
   }
 }
 
-type Props = StackScreenProps<StackParamList, "Main">;
+type Props = StackScreenProps<StackParamList, "Main"> & {
+  Card: CardState;
+};
+
+function mapStateToProps(state: any) {
+  return {
+    Card: state.Card,
+  };
+}
+
+function mapDispatchToProps(dispatch: Function) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SurveyRoute);
 
 const styles = StyleSheet.create({
   main: {
-    marginBottom: 50
+    marginBottom: 50,
   },
 
   cardMargin: {

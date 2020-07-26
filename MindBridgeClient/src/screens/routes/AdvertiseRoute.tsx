@@ -9,6 +9,7 @@ import {
 } from "react-native";
 
 import { Paragraph, Text } from "react-native-paper";
+import Counter from "../../components/Counter";
 
 import Tab from "../../components/Tab";
 import StackParamList from "../StackParamList";
@@ -77,7 +78,7 @@ class Itinerary extends React.Component {
   render() {
     return (
       <View style={styles.background}>
-        <Text>Itinerary</Text>
+        <Counter />
       </View>
     );
   }

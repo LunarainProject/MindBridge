@@ -12,15 +12,17 @@ import { StackScreenProps } from "@react-navigation/stack";
 import StackParamList from "./StackParamList";
 import { Surface, Text, Headline, BottomNavigation } from "react-native-paper";
 
-import CollectRoute from "./routes/CollectRoute";
+import OverviewRoute from "./routes/OverviewRoute";
 import SurveyRoute from "./routes/SurveyRoute";
 import TipRoute from "./routes/TipRoute";
 import AdvertiseRoute from "./routes/AdvertiseRoute";
 import MoreRoute from "./routes/MoreRoute";
 import Background from "../components/Background";
 import ScrollBackground from "../components/ScrollBackground";
+import CombineAction from "../CombineAction";
+import { connect } from "react-redux";
 
-export default class MainScreen extends React.Component<Props> {
+class MainScreen extends React.Component<Props> {
   state = {
     index: 0,
   };
@@ -29,8 +31,8 @@ export default class MainScreen extends React.Component<Props> {
     arg1: NativeSyntheticEvent<NativeTouchEvent>
   ) => void;
 
-  private CollectRoute = () =>
-    this.DrawBackground(<CollectRoute {...this.props}/>, "모아보기", true);
+  private OverviewRoute = () =>
+    this.DrawBackground(<OverviewRoute {...this.props}/>, "모아보기", true);
   private SurveyRoute = () => this.DrawBackground(<SurveyRoute {...this.props}/>, "테스트", true);
   private TipRoute = () => this.DrawBackground(<TipRoute {...this.props}/>, "부부생활 팁", true);
   private AdvertiseRoute = () =>
@@ -44,7 +46,7 @@ export default class MainScreen extends React.Component<Props> {
   };
 
   private routes = [
-    { key: "collect", title: "모아보기" },
+    { key: "Overview", title: "모아보기" },
     { key: "survey", title: "테스트" },
     { key: "tip", title: "부부팁" },
     { key: "advertise", title: "부부학교" },
@@ -52,7 +54,7 @@ export default class MainScreen extends React.Component<Props> {
   ];
 
   private renderScene = BottomNavigation.SceneMap({
-    collect: this.CollectRoute,
+    Overview: this.OverviewRoute,
     survey: this.SurveyRoute,
     tip: this.TipRoute,
     advertise: this.AdvertiseRoute,
@@ -61,9 +63,9 @@ export default class MainScreen extends React.Component<Props> {
 
   private renderIcon = ({ route, focused, color }: any) => {
     switch (route.key) {
-      case "collect":
+      case "Overview":
         return (
-          <Icon Focused={focused} Source={require("../drawables/icon_collect.png")} />
+          <Icon Focused={focused} Source={require("../drawables/icon_overview.png")} />
         );
       case "survey":
         return (
@@ -100,6 +102,10 @@ export default class MainScreen extends React.Component<Props> {
     };
   }
 
+  componentDidMount() {
+    this.props.SetFakeData();
+  }
+
   render() {
     return (
       <View style={styles.main}>
@@ -127,7 +133,24 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = StackScreenProps<StackParamList, "Main">;
+type Props = StackScreenProps<StackParamList, "Main"> & {
+  SetFakeData: () => void;
+};
+
+function mapStateToProps(state: any) {
+  return {
+  };
+};
+
+function mapDispatchToProps(dispatch: Function) {
+  return {
+    SetFakeData: () => {
+      dispatch(CombineAction.SetFakeData());
+    },
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
 
 class Icon extends React.Component<IconProps> {
   private styles = StyleSheet.create({
