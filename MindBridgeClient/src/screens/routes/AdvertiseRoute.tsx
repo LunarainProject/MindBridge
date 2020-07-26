@@ -33,7 +33,12 @@ export default class AdvertiseRoute extends React.Component<Props> {
   render() {
     return (
       <View style={styles.main}>
-        <Tab tabs={tabs} style={{}} tabWidth={70} onChange={() => {}} />
+        <Tab
+          tabs={tabs}
+          style={{ marginLeft: 20 }}
+          tabWidth={70}
+          onChange={() => {}}
+        />
       </View>
     );
   }
@@ -44,9 +49,9 @@ type Props = StackScreenProps<StackParamList, "Main">;
 class Introduction extends React.Component {
   render() {
     return (
-      <View style={styles.background}>
+      <View style={styles.backgroundLeft}>
         <Paragraph>
-          알콜달콩부부학교는 두란노 어머니학교와 아버지학교에서 운영하는
+          알콩달콩부부학교는 두란노 어머니학교와 아버지학교에서 운영하는
           부부학교입니다.
         </Paragraph>
         <Text style={{ fontSize: 16, fontWeight: "bold" }}>
@@ -78,6 +83,11 @@ class Itinerary extends React.Component {
   render() {
     return (
       <View style={styles.background}>
+        <Text>Itinerary</Text>
+        <Text>
+          This is sample counter to test Redux Actions: CountActions,
+          CountReducer(subreducer)
+        </Text>
         <Counter />
       </View>
     );
@@ -97,7 +107,7 @@ class Donate extends React.Component {
 class Hahim extends React.Component {
   render() {
     return (
-      <View style={styles.background}>
+      <View style={styles.backgroundRight}>
         <Text style={{ fontSize: 16, fontWeight: "bold" }}>
           하나님을 힘써알자 - 독서모임
         </Text>
@@ -139,8 +149,32 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: "whitesmoke",
-    borderRadius: 10,
+    marginBottom: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+  },
+
+  backgroundLeft: {
+    marginLeft: 20,
+    flex: 1,
+    backgroundColor: "whitesmoke",
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
     marginBottom: 10,
     padding: 10,
+    paddingRight: 30,
+  },
+
+  backgroundRight: {
+    marginRight: 20,
+    flex: 1,
+    backgroundColor: "whitesmoke",
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    marginBottom: 10,
+    padding: 10,
+    paddingLeft: 30,
   },
 });

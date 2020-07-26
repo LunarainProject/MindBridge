@@ -97,7 +97,6 @@ class OverviewRoute extends React.Component<Props> {
 
 type Props = StackScreenProps<StackParamList, "Main"> & {
   Card: CardState,
-  SetFakeData: () => void;
 }
 
 function mapStateToProps(state: any) {
