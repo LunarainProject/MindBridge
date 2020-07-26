@@ -9,12 +9,15 @@ import {
   NativeTouchEvent,
 } from "react-native";
 import { Paragraph } from "react-native-paper";
+import { connect } from "react-redux";
+import CombineAction from "../../CombineAction";
 import Card from "../../components/Card";
 import Divider from "../../components/Divider";
 import Title from "../../components/Title";
+import { CardState, CardType } from "../../StateTypes";
 import StackParamList from "../StackParamList";
 
-export default class CollectRoute extends React.Component<Props> {
+class OverviewRoute extends React.Component<Props> {
   private OnClickHandler: (
     arg1: NativeSyntheticEvent<NativeTouchEvent>
   ) => void;
@@ -31,61 +34,47 @@ export default class CollectRoute extends React.Component<Props> {
   render() {
     return (
       <View style={styles.main}>
-        <Title>테스트</Title>
-        <View style={styles.cardMargin}>
+        <Title>{this.props.Card.OverviewSurveyCategory.Title}</Title>
+        {this.props.Card.OverviewSurveyCategory.Cards.map((val: CardType, ind) => (
+          <View style={styles.cardMargin} key={ind}>
           <Card
-            Title="부부행동 유형 테스트"
-            Subtitle="행동이 관계에 얼마나 영향이 있을까요?"
-            Description="사소한 행동 하나가 미치는 영향"
-            ButtonLabel="무료 테스트하기"
-            InfoLabel="40문항"
+            Title={val.Title}
+            Subtitle={val.Subtitle}
+            Description={val.Description}
+            ButtonLabel={val.ButtonLabel}
+            InfoLabel={val.InfoLabel}
             OnClick={this.OnClickHandler}
           />
         </View>
-        <View style={styles.cardMargin}>
-          <Card
-            Title="부부 관계성 테스트 모음"
-            Subtitle="우리 결혼 생활은 행복한 걸까?"
-            Description="부부관계 건강검진 풀세트"
-            ButtonLabel="무료 테스트하기"
-            InfoLabel="8종"
-            OnClick={this.OnClickHandler}
-          />
-        </View>
+        ))}
         <Divider />
-        <Title>추천 영상</Title>
-        <View style={styles.cardMargin}>
+        <Title>{this.props.Card.OverviewVideoCategory.Title}</Title>
+        {this.props.Card.OverviewVideoCategory.Cards.map((val: CardType, ind) => (
+          <View style={styles.cardMargin} key={ind}>
           <Card
-            Title="온기 있는 집"
-            Subtitle="가족을 긴장시키는 아빠, 해결책은?"
-            Description="김성목, 한은경 부부 이야기"
-            ButtonLabel="보러가기"
+            Title={val.Title}
+            Subtitle={val.Subtitle}
+            Description={val.Description}
+            ButtonLabel={val.ButtonLabel}
             InfoLabel=""
             OnClick={this.OnClickHandler}
           />
         </View>
+        ))}
         <Divider />
-        <Title>추천 칼럼</Title>
-        <View style={styles.cardMargin}>
+        <Title>{this.props.Card.OverviewColumnCategory.Title}</Title>
+        {this.props.Card.OverviewColumnCategory.Cards.map((val: CardType, ind) => (
+          <View style={styles.cardMargin} key={ind}>
           <Card
-            Title="온기 있는 집"
-            Subtitle="가족을 긴장시키는 아빠, 해결책은?"
-            Description="김성목, 한은경 부부 이야기"
-            ButtonLabel="보러가기"
+            Title={val.Title}
+            Subtitle={val.Subtitle}
+            Description={val.Description}
+            ButtonLabel={val.ButtonLabel}
             InfoLabel=""
             OnClick={this.OnClickHandler}
           />
         </View>
-        <View style={styles.cardMargin}>
-          <Card
-            Title="온기 있는 집"
-            Subtitle="가족을 긴장시키는 아빠, 해결책은?"
-            Description="김성목, 한은경 부부 이야기"
-            ButtonLabel="보러가기"
-            InfoLabel=""
-            OnClick={this.OnClickHandler}
-          />
-        </View>
+        ))}
         <Divider />
         <Title>알콩달콩 부부학교</Title>
         <View style={styles.advertiseText}>
@@ -106,7 +95,23 @@ export default class CollectRoute extends React.Component<Props> {
   }
 }
 
-type Props = StackScreenProps<StackParamList, "Main">;
+type Props = StackScreenProps<StackParamList, "Main"> & {
+  Card: CardState,
+  SetFakeData: () => void;
+}
+
+function mapStateToProps(state: any) {
+  return {
+    Card: state.Card,
+  };
+};
+
+function mapDispatchToProps(dispatch: Function) {
+  return {
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OverviewRoute);
 
 const styles = StyleSheet.create({
   main: {
