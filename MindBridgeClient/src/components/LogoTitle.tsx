@@ -4,10 +4,14 @@ import { StyleSheet, View, Image } from 'react-native';
 export default function LogoTitle() {
     return (
         <View style={styles.logo}>
+            <View style={{width: 30, height: 1}}/>
             <Image
                 style={{ width: 84, height: 40 }}
-                resizeMode="contain"
                 source={require('../drawables/title.png')}
+            ></Image>
+            <Image
+                style={{ width: 30, height: 30 }}
+                source={require('../drawables/logo.png')}
             ></Image>
         </View>
         
@@ -16,9 +20,11 @@ export default function LogoTitle() {
 
 const styles = StyleSheet.create({
     logo: {
-        width: "100%",
-        display:"flex",
+        marginLeft: 10,
+        marginRight: 10,
+        flex: 1,
         flexDirection: 'row',
-        justifyContent:"center",
+        alignItems: "center",
+        justifyContent: "space-between",
     }
 })

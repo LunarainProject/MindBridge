@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "MindBridgeClient",
+    "name": "마음다리",
     "slug": "MindBridgeClient",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,6 +21,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "android": {
+      "package": "com.dgsw.mindbridge"
     }
   }
 }
