@@ -1,0 +1,55 @@
+{
+    "package_title": "My Test 1",
+    "page_list": [
+        {
+            "page_title": "1번 문항",
+            "question_list": [
+                {
+                    "question_title": "문항을 보고 자신과 배우자의 행동유형과 가장 가깝다고 생각하는 항목에 체크합니다.",
+                    "type": 1,
+                    "string_list": [
+                        "테스트",
+                        "합시다",
+                        "테스트",
+                        "입니다"
+                    ]
+                },
+                {
+                    "question_title": "체크한 배우자의 항목이 나에게 어떤 영향이 있나요?",
+                    "type": 2,
+                    "string_list": [
+                        "테",
+                        "스",
+                        "트",
+                        "임"
+                    ]
+                }
+            ]
+        },
+
+        {
+            "page_title": "2번 문항",
+            "question_list": [
+                {
+                    "question_title": "문항을 보고 자신과 배우자의 행동유형과 가장 가깝다고 생각하는 항목에 체크합니다.",
+                    "type": 1,
+                    "string_list": [
+                        "테스트2",
+                        "합시다2",
+                        "테스트2",
+                        "입니다2"
+                    ]
+                },
+                {
+                    "question_title": "체크한 배우자의 항목이 나에게 어떤 영향이 있나요?",
+                    "type": 2,
+                    "string_list": [
+                        "테2",
+                        "스2",
+                        "트2"
+                    ]
+                }
+            ]
+        }
+    ]
+}
