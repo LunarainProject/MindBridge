@@ -13,7 +13,6 @@ import {
   IconButton,
   Select,
   MenuItem,
-  Grid,
   Radio,
 } from "@material-ui/core";
 
@@ -73,6 +72,8 @@ export default class Question extends React.Component {
           return <ChartType1 {...this.props} />;
         case 2:
           return <ChartType2 {...this.props} />;
+        default:
+          return;
       }
     };
   }
@@ -279,7 +280,7 @@ class ChartType1 extends React.Component {
                 style={ind !== 0 ? { width: "100%" } : { width: "30%" }}
                 key={ind}
               >
-                {ind == 0 ? (
+                {ind === 0 ? (
                   <div />
                 ) : this.state.choice_edit_id === ind ? (
                   <Input
@@ -313,7 +314,7 @@ class ChartType1 extends React.Component {
                   style={ind !== 0 ? { width: "100%" } : { width: "30%" }}
                   key={ind}
                 >
-                  {ind == 0 ? (
+                  {ind === 0 ? (
                     this.state.couple_edit_id === couple_ind ? (
                       <Input
                         value={this.state.couple_edit}
@@ -330,13 +331,11 @@ class ChartType1 extends React.Component {
                           this.setState({
                             couple_edit_id: couple_ind,
                             couple_edit:
-                            this.props.question.couple_list? this.props.question.couple_list[couple_ind] :
-                              ["남편", "아내"][couple_ind],
+                            this.props.question.couple_list? this.props.question.couple_list[couple_ind] || ["남편", "아내"][couple_ind] : ["남편", "아내"][couple_ind],
                           });
                         }}
                       >
-                        {this.props.question.couple_list? this.props.question.couple_list[couple_ind] :
-                              ["남편", "아내"][couple_ind]}
+                        {this.props.question.couple_list? this.props.question.couple_list[couple_ind] || ["남편", "아내"][couple_ind] : ["남편", "아내"][couple_ind]}
                       </Button>
                     )
                   ) : (
