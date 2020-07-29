@@ -374,6 +374,11 @@ class ChartType2 extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      choice_edit: "",
+      choice_edit_id: -1,
+    }
+
     this.handleButtonAdd = () => {
       let string_list = this.props.question.string_list;
       if (string_list.length < 5) {
@@ -399,6 +404,29 @@ class ChartType2 extends React.Component {
         this.props.question_ind
       );
     };
+
+    /* Choice Edit Handling */
+    this.handleEditChange = (e) => {
+      this.setState({ choice_edit: e.target.value });
+    };
+
+    this.handleSubmit = () => {
+      let string_list = this.props.question.string_list;
+      string_list[this.state.choice_edit_id] = this.state.choice_edit;
+
+      this.props.setStringList(
+        string_list,
+        this.props.page_ind,
+        this.props.question_ind
+      );
+      this.setState({ choice_edit: "", choice_edit_id: -1 });
+    };
+
+    this.handleKeyEditor = (e) => {
+      if (e.key === "Enter") {
+        this.handleSubmit();
+      }
+    };
   }
 
   render() {
@@ -416,7 +444,25 @@ class ChartType2 extends React.Component {
           <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
             {this.draw_stringlist.map((val, ind) => (
               <div className="flex-center" style={{ width: "100%" }} key={ind}>
-                {val}
+                {this.state.choice_edit_id === ind ? (
+                  <Input
+                    value={this.state.choice_edit}
+                    inputProps={{ "aria-label": "description" }}
+                    onChange={this.handleEditChange}
+                    onKeyPress={this.handleKeyEditor}
+                    autoFocus={true}
+                    fontSize="small"
+                    fullWidth="100%"
+                  />
+                ) : (
+                  <Button
+                    onClick={() => {
+                      this.setState({ choice_edit_id: ind, choice_edit: val });
+                    }}
+                  >
+                    {val}
+                  </Button>
+                )}
               </div>
             ))}
           </div>
