@@ -1,2 +1,2 @@
-# MindBridgeClient
-Mind Bridge Client App
+# MindBridge
+Mind Bridge Project
