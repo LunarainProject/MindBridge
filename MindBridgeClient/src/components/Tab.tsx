@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef } from "react";
 import {
   TouchableNativeFeedback,
   StyleSheet,
@@ -29,15 +29,17 @@ export default class Tab extends React.Component<Props> {
     }
   };
 
-  private changeFocused(index: number) {
+  public changeFocused(index: number) {
     this.setState({ focused: index });
-
+    this.props.onChange(index);
     Animated.timing(this.state.Pos, {
       toValue: index,
       duration: 150,
       useNativeDriver: false,
     }).start();
   }
+
+  public ref = createRef();
 
   constructor(props: Props) {
     super(props);
@@ -70,7 +72,6 @@ export default class Tab extends React.Component<Props> {
               key={ind}
               onPress={(e) => {
                 this.changeFocused(ind);
-                this.props.onChange(this.state.focused);
               }}
               background={TouchableNativeFeedback.Ripple(
                 "rgba(0, 0, 0, 0.08)",

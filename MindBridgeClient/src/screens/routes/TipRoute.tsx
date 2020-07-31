@@ -1,5 +1,5 @@
 import { StackScreenProps } from "@react-navigation/stack";
-import React from "react";
+import React, { createRef, RefObject } from "react";
 import {
   StyleSheet,
   View,
@@ -15,41 +15,57 @@ import Tab from "../../components/Tab";
 import Title from "../../components/Title";
 import { CardState, CardType } from "../../StateTypes";
 import StackParamList from "../StackParamList";
+import Constants from "expo-constants";
+import { ScrollView } from "react-native-gesture-handler";
+import Background from "../../components/Background";
 
-class TipRoute extends React.Component<Props> {
-  private OnClickTestHandler: (
-    arg1: NativeSyntheticEvent<NativeTouchEvent>
-  ) => void;
-
+class TipRoute extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
-    this.OnClickTestHandler = (
-      e: NativeSyntheticEvent<NativeTouchEvent>
-    ): void => {
-      props.navigation.navigate("Test");
-      return;
-    };
+    this.state = {
+      show: 0,
+    }
   }
+
+  componentDidMount() {
+    //this.tabRef.current?.changeFocused(1);
+  }
+
+  private tabRef: RefObject<Tab> = createRef();
 
   video = <Video Card={this.props.Card}/>;
   column = <Column Card={this.props.Card}/>;
 
+  routes: any[] = [this.video, this.column];
+
   tabs = [
-    { title: "부부가행복하게사는법", route: this.video },
-    { title: "행복한부부칼럼", route: this.column },
+    { title: "부부가행복하게사는법", route: <View/> },
+    { title: "행복한부부칼럼", route: <View/> },
   ];
 
   render() {
     return (
-      <View style={styles.main}>
-        <Tab
+      <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
+      <View style={styles.statusBar}></View>
+      <ScrollView stickyHeaderIndices={[1]}>
+        <Background Title="부부팁"></Background>
+        <View
+          style={[
+            { marginTop: -5, backgroundColor: "white", paddingTop: 5 },
+          ]}
+        >
+          <Tab 
+          ref={this.tabRef}
           tabs={this.tabs}
           style={{marginLeft: 20, marginRight: 20}}
           tabWidth={(Dimensions.get("screen").width - 40) / 2}
-          onChange={() => {}}
+          onChange={(ind) => {this.setState({show: ind});}}
         ></Tab>
-      </View>
+        </View>
+        {this.routes[this.state.show]}
+      </ScrollView>
+    </View>
     );
   }
 }
@@ -99,6 +115,9 @@ class Column extends React.Component<SubProps> {
 }
 
 type Props = StackScreenProps<StackParamList, "Main"> & SubProps;
+type State = {
+  show: number,
+}
 
 type SubProps = {
   Card: CardState,
@@ -122,11 +141,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  statusBar: {
+    backgroundColor: "#FCDCFA",
+    width: "100%",
+    height: Constants.statusBarHeight,
+  },
+
   background: {
     flex: 1,
     backgroundColor: "white",
-    marginLeft: 20,
-    marginRight: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   cardMargin: {
     width: "100%",

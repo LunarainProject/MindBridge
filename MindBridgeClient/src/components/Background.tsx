@@ -13,7 +13,7 @@ export default class Background extends React.Component<Props> {
             <LogoTitle />
           </View>
         </View>
-        <BackgroundBase {...this.props}>{this.props.children}</BackgroundBase>
+        <BackgroundBase {...this.props}></BackgroundBase>
       </View>
     );
   }
@@ -21,13 +21,11 @@ export default class Background extends React.Component<Props> {
 
 type Props = {
   Title: string;
-  ChildMargin: boolean;
 };
 
 const styles = StyleSheet.create({
   heading: {
-    height: 80,
-    paddingTop: Constants.statusBarHeight,
+    height: 80 - Constants.statusBarHeight,
   },
 
   headingInner: {

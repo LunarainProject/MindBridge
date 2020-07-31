@@ -19,7 +19,7 @@ export default class BackgroundBase extends React.Component<Props> {
                 </Headline>
         </View>
         
-        <View style={[styles.children, this.props.ChildMargin && styles.childMargin]}>
+        <View style={[styles.children]}>
           {this.props.children}
         </View>
       </Surface>
@@ -29,7 +29,6 @@ export default class BackgroundBase extends React.Component<Props> {
 
 type Props = {
   Title: string;
-  ChildMargin: boolean;
 };
 
 const radius = 42;
@@ -49,11 +48,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 40,
-  },
-
-  childMargin: {
-    marginLeft: 20,
-    marginRight: 20,
   },
 
   screen: {

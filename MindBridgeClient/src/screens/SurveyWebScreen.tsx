@@ -5,19 +5,20 @@ import {
   Text,
   Button,
   NativeSyntheticEvent,
-  NativeTouchEvent,
+  NativeTouchEvent, BackHandler
 } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import StackParamList from "./StackParamList";
 import { WebView } from "react-native-webview";
 import { ActivityIndicator } from "react-native-paper";
+import { BackHandleService } from "../services/BackHandleService";
 
 export default class SurveyWebScreen extends React.Component<Props, State> {
   private OnClickTestHandler: (
     arg1: NativeSyntheticEvent<NativeTouchEvent>
   ) => void;
 
-  private surveyUri: string = "http://gfs3456.cafe24.com/ee/";
+  private surveyUri: string = "http://gfs3456.cafe24.com/manage/ee/1/1";
 
   constructor(props: Props) {
     super(props);
@@ -32,6 +33,11 @@ export default class SurveyWebScreen extends React.Component<Props, State> {
     this.state = {
       isWebViewLoaded: false,
     };
+  }
+
+  componentWillUnmount() {
+    BackHandler.addEventListener("hardwareBackPress", BackHandleService.getBackHandleService().handleBackButton);
+    BackHandleService.getBackHandleService().SetIsMain(true);
   }
 
   render() {

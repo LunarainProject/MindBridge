@@ -1,16 +1,21 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
+import Constants from "expo-constants";
 import { StyleSheet, View, Text } from "react-native";
 import DoubleCard from "../../components/DoubleCard";
 import Profile from "../../components/Profile";
 
 import Tab from "../../components/Tab";
 import StackParamList from "../StackParamList";
+import Background from "../../components/Background";
 
 export default class MoreRoute extends React.Component<Props> {
   render() {
     return (
-      <View style={styles.main}>
+      <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
+        <View style={styles.statusBar}></View>
+        <Background Title="더보기">
+          <View style={styles.main}>
         <View style={styles.tabContainer}>
           <Tab
             tabs={tabs}
@@ -20,6 +25,9 @@ export default class MoreRoute extends React.Component<Props> {
           />
         </View>
       </View>
+        </Background>
+      </View>
+      
     );
   }
 }
@@ -108,6 +116,12 @@ const radius = 10;
 const styles = StyleSheet.create({
   main: {
     flex: 1,
+  },
+
+  statusBar: {
+    backgroundColor: "#FCDCFA",
+    width: "100%",
+    height: Constants.statusBarHeight,
   },
 
   tabContainer: {

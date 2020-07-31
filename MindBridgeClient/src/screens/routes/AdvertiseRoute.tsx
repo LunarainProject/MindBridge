@@ -7,8 +7,10 @@ import {
   NativeSyntheticEvent,
   NativeTouchEvent,
 } from "react-native";
+import Constants from "expo-constants";
 
 import { Paragraph, Text } from "react-native-paper";
+import Background from "../../components/Background";
 import Counter from "../../components/Counter";
 
 import Tab from "../../components/Tab";
@@ -32,14 +34,18 @@ export default class AdvertiseRoute extends React.Component<Props> {
 
   render() {
     return (
-      <View style={styles.main}>
+      <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
+        <View style={styles.statusBar}></View>
+        <Background Title="알콩달콩 부부학교"><View style={styles.main}>
         <Tab
           tabs={tabs}
           style={{ marginLeft: 20 }}
           tabWidth={70}
           onChange={() => {}}
         />
+      </View></Background>
       </View>
+      
     );
   }
 }
@@ -144,6 +150,12 @@ const tabs = [
 const styles = StyleSheet.create({
   main: {
     flex: 1,
+  },
+
+  statusBar: {
+    backgroundColor: "#FCDCFA",
+    width: "100%",
+    height: Constants.statusBarHeight,
   },
 
   background: {

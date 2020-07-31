@@ -7,10 +7,21 @@ import {
   Image,
   NativeSyntheticEvent,
   NativeTouchEvent,
+  ToastAndroid,
+  BackHandler,
+  AppState,
 } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import StackParamList from "./StackParamList";
-import { Surface, Text, Headline, BottomNavigation } from "react-native-paper";
+import {
+  Surface,
+  Text,
+  Headline,
+  BottomNavigation,
+  Provider,
+  DefaultTheme,
+} from "react-native-paper";
+import Constants from "expo-constants";
 
 import OverviewRoute from "./routes/OverviewRoute";
 import SurveyRoute from "./routes/SurveyRoute";
@@ -21,29 +32,21 @@ import Background from "../components/Background";
 import ScrollBackground from "../components/ScrollBackground";
 import CombineAction from "../CombineAction";
 import { connect } from "react-redux";
+import Main from "../Main";
+import { ScrollView } from "react-native-gesture-handler";
+import { BackHandleService } from "../services/BackHandleService";
 
 class MainScreen extends React.Component<Props> {
   state = {
     index: 0,
+    appState: AppState.currentState,
   };
 
-  private OnClickTestHandler: (
-    arg1: NativeSyntheticEvent<NativeTouchEvent>
-  ) => void;
-
-  private OverviewRoute = () =>
-    this.DrawBackground(<OverviewRoute {...this.props}/>, "모아보기", true, true);
-  private SurveyRoute = () => this.DrawBackground(<SurveyRoute {...this.props}/>, "테스트", true, true);
-  private TipRoute = () => this.DrawBackground(<TipRoute {...this.props}/>, "부부생활 팁", true);
-  private AdvertiseRoute = () =>
-    this.DrawBackground(<AdvertiseRoute {...this.props}/>, "알콩달콩 부부학교");
-  private MoreRoute = () => this.DrawBackground(<MoreRoute {...this.props}/>, "더보기");
-
-  private DrawBackground = (childContent: any, title: string, scroll: boolean = false, childMargin: boolean = false) => {
-    return scroll?
-      <ScrollBackground ChildMargin={childMargin} Title={title}>{childContent}</ScrollBackground> :
-      <Background ChildMargin={childMargin} Title={title}>{childContent}</Background>
-  };
+  private OverviewRoute = () => <OverviewRoute {...this.props} />;
+  private SurveyRoute = () => <SurveyRoute {...this.props} />;
+  private TipRoute = () => <TipRoute {...this.props} />;
+  private AdvertiseRoute = () => <AdvertiseRoute {...this.props} />;
+  private MoreRoute = () => <MoreRoute {...this.props} />;
 
   private routes = [
     { key: "Overview", title: "모아보기" },
@@ -65,24 +68,39 @@ class MainScreen extends React.Component<Props> {
     switch (route.key) {
       case "Overview":
         return (
-          <Icon Focused={focused} Source={require("../drawables/icon_overview.png")} />
+          <Icon
+            Focused={focused}
+            Source={require("../drawables/icon_overview.png")}
+          />
         );
       case "survey":
         return (
-          <Icon Focused={focused} Source={require("../drawables/icon_survey.png")} />
+          <Icon
+            Focused={focused}
+            Source={require("../drawables/icon_survey.png")}
+          />
         );
       case "tip":
         return (
-          <Icon Focused={focused} Source={require("../drawables/icon_tip.png")} />
+          <Icon
+            Focused={focused}
+            Source={require("../drawables/icon_tip.png")}
+          />
         );
       case "advertise":
         return (
-          <Icon Focused={focused} Source={require("../drawables/icon_advertise.png")} />
+          <Icon
+            Focused={focused}
+            Source={require("../drawables/icon_advertise.png")}
+          />
         );
       case "more":
       default:
         return (
-          <Icon Focused={focused} Source={require("../drawables/icon_more.png")} />
+          <Icon
+            Focused={focused}
+            Source={require("../drawables/icon_more.png")}
+          />
         );
     }
   };
@@ -91,45 +109,102 @@ class MainScreen extends React.Component<Props> {
     this.setState({ index });
   };
 
+  private Navigate = (screen: any) => {
+    BackHandler.removeEventListener(
+      "hardwareBackPress",
+      BackHandleService.getBackHandleService().handleBackButton
+    );
+    this.props.navigation.navigate(screen);
+  };
+
   constructor(props: Props) {
     super(props);
-
-    this.OnClickTestHandler = (
-      e: NativeSyntheticEvent<NativeTouchEvent>
-    ): void => {
-      props.navigation.navigate("Test");
-      return;
-    };
   }
+
+  private exitApp: boolean = false;
+  private timeout: any;
 
   componentDidMount() {
     this.props.SetFakeData();
+    AppState.addEventListener("change", this._handleAppStateChange);
+    BackHandler.addEventListener(
+      "hardwareBackPress",
+      BackHandleService.getBackHandleService().handleBackButton
+    );
   }
+
+  componentWillUnmount() {
+    AppState.removeEventListener("change", this._handleAppStateChange);
+    BackHandler.removeEventListener(
+      "hardwareBackPress",
+      BackHandleService.getBackHandleService().handleBackButton
+    );
+  }
+
+  private _handleAppStateChange = (nextAppState: any) => {
+    if (BackHandleService.getBackHandleService().isMain()) {
+      if (
+        this.state.appState.match(/inactive|background/) &&
+        nextAppState === "active"
+      ) {
+        console.log("add handler again");
+        BackHandler.addEventListener(
+          "hardwareBackPress",
+          BackHandleService.getBackHandleService().handleBackButton
+        );
+      } else if (nextAppState === "background") {
+        console.log("remove handler");
+        BackHandler.removeEventListener(
+          "hardwareBackPress",
+          BackHandleService.getBackHandleService().handleBackButton
+        );
+      }
+    }
+
+    this.setState({ appState: nextAppState });
+  };
 
   render() {
     return (
       <View style={styles.main}>
         <View />
-        <BottomNavigation
-          shifting={false}
-          labeled={true}
-          navigationState={{
-            index: this.state.index,
-            routes: this.routes,
-          }}
-          onIndexChange={this.setIndex}
-          renderScene={this.renderScene}
-          renderIcon={this.renderIcon}
-        />
+        <Provider theme={white_theme}>
+          <BottomNavigation
+            shifting={false}
+            labeled={true}
+            navigationState={{
+              index: this.state.index,
+              routes: this.routes,
+            }}
+            onIndexChange={this.setIndex}
+            renderScene={this.renderScene}
+            renderIcon={this.renderIcon}
+          />
+        </Provider>
       </View>
     );
   }
 }
 
+const white_theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "white",
+    surface: "white",
+  },
+};
+
 const styles = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: "whitesmoke",
+    backgroundColor: "#FCDCFA",
+  },
+
+  statusBar: {
+    backgroundColor: "#FCDCFA",
+    width: "100%",
+    height: Constants.statusBarHeight,
   },
 });
 
@@ -138,38 +213,37 @@ type Props = StackScreenProps<StackParamList, "Main"> & {
 };
 
 function mapStateToProps(state: any) {
-  return {
-  };
-};
+  return {};
+}
 
 function mapDispatchToProps(dispatch: Function) {
   return {
     SetFakeData: () => {
       dispatch(CombineAction.SetFakeData());
     },
-  }
-};
+  };
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
 
 class Icon extends React.Component<IconProps> {
   private styles = StyleSheet.create({
     container: {
-      position: "relative"
+      position: "relative",
     },
-    
+
     focusedStyle: {
       width: "100%",
       height: "100%",
-      backgroundColor: 'rgba(255, 255, 255, 0)',
-      position: 'absolute',
+      backgroundColor: "rgba(255, 255, 255, 0)",
+      position: "absolute",
     },
 
     blurredStyle: {
       width: "100%",
       height: "100%",
-      backgroundColor: 'rgba(255, 255, 255, 0.5)',
-      position: 'absolute',
+      backgroundColor: "rgba(255, 255, 255, 0.5)",
+      position: "absolute",
     },
   });
 
@@ -180,13 +254,19 @@ class Icon extends React.Component<IconProps> {
           style={{ width: 23, height: 23, resizeMode: "contain" }}
           source={this.props.Source}
         />
-        <View style={this.props.Focused? this.styles.focusedStyle: this.styles.blurredStyle}/>
+        <View
+          style={
+            this.props.Focused
+              ? this.styles.focusedStyle
+              : this.styles.blurredStyle
+          }
+        />
       </View>
-    )
+    );
   }
-};
+}
 
 type IconProps = {
-  Focused: boolean,
-  Source: any,
-}
+  Focused: boolean;
+  Source: any;
+};
