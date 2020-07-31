@@ -23,3 +23,9 @@ export type CardState = {
 export type CountState = {
     Count: number;
 }
+
+export type LoginState = {
+    LoggedOut: boolean;
+    LoggedIn: boolean;
+    LoginFailed: boolean;   
+}

@@ -10,9 +10,8 @@ const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: 'white',
+    primary: '#F970B9',
     surface: 'white',
-    accent: '#FCDCFA',
   }
 }
 

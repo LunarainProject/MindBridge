@@ -5,6 +5,10 @@ const ActionTypes = {
 
     //Card Actions
     SET_FAKE_DATA: 'SET_FAKE_DATA',
+
+    //Login Actions
+    LOGIN: 'LOGIN',
+    LOGOUT: 'LOGOUT',
 }
 
 export default ActionTypes;

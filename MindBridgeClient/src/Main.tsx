@@ -1,13 +1,13 @@
 import React from "react";
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, HeaderTitle, StackHeaderTitleProps } from '@react-navigation/stack';
 import { NavigationContainer } from "@react-navigation/native";
 
-import LogoTitle from "./components/LogoTitle";
-
+import LoginScreen        from "./screens/LoginScreen";
 import MainScreen         from "./screens/MainScreen";
 import TestScreen         from "./screens/TestScreen";
 import SurveyWebScreen    from "./screens/SurveyWebScreen";
 import SurveyResultScreen from "./screens/SurveyResultScreen";
+import LogoTitle from "./components/LogoTitle";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +19,11 @@ export default function Main() {
           backgroundColor: '#FCDCFA'
         },
       }}>
+        <Stack.Screen name="Login"        component={LoginScreen} 
+                      options={{
+                        headerShown: false,
+                      }}
+        />
         <Stack.Screen name="Main"         component={MainScreen}
                       options={{
                         headerShown: false,
