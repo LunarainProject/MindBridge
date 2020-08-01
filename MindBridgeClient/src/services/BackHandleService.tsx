@@ -1,4 +1,6 @@
 import { BackHandler, Platform, ToastAndroid } from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import StackParamList from "../screens/StackParamList";
 
 export class BackHandleService {
     private static _instance: BackHandleService | null = null;
@@ -10,21 +12,42 @@ export class BackHandleService {
         return this._instance;
       }
     }
-  
-    private _isMain = true;
-  
-    public SetIsMain(isMain: boolean): void {
-      this._isMain = isMain;
+    public static Navigate(name: any): void
+    {
+      if(name !== "Main")
+      {
+        BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
+        this._isMain = false;
+      }
+      if(this._mainNavigation)
+        this._mainNavigation.navigate(name);
+    }
+    public static GoMain(): void
+    {
+      BackHandler.addEventListener("hardwareBackPress", this.handleBackButton);
+      this._isMain = true;
+    }
+    private static _mainNavigation: StackNavigationProp<StackParamList, "Main">;
+    public static registerNavigation(mainNavigation: StackNavigationProp<StackParamList, "Main">)
+    {
+      this._mainNavigation = mainNavigation;
     }
   
-    public isMain = (): boolean => {
+    private static _isMain = true;
+    public static setIsMain(isMain: boolean)
+    {
+      this._isMain = isMain;
+    }
+    public static isMain(): boolean
+    {
       return this._isMain;
     };
   
-    private exitApp: boolean = false;
-    private timeout: any;
+    private static exitApp: boolean = false;
+    private static timeout: any;
   
-    public handleBackButton = (): boolean => {
+    public static handleBackButton(): boolean 
+    {
       if (this.exitApp == undefined || !this.exitApp) {
         (Platform.select({
           android: () => {

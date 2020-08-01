@@ -29,12 +29,7 @@ class SurveyRoute extends React.Component<Props> {
     super(props);
 
     this.OnClickHandler = (e: NativeSyntheticEvent<NativeTouchEvent>): void => {
-      this.props.navigation.navigate("SurveyWeb");
-      BackHandler.removeEventListener(
-        "hardwareBackPress",
-        BackHandleService.getBackHandleService().handleBackButton
-      );
-      BackHandleService.getBackHandleService().SetIsMain(false);
+      BackHandleService.Navigate("SurveyWeb");
     };
   }
 
@@ -43,14 +38,8 @@ class SurveyRoute extends React.Component<Props> {
       <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
         <View style={styles.statusBar}></View>
         <ScrollView>
-          <Background Title="테스트"></Background>
-          <View
-            style={[
-              { marginTop: -5, backgroundColor: "white", paddingTop: 5 },
-              { paddingLeft: 20, paddingRight: 20 },
-            ]}
-          >
-            <View style={styles.main}>
+          <Background Title="테스트">
+          <View style={styles.main}>
               {this.props.Card.SurveyCategories.map(
                 (category: CardCategoryType, ind) => (
                   <View key={ind}>
@@ -71,7 +60,7 @@ class SurveyRoute extends React.Component<Props> {
                 )
               )}
             </View>
-          </View>
+          </Background>
         </ScrollView>
       </View>
     );
@@ -97,6 +86,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(SurveyRoute);
 const styles = StyleSheet.create({
   main: {
     marginBottom: 50,
+    marginLeft: 20, marginRight: 20,
   },
 
   cardMargin: {

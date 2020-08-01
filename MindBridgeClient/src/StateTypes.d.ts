@@ -29,3 +29,27 @@ export type LoginState = {
     LoggedIn: boolean;
     LoginFailed: boolean;   
 }
+
+export type QuestionType = {
+    type: number;
+    answer: number | [number, number];
+}
+
+export type PageType = {
+    question_list: QuestionType[]
+}
+
+export type SurveyResultType = {
+    page_list: PageType[]
+}
+
+export type SurveyResultCardType = {
+    Title: string;
+    Date: Date;
+    Data: SurveyResultType;
+}
+
+export type SurveyState = {
+    SurveyResultCards: SurveyResultCardType[];
+
+}

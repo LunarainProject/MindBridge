@@ -28,12 +28,8 @@ import SurveyRoute from "./routes/SurveyRoute";
 import TipRoute from "./routes/TipRoute";
 import AdvertiseRoute from "./routes/AdvertiseRoute";
 import MoreRoute from "./routes/MoreRoute";
-import Background from "../components/Background";
-import ScrollBackground from "../components/ScrollBackground";
 import CombineAction from "../CombineAction";
 import { connect } from "react-redux";
-import Main from "../Main";
-import { ScrollView } from "react-native-gesture-handler";
 import { BackHandleService } from "../services/BackHandleService";
 
 class MainScreen extends React.Component<Props> {
@@ -109,16 +105,9 @@ class MainScreen extends React.Component<Props> {
     this.setState({ index });
   };
 
-  private Navigate = (screen: any) => {
-    BackHandler.removeEventListener(
-      "hardwareBackPress",
-      BackHandleService.getBackHandleService().handleBackButton
-    );
-    this.props.navigation.navigate(screen);
-  };
-
   constructor(props: Props) {
     super(props);
+    BackHandleService.registerNavigation(props.navigation);
   }
 
   private exitApp: boolean = false;
@@ -126,10 +115,11 @@ class MainScreen extends React.Component<Props> {
 
   componentDidMount() {
     this.props.SetFakeData();
+    this.props.LoadResults();
     AppState.addEventListener("change", this._handleAppStateChange);
     BackHandler.addEventListener(
       "hardwareBackPress",
-      BackHandleService.getBackHandleService().handleBackButton
+      BackHandleService.handleBackButton
     );
   }
 
@@ -137,12 +127,12 @@ class MainScreen extends React.Component<Props> {
     AppState.removeEventListener("change", this._handleAppStateChange);
     BackHandler.removeEventListener(
       "hardwareBackPress",
-      BackHandleService.getBackHandleService().handleBackButton
+      BackHandleService.handleBackButton
     );
   }
 
   private _handleAppStateChange = (nextAppState: any) => {
-    if (BackHandleService.getBackHandleService().isMain()) {
+    if (BackHandleService.isMain()) {
       if (
         this.state.appState.match(/inactive|background/) &&
         nextAppState === "active"
@@ -150,13 +140,13 @@ class MainScreen extends React.Component<Props> {
         console.log("add handler again");
         BackHandler.addEventListener(
           "hardwareBackPress",
-          BackHandleService.getBackHandleService().handleBackButton
+          BackHandleService.handleBackButton
         );
       } else if (nextAppState === "background") {
         console.log("remove handler");
         BackHandler.removeEventListener(
           "hardwareBackPress",
-          BackHandleService.getBackHandleService().handleBackButton
+          BackHandleService.handleBackButton
         );
       }
     }
@@ -210,6 +200,7 @@ const styles = StyleSheet.create({
 
 type Props = StackScreenProps<StackParamList, "Main"> & {
   SetFakeData: () => void;
+  LoadResults: () => void;
 };
 
 function mapStateToProps(state: any) {
@@ -218,9 +209,12 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(dispatch: Function) {
   return {
-    SetFakeData: () => {
+    SetFakeData: (): void => {
       dispatch(CombineAction.SetFakeData());
     },
+    LoadResults: (): void => {
+      CombineAction.LoadResultsThunk()(dispatch);
+    }
   };
 }
 

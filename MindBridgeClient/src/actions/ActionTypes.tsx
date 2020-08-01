@@ -9,6 +9,9 @@ const ActionTypes = {
     //Login Actions
     LOGIN: 'LOGIN',
     LOGOUT: 'LOGOUT',
+
+    //Survey Actions
+    ADD_RESULT: 'SAVE_RESUT',
 }
 
 export default ActionTypes;

@@ -36,16 +36,17 @@ export default class AdvertiseRoute extends React.Component<Props> {
     return (
       <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
         <View style={styles.statusBar}></View>
-        <Background Title="알콩달콩 부부학교"><View style={styles.main}>
-        <Tab
-          tabs={tabs}
-          style={{ marginLeft: 20 }}
-          tabWidth={70}
-          onChange={() => {}}
-        />
-      </View></Background>
+        <Background Title="알콩달콩 부부학교">
+          <View style={styles.main}>
+            <Tab
+              tabs={tabs}
+              style={{ marginLeft: 20 }}
+              tabWidth={70}
+              onChange={() => {}}
+            />
+          </View>
+        </Background>
       </View>
-      
     );
   }
 }

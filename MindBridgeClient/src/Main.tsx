@@ -8,6 +8,7 @@ import TestScreen         from "./screens/TestScreen";
 import SurveyWebScreen    from "./screens/SurveyWebScreen";
 import SurveyResultScreen from "./screens/SurveyResultScreen";
 import LogoTitle from "./components/LogoTitle";
+import SurveyHistoryScreen from "./screens/SurveyHistoryScreen";
 
 const Stack = createStackNavigator();
 
@@ -30,8 +31,21 @@ export default function Main() {
                       }}
         />
         <Stack.Screen name="Test"         component={TestScreen} />
-        <Stack.Screen name="SurveyWeb"    component={SurveyWebScreen} />
-        <Stack.Screen name="SurveyResult" component={SurveyResultScreen} />
+        <Stack.Screen name="SurveyWeb"    component={SurveyWebScreen} 
+                      options={{
+                        headerTitle: "테스트"
+                      }}
+        />
+        <Stack.Screen name="SurveyResult" component={SurveyResultScreen} 
+                      options={{
+                        headerTitle: "테스트 결과"
+                      }}
+        />
+        <Stack.Screen name="SurveyHistory" component={SurveyHistoryScreen}
+                      options={{
+                        headerTitle: "테스트 기록"
+                      }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

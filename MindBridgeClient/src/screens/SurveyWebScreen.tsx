@@ -36,8 +36,7 @@ export default class SurveyWebScreen extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    BackHandler.addEventListener("hardwareBackPress", BackHandleService.getBackHandleService().handleBackButton);
-    BackHandleService.getBackHandleService().SetIsMain(true);
+    BackHandleService.GoMain();
   }
 
   render() {

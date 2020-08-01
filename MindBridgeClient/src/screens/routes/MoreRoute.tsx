@@ -1,13 +1,14 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
 import Constants from "expo-constants";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, BackHandler } from "react-native";
 import DoubleCard from "../../components/DoubleCard";
 import Profile from "../../components/Profile";
 
 import Tab from "../../components/Tab";
 import StackParamList from "../StackParamList";
 import Background from "../../components/Background";
+import { BackHandleService } from "../../services/BackHandleService";
 
 export default class MoreRoute extends React.Component<Props> {
   render() {
@@ -16,18 +17,17 @@ export default class MoreRoute extends React.Component<Props> {
         <View style={styles.statusBar}></View>
         <Background Title="더보기">
           <View style={styles.main}>
-        <View style={styles.tabContainer}>
-          <Tab
-            tabs={tabs}
-            style={{ marginLeft: 20 }}
-            tabWidth={100}
-            onChange={() => {}}
-          />
-        </View>
-      </View>
+            <View style={styles.tabContainer}>
+              <Tab
+                tabs={tabs}
+                style={{ marginLeft: 20 }}
+                tabWidth={100}
+                onChange={() => {}}
+              />
+            </View>
+          </View>
         </Background>
       </View>
-      
     );
   }
 }
@@ -35,17 +35,30 @@ export default class MoreRoute extends React.Component<Props> {
 type Props = StackScreenProps<StackParamList, "Main">;
 
 class MyPage extends React.Component {
+  private buttonInfo: [
+    { text: string; onClick: Function },
+    { text: string; onClick: Function }
+  ][] = [
+    [
+      { text: "내 프로필", onClick: () => {} },
+      { text: "배우자 프로필", onClick: () => {} },
+    ],
 
-  private buttonInfo: [{text: string, onClick: Function}, {text: string, onClick: Function}][] = [
-    [{text: "내 프로필", onClick: ()=>{}},
-    {text: "배우자 프로필", onClick: ()=>{}}],
-  
-    [{text: "테스트 결과 보기", onClick: ()=>{}},
-    {text: "My 포인트", onClick: ()=>{}}],
-  
-    [{text: "로그아웃", onClick: ()=>{}},
-    {text: "회원 탈퇴", onClick: ()=>{}}],
-  ]
+    [
+      {
+        text: "테스트 결과 보기",
+        onClick: () => {
+          BackHandleService.Navigate("SurveyHistory");
+        },
+      },
+      { text: "My 포인트", onClick: () => {} },
+    ],
+
+    [
+      { text: "로그아웃", onClick: () => {} },
+      { text: "회원 탈퇴", onClick: () => {} },
+    ],
+  ];
 
   render() {
     return (
@@ -59,44 +72,48 @@ class MyPage extends React.Component {
           />
         </View>
         {this.buttonInfo.map((val, ind) => (
-        <View style={styles.cardMargin} key={ind}>
-          <DoubleCard
-            upperButton={val[0]}
-            downerButton={val[1]}
-          />
-        </View>
+          <View style={styles.cardMargin} key={ind}>
+            <DoubleCard upperButton={val[0]} downerButton={val[1]} />
+          </View>
         ))}
       </View>
     );
-  } 
+  }
 }
 
 class Info extends React.Component {
+  private buttonInfo: [
+    { text: string; onClick: Function },
+    { text: string; onClick: Function }
+  ][] = [
+    [
+      { text: "공지사항", onClick: () => {} },
+      { text: "자주 묻는 질문", onClick: () => {} },
+    ],
 
-  private buttonInfo: [{text: string, onClick: Function}, {text: string, onClick: Function}][] = [
-    [{text: "공지사항", onClick: ()=>{}},
-    {text: "자주 묻는 질문", onClick: ()=>{}}],
-  
-    [{text: "문의하기", onClick: ()=>{}},
-    {text: "버전 정보", onClick: ()=>{}}],
-  
-    [{text: "후원하기", onClick: ()=>{}},
-    {text: "후원 내역 보기", onClick: ()=>{}}],
-  
-    [{text: "부부학교 신청하기", onClick: ()=>{}},
-    {text: "설정", onClick: ()=>{}}],
-  ]
+    [
+      { text: "문의하기", onClick: () => {} },
+      { text: "버전 정보", onClick: () => {} },
+    ],
+
+    [
+      { text: "후원하기", onClick: () => {} },
+      { text: "후원 내역 보기", onClick: () => {} },
+    ],
+
+    [
+      { text: "부부학교 신청하기", onClick: () => {} },
+      { text: "설정", onClick: () => {} },
+    ],
+  ];
 
   render() {
     return (
       <View style={styles.pageRightContainer}>
         {this.buttonInfo.map((val, ind) => (
-        <View style={styles.cardMargin} key={ind}>
-          <DoubleCard
-            upperButton={val[0]}
-            downerButton={val[1]}
-          />
-        </View>
+          <View style={styles.cardMargin} key={ind}>
+            <DoubleCard upperButton={val[0]} downerButton={val[1]} />
+          </View>
         ))}
       </View>
     );

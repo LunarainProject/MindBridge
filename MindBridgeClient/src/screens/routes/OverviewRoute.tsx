@@ -12,7 +12,6 @@ import Constants from "expo-constants";
 import { ScrollView } from "react-native-gesture-handler";
 import { Paragraph } from "react-native-paper";
 import { connect } from "react-redux";
-import CombineAction from "../../CombineAction";
 import Background from "../../components/Background";
 import Card from "../../components/Card";
 import Divider from "../../components/Divider";
@@ -39,14 +38,8 @@ class OverviewRoute extends React.Component<Props> {
       <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
         <View style={styles.statusBar}></View>
         <ScrollView>
-          <Background Title="모아보기"></Background>
-          <View
-            style={[
-              { marginTop: -5, backgroundColor: "white", paddingTop: 5 },
-              { paddingLeft: 20, paddingRight: 20 },
-            ]}
-          >
-            <View style={styles.main}>
+          <Background Title="모아보기">
+          <View style={styles.main}>
               <Title>{this.props.Card.OverviewSurveyCategory.Title}</Title>
               {this.props.Card.OverviewSurveyCategory.Cards.map(
                 (val: CardType, ind) => (
@@ -110,7 +103,7 @@ class OverviewRoute extends React.Component<Props> {
                 </Paragraph>
               </View>
             </View>
-          </View>
+          </Background>
         </ScrollView>
       </View>
     );
@@ -137,6 +130,7 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     backgroundColor: "white",
+    marginLeft: 20, marginRight: 20,
   },
 
   cardMargin: {

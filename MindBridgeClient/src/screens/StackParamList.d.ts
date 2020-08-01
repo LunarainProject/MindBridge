@@ -3,6 +3,7 @@ type StackParamList = {
     Test: undefined;
     SurveyWeb: undefined;
     SurveyResult: undefined;
+    SurveyHistory: undefined;
     Login: undefined;
 };
 
