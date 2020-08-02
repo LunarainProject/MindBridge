@@ -36,7 +36,7 @@ export default class DoubleCard extends React.Component<Props> {
                 "rgba(0, 0, 0, 0.08)",
                 false
               )}
-              onPress={this.props.upperButton.onClick}
+              onPress={this.props.downerButton.onClick}
             >
               <View style={styles.textContainer}>
                 <Text>{this.props.downerButton.text}</Text>

@@ -34,11 +34,7 @@ export default class SurveyWebScreen extends React.Component<Props, State> {
       isWebViewLoaded: false,
     };
   }
-
-  componentWillUnmount() {
-    BackHandleService.GoMain();
-  }
-
+  
   render() {
     return (
       <View style={styles.main}>

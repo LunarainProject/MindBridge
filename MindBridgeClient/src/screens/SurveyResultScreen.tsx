@@ -19,7 +19,6 @@ export default class SurveyResultScreen extends React.Component<Props> {
 
   constructor(props: Props) {
     super(props);
-
     this.OnClickTestHandler = (
       e: NativeSyntheticEvent<NativeTouchEvent>
     ): void => {
@@ -31,7 +30,7 @@ export default class SurveyResultScreen extends React.Component<Props> {
   render() {
     return (
       <View style={styles.main}>
-        <Text>Open up App.tsx to start working on your app!</Text>
+        <Text>{this.props.route.params.SurveyResultId}</Text>
         <Button title="Test Screen" onPress={this.OnClickTestHandler} />
         <Counter />
       </View>

@@ -110,49 +110,15 @@ class MainScreen extends React.Component<Props> {
     BackHandleService.registerNavigation(props.navigation);
   }
 
-  private exitApp: boolean = false;
-  private timeout: any;
-
   componentDidMount() {
     this.props.SetFakeData();
     this.props.LoadResults();
-    AppState.addEventListener("change", this._handleAppStateChange);
-    BackHandler.addEventListener(
-      "hardwareBackPress",
-      BackHandleService.handleBackButton
-    );
+    BackHandleService.MainScreenDidMount();
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener("change", this._handleAppStateChange);
-    BackHandler.removeEventListener(
-      "hardwareBackPress",
-      BackHandleService.handleBackButton
-    );
+    BackHandleService.MainScreenWillUnmount();
   }
-
-  private _handleAppStateChange = (nextAppState: any) => {
-    if (BackHandleService.isMain()) {
-      if (
-        this.state.appState.match(/inactive|background/) &&
-        nextAppState === "active"
-      ) {
-        console.log("add handler again");
-        BackHandler.addEventListener(
-          "hardwareBackPress",
-          BackHandleService.handleBackButton
-        );
-      } else if (nextAppState === "background") {
-        console.log("remove handler");
-        BackHandler.removeEventListener(
-          "hardwareBackPress",
-          BackHandleService.handleBackButton
-        );
-      }
-    }
-
-    this.setState({ appState: nextAppState });
-  };
 
   render() {
     return (

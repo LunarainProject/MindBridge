@@ -17,10 +17,6 @@ import SurveyResultCard from "../components/SurveyResultCard";
 import { ScrollView } from "react-native-gesture-handler";
 
 class SurveyHistoryScreen extends React.Component<Props> {
-  componentWillUnmount() {
-    BackHandleService.GoMain();
-  }
-
   render() {
     return (
       <View style={styles.main}>
@@ -32,7 +28,7 @@ class SurveyHistoryScreen extends React.Component<Props> {
               key={ind}
               Title={card.Title}
               Date={card.Date}
-              OnClick={() => {}}
+              OnClick={() => {this.props.navigation.navigate("SurveyResult", { SurveyResultId: card.Id})}}
             />
           </View>
         ))}

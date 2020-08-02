@@ -1,6 +1,6 @@
 import ActionTypes from "../actions/ActionTypes";
 import { AddResultAction, SurveyActions } from "../actions/SurveyActions";
-import { LoginState, SurveyState } from "../StateTypes";
+import { SurveyState } from "../StateTypes";
 
 export default (state: SurveyState = {
   SurveyResultCards: []

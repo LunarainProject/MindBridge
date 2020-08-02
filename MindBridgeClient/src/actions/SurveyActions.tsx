@@ -9,9 +9,7 @@ export class AddResultAction implements IAction {
     resultCards: SurveyResultCardType[] = [{
         Title: "",
         Date: new Date(0),
-        Data: {
-            page_list: []
-        }
+        Id: "",
     }];
 }
 
@@ -22,16 +20,16 @@ const _AddResults = (resultCards: SurveyResultCardType[]): AddResultAction => {
     };
 }
 
-export const SaveResultThunk = (title: string, data: SurveyResultType) => (dispatch: Function) => { 
+export const SaveResultThunk = (title: string, id: string) => (dispatch: Function) => { 
 
     //User의 DB에 결과를 저장
 
-    //클라이언트에 결과를 저장
+    //클라이언트에 결과 데이터를 저장
 
     dispatch(_AddResults([{
         Title: title,
         Date: new Date(),
-        Data: data,
+        Id: id,
     }]));
 }
 
@@ -40,46 +38,20 @@ export const LoadResultsThunk = () => (dispatch: Function) => {
 
     //클라이언트 데이터가 이상하면 서버에서 읽어옴
 
-    //테스트 코드
-    const data: SurveyResultType = {
-        page_list: [
-            {
-                question_list: [
-                    {
-                        type: 1,
-                        answer: [4, 2],
-                    },
-                    {
-                        type: 2,
-                        answer: 1,
-                    }
-                ]
-            },
-            {
-                question_list: [
-                    {
-                        type: 2,
-                        answer: 3
-                    }
-                ]
-            },
-        ]
-    }
-
     //읽은 데이터로 디스패치
     dispatch(_AddResults([{
         Title: "결과 1",
         Date: new Date(),
-        Data: data,
+        Id: "결과1 아이디",
     },
     {
         Title: "결과 2",
         Date: new Date(),
-        Data: data,
+        Id: "결과2 아이디",
     },
     {
         Title: "결과 3",
         Date: new Date(),
-        Data: data,
+        Id: "결과3 아이다",
     }]));
 }

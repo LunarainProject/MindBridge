@@ -46,7 +46,7 @@ export type SurveyResultType = {
 export type SurveyResultCardType = {
     Title: string;
     Date: Date;
-    Data: SurveyResultType;
+    Id: string;
 }
 
 export type SurveyState = {
