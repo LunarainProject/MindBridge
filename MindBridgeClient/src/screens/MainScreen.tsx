@@ -213,7 +213,7 @@ function mapDispatchToProps(dispatch: Function) {
       dispatch(CombineAction.SetFakeData());
     },
     LoadResults: (): void => {
-      CombineAction.LoadResultsThunk()(dispatch);
+      dispatch(CombineAction.LoadResultsThunk());
     }
   };
 }

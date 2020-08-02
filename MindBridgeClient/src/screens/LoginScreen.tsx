@@ -77,7 +77,7 @@ function mapStateToProps(state: any) {
 function mapDispatchToProps(dispatch: Function) {
   return {
     AutoLogin: () => {
-      CombineAction.AutoLoginThunk()(dispatch);
+      dispatch(CombineAction.AutoLoginThunk());
     },
   }
 };

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Provider as ReduxProvider } from 'react-redux';
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-
+import ReduxThunk from 'redux-thunk';
 import Main from './src/Main';
 import CombineReducer from './src/CombineReducer';
 
@@ -17,7 +17,7 @@ const theme = {
 
 export default function App() {
   return (
-    <ReduxProvider store={createStore(CombineReducer)}>
+    <ReduxProvider store={createStore(CombineReducer, applyMiddleware(ReduxThunk))}>
       <PaperProvider theme={theme}>
         <Main />
       </PaperProvider>
