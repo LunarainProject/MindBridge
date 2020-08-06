@@ -72,6 +72,8 @@ export default class Question extends React.Component {
           return <ChartType1 {...this.props} />;
         case 2:
           return <ChartType2 {...this.props} />;
+        case 3:
+          return <ChartType3 {...this.props} />;
         default:
           return;
       }
@@ -133,7 +135,7 @@ export default class Question extends React.Component {
               </div>
             )}
           </div>
-          <div class="flex-center">
+          <div className="flex-center">
             <Select
               value={this.props.question.type}
               onChange={this.handleTypeChange}
@@ -144,6 +146,7 @@ export default class Question extends React.Component {
               </MenuItem>
               <MenuItem value={1}>연결 선택지</MenuItem>
               <MenuItem value={2}>단순 선택지</MenuItem>
+              <MenuItem value={3}>긴 선택지</MenuItem>
             </Select>
             <IconButton
               onClick={(event) => {
@@ -175,7 +178,7 @@ class ChartType1 extends React.Component {
     };
 
     this.handleButtonAdd = () => {
-      let string_list = this.props.question.string_list;
+      let string_list = this.props.question.string_list.slice();
       if (string_list.length < 5) {
         string_list.push("새 항목");
       }
@@ -188,7 +191,7 @@ class ChartType1 extends React.Component {
     };
 
     this.handleButtonRemove = () => {
-      let string_list = this.props.question.string_list;
+      let string_list = this.props.question.string_list.slice();
       if (string_list.length > 2) {
         string_list.pop();
       }
@@ -229,7 +232,7 @@ class ChartType1 extends React.Component {
     };
 
     this.handleSubmit = () => {
-      let string_list = this.props.question.string_list;
+      let string_list = this.props.question.string_list.slice();
       string_list[this.state.choice_edit_id - 1] = this.state.choice_edit;
 
       this.props.setStringList(
@@ -290,7 +293,7 @@ class ChartType1 extends React.Component {
                     onKeyPress={this.handleKeyEditor}
                     autoFocus={true}
                     fontSize="small"
-                    fullWidth="100%"
+                    fullWidth={true}
                   />
                 ) : (
                   <Button
@@ -306,6 +309,7 @@ class ChartType1 extends React.Component {
           </div>
           {[0, 1].map((couple_val, couple_ind) => (
             <div
+              key={couple_val}
               style={{ display: "flex", flexDirection: "row", width: "100%" }}
             >
               {this.draw_stringlist.map((val, ind) => (
@@ -330,12 +334,17 @@ class ChartType1 extends React.Component {
                         onClick={() => {
                           this.setState({
                             couple_edit_id: couple_ind,
-                            couple_edit:
-                            this.props.question.couple_list? this.props.question.couple_list[couple_ind] || ["남편", "아내"][couple_ind] : ["남편", "아내"][couple_ind],
+                            couple_edit: this.props.question.couple_list
+                              ? this.props.question.couple_list[couple_ind] ||
+                                ["남편", "아내"][couple_ind]
+                              : ["남편", "아내"][couple_ind],
                           });
                         }}
                       >
-                        {this.props.question.couple_list? this.props.question.couple_list[couple_ind] || ["남편", "아내"][couple_ind] : ["남편", "아내"][couple_ind]}
+                        {this.props.question.couple_list
+                          ? this.props.question.couple_list[couple_ind] ||
+                            ["남편", "아내"][couple_ind]
+                          : ["남편", "아내"][couple_ind]}
                       </Button>
                     )
                   ) : (
@@ -377,10 +386,10 @@ class ChartType2 extends React.Component {
     this.state = {
       choice_edit: "",
       choice_edit_id: -1,
-    }
+    };
 
     this.handleButtonAdd = () => {
-      let string_list = this.props.question.string_list;
+      let string_list = this.props.question.string_list.slice();
       if (string_list.length < 5) {
         string_list.push("새 항목");
       }
@@ -393,7 +402,7 @@ class ChartType2 extends React.Component {
     };
 
     this.handleButtonRemove = () => {
-      let string_list = this.props.question.string_list;
+      let string_list = this.props.question.string_list.slice();
       if (string_list.length > 2) {
         string_list.pop();
       }
@@ -411,7 +420,7 @@ class ChartType2 extends React.Component {
     };
 
     this.handleSubmit = () => {
-      let string_list = this.props.question.string_list;
+      let string_list = this.props.question.string_list.slice();
       string_list[this.state.choice_edit_id] = this.state.choice_edit;
 
       this.props.setStringList(
@@ -469,6 +478,141 @@ class ChartType2 extends React.Component {
           <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
             {this.draw_stringlist.map((val, ind) => (
               <div className="flex-center" style={{ width: "100%" }} key={ind}>
+                <Radio disabled />
+              </div>
+            ))}
+          </div>
+
+          <div className="flex-center">
+            <Button
+              color="primary"
+              style={{ marginLeft: "5px", marginRight: "5px" }}
+              onClick={this.handleButtonAdd}
+            >
+              <AddIcon fontSize="small" />
+              <Typography>항목 추가</Typography>
+            </Button>
+            <Button
+              color="primary"
+              style={{ marginLeft: "5px", marginRight: "5px" }}
+              onClick={this.handleButtonRemove}
+            >
+              <RemoveIcon fontSize="small" />
+              <Typography>항목 제거</Typography>
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+class ChartType3 extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      choice_edit: "",
+      choice_edit_id: -1,
+    };
+
+    this.handleButtonAdd = () => {
+      let string_list = this.props.question.string_list.slice();
+      if (string_list.length < 5) {
+        string_list.push("새 항목");
+      }
+
+      this.props.setStringList(
+        string_list,
+        this.props.page_ind,
+        this.props.question_ind
+      );
+    };
+
+    this.handleButtonRemove = () => {
+      let string_list = this.props.question.string_list.slice();
+      if (string_list.length > 2) {
+        string_list.pop();
+      }
+
+      this.props.setStringList(
+        string_list,
+        this.props.page_ind,
+        this.props.question_ind
+      );
+    };
+
+    /* Choice Edit Handling */
+    this.handleEditChange = (e) => {
+      this.setState({ choice_edit: e.target.value });
+    };
+
+    this.handleSubmit = () => {
+      let string_list = this.props.question.string_list.slice();
+      string_list[this.state.choice_edit_id] = this.state.choice_edit;
+
+      this.props.setStringList(
+        string_list,
+        this.props.page_ind,
+        this.props.question_ind
+      );
+      this.setState({ choice_edit: "", choice_edit_id: -1 });
+    };
+
+    this.handleKeyEditor = (e) => {
+      if (e.key === "Enter") {
+        this.handleSubmit();
+      }
+    };
+  }
+
+  render() {
+    this.draw_stringlist = this.props.question.string_list;
+
+    return (
+      <div className="grid-container">
+        <div
+          className="grid-inner"
+          style={{
+            minWidth: "50%",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+            }}
+          >
+            {this.draw_stringlist.map((val, ind) => (
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "space-between",
+                  flexWrap: "nowrap",
+                }}
+                key={ind}
+              >
+                {this.state.choice_edit_id === ind ? (
+                  <Input
+                    value={this.state.choice_edit}
+                    inputProps={{ "aria-label": "description" }}
+                    onChange={this.handleEditChange}
+                    onKeyPress={this.handleKeyEditor}
+                    autoFocus={true}
+                    fontSize="small"
+                    fullWidth={true}
+                  />
+                ) : (
+                  <Button
+                    onClick={() => {
+                      this.setState({ choice_edit_id: ind, choice_edit: val });
+                    }}
+                  >
+                    {val}
+                  </Button>
+                )}
                 <Radio disabled />
               </div>
             ))}

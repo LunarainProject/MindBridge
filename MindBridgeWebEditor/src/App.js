@@ -371,6 +371,8 @@ export function reducer(state = initialState, action) {
     state_store.push(state);
   }
 
+  console.log(state);
+
   return state;
 }
 
