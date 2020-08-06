@@ -38,7 +38,7 @@ export default class AdvertiseRoute extends React.Component<Props> {
     return (
         <TabBackground
           title="알콩달콩 부부학교"
-          tabWidth={80}
+          tabWidth={90}
           tabs={tabs}
           style={{
             marginLeft: 10
@@ -118,14 +118,38 @@ class Donate extends React.Component {
   }
 }
 
+class Review extends React.Component {
+  render() {
+    return (
+      <View style={styles.background}>
+        <Text>Review</Text>
+      </View>
+    );
+  }
+}
+
+class Homework extends React.Component {
+  render() {
+    return (
+      <View style={styles.backgroundRight}>
+        <Text>Homework</Text>
+      </View>
+    );
+  }
+}
+
 const myPage = <Introduction />;
 const itinerary = <Itinerary />;
 const donate = <Donate />;
+const review = <Review />;
+const homework = <Homework />;
 
 const tabs = [
   { title: "소개", route: myPage },
   { title: "일정", route: itinerary },
   { title: "후원", route: donate },
+  { title: "후기", route: review },
+  { title: "숙제", route: homework },
 ];
 
 const styles = StyleSheet.create({

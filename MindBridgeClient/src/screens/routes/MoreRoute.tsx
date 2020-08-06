@@ -51,7 +51,7 @@ class MyPage extends React.Component {
           BackHandleService.Navigate("SurveyHistory");
         },
       },
-      { text: "My 포인트", onClick: () => {} },
+      { text: "자료실", onClick: () => {} },
     ],
 
     [
@@ -62,7 +62,7 @@ class MyPage extends React.Component {
 
   render() {
     return (
-      <View style={styles.pageLeftContainer}>
+      <View style={styles.pageRightContainer}>
         <View style={styles.cardMargin}>
           <Profile
             myName="망둥이1"
@@ -93,23 +93,18 @@ class Info extends React.Component {
 
     [
       { text: "문의하기", onClick: () => {} },
-      { text: "버전 정보", onClick: () => {} },
+      { text: "앱 정보", onClick: () => {} },
     ],
 
     [
-      { text: "후원하기", onClick: () => {} },
-      { text: "후원 내역 보기", onClick: () => {} },
-    ],
-
-    [
-      { text: "부부학교 신청하기", onClick: () => {} },
-      { text: "설정", onClick: () => {} },
+      { text: "포인트 사용", onClick: () => {} },
+      { text: "포인트 충전", onClick: () => {} },
     ],
   ];
 
   render() {
     return (
-      <View style={styles.pageRightContainer}>
+      <View style={styles.pageLeftContainer}>
         {this.buttonInfo.map((val, ind) => (
           <View style={styles.cardMargin} key={ind}>
             <DoubleCard upperButton={val[0]} downerButton={val[1]} />
@@ -124,8 +119,8 @@ const myPage = <MyPage />;
 const info = <Info />;
 
 const tabs = [
-  { title: "마이페이지", route: myPage },
   { title: "알림센터", route: info },
+  { title: "마이페이지", route: myPage },
 ];
 
 const radius = 10;
