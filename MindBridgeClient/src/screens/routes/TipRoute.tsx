@@ -18,53 +18,40 @@ import StackParamList from "../StackParamList";
 import Constants from "expo-constants";
 import { ScrollView } from "react-native-gesture-handler";
 import Background from "../../components/Background";
+import TabBackground from "../../components/TabBackground";
+import { Paragraph } from "react-native-paper";
 
-class TipRoute extends React.Component<Props, State> {
+class TipRoute extends React.Component<Props> {
   constructor(props: any) {
     super(props);
-
-    this.state = {
-      show: 0,
-    }
   }
 
   componentDidMount() {
     //this.tabRef.current?.changeFocused(1);
   }
 
-  private tabRef: RefObject<Tab> = createRef();
-
   video = <Video Card={this.props.Card}/>;
   column = <Column Card={this.props.Card}/>;
-
-  routes: any[] = [this.video, this.column];
+  hahim = <Hahim />;
 
   tabs = [
-    { title: "부부가행복하게사는법", route: <View/> },
-    { title: "행복한부부칼럼", route: <View/> },
+    { title: "독서모임 하힘", route: this.hahim },
+    { title: "부부가행복하게사는법", route: this.video },
+    { title: "행복한부부칼럼", route: this.column },
   ];
 
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
-      <View style={styles.statusBar}></View>
-      <ScrollView stickyHeaderIndices={[1]}>
-        <Background Title="부부팁"></Background>
-        <View
-          style={[
-            { marginTop: -5, backgroundColor: "white", paddingTop: 5 },
-          ]}
-        >
-          <Tab 
-          ref={this.tabRef}
+        <TabBackground
           tabs={this.tabs}
-          style={{marginLeft: 20, marginRight: 20}}
-          tabWidth={(Dimensions.get("screen").width - 40) / 2}
-          onChange={(ind) => {this.setState({show: ind});}}
-        ></Tab>
-        </View>
-        {this.routes[this.state.show]}
-      </ScrollView>
+          tabWidth={170}
+          title="부부팁"
+          style={{
+            marginLeft: 10
+          }}
+        >
+        </TabBackground>
     </View>
     );
   }
@@ -114,10 +101,33 @@ class Column extends React.Component<SubProps> {
   }
 }
 
-type Props = StackScreenProps<StackParamList, "Main"> & SubProps;
-type State = {
-  show: number,
+class Hahim extends React.Component {
+  render() {
+    return (
+      <View style={ styles.hahim}>
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+          하나님을 힘써알자 - 독서모임
+        </Text>
+        <Paragraph>
+          이렇게 노력하는 남편을 마주하게 되는 저는 알콩달콩 부부학교와 하힘책
+          책모임을 사랑하게 되었습니다. 아내들은 아내들끼리 남편들은 남편들끼리
+          각자의 삶의 나누고 위로하고 공감하고 소통하는 하힘은 ‘나’를 알고
+          ‘너’를 알고 나와 너를 넘어서는 ‘우리’로의 스타트였습니다.
+        </Paragraph>
+        <Paragraph>
+          또한 이 모임이 유지되어야 하는 이유는 지적인 은혜의 삶의 태도로
+          살아가도록 연명할 힘이 되어주기 때문입니다. 그래서 한 주가 미뤄지거나
+          하면 하힘금단현상이 있기도... 하나님은 특별한 방법이 아닌 평범함
+          속에서 아내를 알게 하시고 작은 일상 속에서 아내를 사랑하는 법을 깨닫게
+          하셨습니다. 참으로 감사하고 감사한 책읽기 모임입니다.
+        </Paragraph>
+      </View>
+    );
+  }
 }
+
+
+type Props = StackScreenProps<StackParamList, "Main"> & SubProps;
 
 type SubProps = {
   Card: CardState,
@@ -162,4 +172,10 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 50,
   },
+
+  hahim: {
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 10,
+  }
 });

@@ -1,7 +1,7 @@
 import IAction from "./IAction";
 import ActionTypes from "./ActionTypes";
 import * as SecureStore from "expo-secure-store";
-import { Infra } from "../Infra";
+import { Infra, NetworkService } from "../services/NetworkService";
 
 export type LoginActions = LoginAction | LogoutAction;
 
@@ -49,7 +49,7 @@ export const AutoLoginThunk = () => async (dispatch: Function) => {
   let loggedIn: boolean = false;
   let loginFailed: boolean = true;
   if (name !== null && phone !== null) {
-    loggedIn = await Infra.Login(name, phone);
+    loggedIn = await NetworkService.Login(name, phone);
     loginFailed = !loggedIn;
   }
 
