@@ -35,9 +35,9 @@ class TipRoute extends React.Component<Props> {
   hahim = <Hahim />;
 
   tabs = [
-    { title: "독서모임 하힘", route: this.hahim },
     { title: "부부가행복하게사는법", route: this.video },
     { title: "행복한부부칼럼", route: this.column },
+    { title: "독서모임 하힘", route: this.hahim },
   ];
 
   render() {
