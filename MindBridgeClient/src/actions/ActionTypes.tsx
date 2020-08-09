@@ -9,6 +9,7 @@ const ActionTypes = {
     //Login Actions
     LOGIN: 'LOGIN',
     LOGOUT: 'LOGOUT',
+    REGISTER: 'REGISTER',
 
     //Survey Actions
     ADD_RESULT: 'SAVE_RESUT',

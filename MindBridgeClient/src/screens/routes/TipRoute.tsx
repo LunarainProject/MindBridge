@@ -35,9 +35,9 @@ class TipRoute extends React.Component<Props> {
   hahim = <Hahim />;
 
   tabs = [
-    { title: "부부가행복하게사는법", route: this.video },
-    { title: "행복한부부칼럼", route: this.column },
-    { title: "독서모임 하힘", route: this.hahim },
+    { title: "부부행복팁", route: this.video },
+    { title: "부부칼럼", route: this.column },
+    { title: "독서모임", route: this.hahim },
   ];
 
   render() {
@@ -45,7 +45,7 @@ class TipRoute extends React.Component<Props> {
       <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
         <TabBackground
           tabs={this.tabs}
-          tabWidth={170}
+          tabWidth={120}
           title="부부팁"
           style={{
             marginLeft: 10

@@ -9,6 +9,7 @@ import SurveyWebScreen    from "./screens/SurveyWebScreen";
 import SurveyResultScreen from "./screens/SurveyResultScreen";
 import LogoTitle from "./components/LogoTitle";
 import SurveyHistoryScreen from "./screens/SurveyHistoryScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,11 @@ export default function Main() {
         <Stack.Screen name="Login"        component={LoginScreen} 
                       options={{
                         headerShown: false,
+                      }}
+        />
+        <Stack.Screen name="Register"     component={RegisterScreen}
+                      options={{
+                        headerTitle: "회원가입"
                       }}
         />
         <Stack.Screen name="Main"         component={MainScreen}

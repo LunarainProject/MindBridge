@@ -9,8 +9,25 @@ import Tab from "../../components/Tab";
 import StackParamList from "../StackParamList";
 import Background from "../../components/Background";
 import { BackHandleService } from "../../services/BackHandleService";
+import { LoginState } from "../../StateTypes";
+import CombineAction from "../../CombineAction";
+import { connect } from "react-redux";
 
-export default class MoreRoute extends React.Component<Props> {
+class MoreRoute extends React.Component<Props> {
+
+  private myPage = <MyPage onLogout={this.props.Logout}
+                           myName={this.props.LoginState.user?.givenName ?? ""}
+                           spouseName="망둥이"
+                           sex="male"
+                    />;
+  private info = <Info />;
+
+  private tabs = [
+    { title: "알림센터", route: this.info },
+    { title: "마이페이지", route: this.myPage },
+  ];
+
+
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
@@ -19,7 +36,7 @@ export default class MoreRoute extends React.Component<Props> {
           <View style={styles.main}>
             <View style={styles.tabContainer}>
               <Tab
-                tabs={tabs}
+                tabs={this.tabs}
                 style={{ marginLeft: 20 }}
                 tabWidth={100}
                 onChange={() => {}}
@@ -32,9 +49,28 @@ export default class MoreRoute extends React.Component<Props> {
   }
 }
 
-type Props = StackScreenProps<StackParamList, "Main">;
+type Props = StackScreenProps<StackParamList, "Main"> & {
+  Logout: Function;
+  LoginState: LoginState;
+};
 
-class MyPage extends React.Component {
+function mapStateToProps(state: any) {
+  return {
+    LoginState: state.Login,
+  };
+}
+function mapDispatchToProps(dispatch: Function) {
+  return {
+    Logout: () => {
+      dispatch(CombineAction.LogoutThunk());
+    },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoreRoute);
+
+
+class MyPage extends React.Component<MyPageProps> {
   private buttonInfo: [
     { text: string; onClick: Function },
     { text: string; onClick: Function }
@@ -55,7 +91,11 @@ class MyPage extends React.Component {
     ],
 
     [
-      { text: "로그아웃", onClick: () => {} },
+      { text: "로그아웃", onClick: () => {
+        BackHandleService.MainGoBack();
+        this.props.onLogout();
+        
+      } },
       { text: "회원 탈퇴", onClick: () => {} },
     ],
   ];
@@ -65,10 +105,10 @@ class MyPage extends React.Component {
       <View style={styles.pageRightContainer}>
         <View style={styles.cardMargin}>
           <Profile
-            myName="망둥이1"
-            myState="남편"
-            spouseName="망둥이2"
-            spouseState="아내"
+            myName={this.props.myName}
+            myState={this.props.sex == "male"? "남편" : "아내"} 
+            spouseName={this.props.spouseName}
+            spouseState={this.props.sex == "female"? "남편" : "아내"} 
           />
         </View>
         {this.buttonInfo.map((val, ind) => (
@@ -80,6 +120,7 @@ class MyPage extends React.Component {
     );
   }
 }
+type MyPageProps = { onLogout: Function, myName: string, spouseName: string, sex: "male" | "female" };
 
 class Info extends React.Component {
   private buttonInfo: [
@@ -114,14 +155,6 @@ class Info extends React.Component {
     );
   }
 }
-
-const myPage = <MyPage />;
-const info = <Info />;
-
-const tabs = [
-  { title: "알림센터", route: info },
-  { title: "마이페이지", route: myPage },
-];
 
 const radius = 10;
 

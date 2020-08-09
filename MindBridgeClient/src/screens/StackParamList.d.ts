@@ -1,5 +1,6 @@
 type StackParamList = {
     Main: undefined;
+    Register: undefined;
     Test: undefined;
     SurveyWeb: undefined;
     SurveyResult: {

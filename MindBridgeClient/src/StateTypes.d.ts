@@ -1,3 +1,5 @@
+import { GoogleUser } from "expo-google-app-auth"
+
 export type CardType = {
     Title: string;
     Subtitle: string;
@@ -25,9 +27,11 @@ export type CountState = {
 }
 
 export type LoginState = {
-    LoggedOut: boolean;
-    LoggedIn: boolean;
-    LoginFailed: boolean;   
+    loggedIn: boolean;
+    autoLogin: boolean;   
+    needRegister: boolean;
+    user: GoogleUser | null;
+    idToken: string | null;
 }
 
 export type QuestionType = {

@@ -1,57 +1,103 @@
 import IAction from "./IAction";
 import ActionTypes from "./ActionTypes";
-import * as SecureStore from "expo-secure-store";
-import { Infra, NetworkService } from "../services/NetworkService";
+import GoogleService from "../services/GoogleService";
+import { GoogleUser } from "expo-google-app-auth";
+import ServerService from "../services/ServerService";
+import { LoginState } from "../StateTypes";
 
-export type LoginActions = LoginAction | LogoutAction;
+export type LoginActions = LoginAction | LogoutAction | RegisterAction;
 
+export class RegisterAction implements IAction {
+  type: string = "";
+}
+function _Register(): RegisterAction {
+  return {
+    type: ActionTypes.REGISTER,
+  }
+}
+export const RegisterThunk = (birth: string, sex: string) => async (dispatch: Function, getState: Function) => {
+  console.log((getState().Login as LoginState).idToken);
+  await ServerService.RegisterAccount((getState().Login as LoginState).idToken, birth, sex);
+  dispatch(_Register());
+}
 
 export class LogoutAction implements IAction {
   type: string = "";
 }
-export function Logout(): LogoutAction {
+function _Logout(): LogoutAction {
   return {
     type: ActionTypes.LOGOUT,
   };
+}
+export const LogoutThunk = () => async (dispatch: Function) => {
+  await GoogleService.signOutAsync();
+  dispatch(_Logout());
 }
 
 export class LoginAction implements IAction {
   type: string = "";
   loggedIn: boolean = false;
-  loginFailed: boolean = false;
+  autoLogin: boolean = true;
+  needRegister: boolean = false;
+  user: GoogleUser | null = null;
+  idToken: string | null = null;
 }
-function _Login(loggedIn: boolean, loginFailed: boolean): LoginAction {
+function _Login(loggedIn: boolean, autoLogin: boolean, needRegister: boolean, user: GoogleUser | null, idToken: string | null): LoginAction {
   return {
     type: ActionTypes.LOGIN,
     loggedIn,
-    loginFailed,
+    autoLogin,
+    needRegister,
+    user,
+    idToken,
   };
 }
 
-export const LoginThunk = (name: string, phone: string) => async (
+export const LoginThunk = () => async (
   dispatch: Function
 ) => {
-  await SecureStore.setItemAsync("name", name);
-  await SecureStore.setItemAsync("phone", phone);
+  let { user, idToken } = await GoogleService.signInAsync();
+  if(user === undefined) user = null;
 
-  const loggedIn: boolean = false;
-  const loginFailed: boolean = false;
+  let loggedIn: boolean;
+  let autoLogin: boolean;
+  let needRegister: boolean;
 
-  dispatch(_Login(loggedIn, loginFailed));
+  console.log(user, idToken);
+
+  if(user !== null) {
+    //시작하기 성공
+    if(await ServerService.CheckUserRegistered(idToken) === "Success") {
+      //이미 등록된 경우
+      loggedIn = true;
+      autoLogin = false;
+      needRegister = false;
+      console.log('Registered');
+    } else {
+      //등록되지 않은 경우
+      loggedIn = false;
+      autoLogin = false;
+      needRegister = true;
+      console.log('Unregistered');
+    }
+  } else {
+    //시작하기 실패
+    loggedIn = false;
+    autoLogin = false;
+    needRegister = false;
+    console.log('google login failed');
+  }
+  dispatch(_Login(loggedIn, autoLogin, needRegister, user, idToken));
 };
 
 export const AutoLoginThunk = () => async (dispatch: Function) => {
-  console.log("AutoLogin Thunk");
-  const name = await SecureStore.getItemAsync("name");
-  const phone = await SecureStore.getItemAsync("phone");
+  //자동 로그인 부분 구현
+  //기존의 Auth정보를 이용하여 구글 로그인을 암묵적으로 수행합니다
+  //위와 마찬가지의 작업 필요. 외부 함수로 빼서 사용합시다
 
-  console.log("get completed", name, phone);
-  let loggedIn: boolean = false;
-  let loginFailed: boolean = true;
-  if (name !== null && phone !== null) {
-    loggedIn = await NetworkService.Login(name, phone);
-    loginFailed = !loggedIn;
-  }
-
-  dispatch(_Login(loggedIn, loginFailed));
+  //바로 자동 로그인 실패
+  const loggedIn: boolean = false;
+  const autoLogin: boolean = false;
+  const needRegister: boolean = false;
+  dispatch(_Login(loggedIn, autoLogin, needRegister, null, null));
 };

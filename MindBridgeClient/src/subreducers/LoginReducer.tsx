@@ -3,18 +3,21 @@ import { LoginAction, LoginActions } from "../actions/LoginActions";
 import { LoginState } from "../StateTypes";
 
 export default (state: LoginState = {
-  LoggedOut: false,
-  LoggedIn: false,
-  LoginFailed: false,
+  autoLogin: true,
+  loggedIn: false,
+  needRegister: false,
+  user: null,
+  idToken: null,
 }, action: LoginActions): LoginState => {
   switch (action.type) {
     case ActionTypes.LOGIN:
     {
-      const { loggedIn: LoggedIn, loginFailed: LoginFailed } = (action as LoginAction);
-      return {...state, LoggedIn, LoginFailed };
+      return {...state, ...(action as LoginAction)};
     }
     case ActionTypes.LOGOUT:
-      return { LoggedOut: true, LoggedIn: false, LoginFailed: false };
+      return { autoLogin: false, loggedIn: false, needRegister: false, user: null, idToken: null };
+    case ActionTypes.REGISTER:
+      return { ...state, autoLogin: false, loggedIn: true, needRegister: false};
     default:
       return state;
   }

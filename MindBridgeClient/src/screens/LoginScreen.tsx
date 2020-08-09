@@ -1,6 +1,14 @@
+import { ThemeProvider } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
-import { StyleSheet, View, Text, Dimensions, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Dimensions,
+  Image,
+  Platform,
+} from "react-native";
 import {
   ActivityIndicator,
   Button,
@@ -8,9 +16,11 @@ import {
   TextInput,
 } from "react-native-paper";
 import { connect } from "react-redux";
+import { LoginThunk } from "../actions/LoginActions";
 import CombineAction from "../CombineAction";
 import { LoginState } from "../StateTypes";
 import StackParamList from "./StackParamList";
+import * as Google from "expo-google-app-auth";
 
 class LoginScreen extends React.Component<Props> {
   state = {
@@ -20,13 +30,21 @@ class LoginScreen extends React.Component<Props> {
     registered: true,
   };
 
-  private onRegister = (): void => {
-    this.props.navigation.navigate('Main');
+  private onNeedRegisterLayout = () => {
+    this.props.navigation.navigate("Register");
+  };
+
+  private onLogin = () => {
+    this.props.Login();
   }
-  
+
+  private onLoggedInLayout = () => {
+    this.props.navigation.navigate("Main");
+  }
+
   componentDidMount() {
-    if(!this.props.LoginState.LoggedOut) {
-        setTimeout(()=> {
+    if (this.props.LoginState.autoLogin) {
+      setTimeout(() => {
         this.props.AutoLogin();
       }, 2000);
     }
@@ -43,16 +61,36 @@ class LoginScreen extends React.Component<Props> {
         ></Image>
 
         <View style={styles.footer}>
-          <View style={{ marginBottom: 50 }}>
-            {this.props.LoginState.LoginFailed ? (
-              <Button onPress={this.onRegister}>처음이신가요? 시작하기</Button>
-            ) : (
+          <View style={{ marginBottom: 40 }}>
+
+            {/* 회원가입 창으로 넘어가기 */
+              this.props.LoginState.needRegister && <View onLayout={this.onNeedRegisterLayout} />
+            }
+
+            {/* 로그인되었을 때 */
+            this.props.LoginState.loggedIn? (
+              <View onLayout={this.onLoggedInLayout}>
+                <Text>로그인 완료</Text>
+              </View>
+            ) :
+            /* 로그인되지 않았을 때 */
+            this.props.LoginState.autoLogin ? (
+              /* 자동 로그인 시 */
               <View>
                 <ActivityIndicator size="small"></ActivityIndicator>
                 <View style={{ marginTop: 5 }}>
                   <Text>자동 로그인 중입니다</Text>
                 </View>
               </View>
+            ) : 
+            (
+              /* 자동 로그인 실패 시 */
+              <Button
+                style={{ backgroundColor: "white" }}
+                onPress={this.onLogin}
+              >
+                Google 계정으로 시작하기
+              </Button>
             )}
           </View>
           <Text>부부의 행복한 사랑을 응원합니다.</Text>
@@ -64,23 +102,27 @@ class LoginScreen extends React.Component<Props> {
 }
 
 type Props = StackScreenProps<StackParamList, "Login"> & {
-  AutoLogin: Function,
+  AutoLogin: Function;
+  Login: Function;
   LoginState: LoginState;
 };
-
 
 function mapStateToProps(state: any) {
   return {
     LoginState: state.Login,
   };
-};
+}
 function mapDispatchToProps(dispatch: Function) {
   return {
     AutoLogin: () => {
       dispatch(CombineAction.AutoLoginThunk());
     },
-  }
-};
+
+    Login: () => {
+      dispatch(CombineAction.LoginThunk());
+    },
+  };
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 

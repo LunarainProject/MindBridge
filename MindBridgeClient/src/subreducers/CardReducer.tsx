@@ -122,7 +122,7 @@ export default (
             {
               Title: "온기 있는 집",
               Subtitle: "가족을 긴장시키는 아빠, 해결책은?",
-              Description: "김상목, 한은경 부부 이야기",
+              Description: "김성묵, 한은경 부부 이야기",
               ButtonLabel: "보러가기",
               InfoLabel: "",
             },
@@ -200,14 +200,14 @@ export default (
             {
               Title: "온기 있는 집",
               Subtitle: "가족을 긴장시키는 아빠, 해결책은?",
-              Description: "김상목, 한은경 부부 이야기",
+              Description: "김성묵, 한은경 부부 이야기",
               ButtonLabel: "보러가기",
               InfoLabel: "",
             },
             {
               Title: "온기 있는 집2",
               Subtitle: "가족을 긴장시키는 아빠, 해결책은?",
-              Description: "김상목, 한은경 부부 이야기",
+              Description: "김성묵, 한은경 부부 이야기",
               ButtonLabel: "보러가기",
               InfoLabel: "",
             },

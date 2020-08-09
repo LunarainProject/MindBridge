@@ -8,10 +8,11 @@ import CombineReducer from './src/CombineReducer';
 
 const theme = {
   ...DefaultTheme,
-  colors: {
+  colors: {  
     ...DefaultTheme.colors,
     primary: '#F970B9',
     surface: 'white',
+    accent: '#F970B9',
   }
 }
 

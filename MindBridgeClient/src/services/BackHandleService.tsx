@@ -83,6 +83,11 @@ export class BackHandleService {
 
     this._appState = nextAppState;
   }
+
+  public static MainGoBack() {
+    console.log(this._mainNavigation);
+    this._mainNavigation.goBack();
+  }
   
   public static MainScreenDidMount() {
     AppState.addEventListener("change", this._handleAppStateChange);
