@@ -248,7 +248,7 @@ export default class ServerService {
                     case "등록되지 않은 유저입니다.":
                         console.log("등록되지 않은 유저입니다.");
                         return null;
-                    case "파트너 등록을 하지 않았습니다.":
+                    case "파트너 등록 혹은 매칭이 되지 않았습니다.":
                         console.log("파트너 등록을 하지 않았습니다.");
                         return null;
                     case "파트너 등록은 되었으나 매칭은 되지 않았습니다.":
