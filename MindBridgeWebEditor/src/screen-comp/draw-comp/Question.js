@@ -327,7 +327,7 @@ class ChartType1 extends React.Component {
                         inputProps={{ "aria-label": "description" }}
                         onChange={this.handleCoupleEditChange}
                         onKeyPress={this.handleKeyEditor}
-                        onBlur={this.handleSubmit}
+                        onBlur={this.handleCoupleSubmit}
                         autoFocus={true}
                         fontSize="small"
                         fullWidth="100%"
