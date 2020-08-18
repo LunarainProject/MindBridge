@@ -60,7 +60,7 @@ export default class Screen extends React.Component {
                           question_title: "새로운 문항",
                           type: 1,
                           string_list: ["항목1", "항목2"],
-                          couple_list: ["남편", "아내"],
+                          couple_list: ["자신", "배우자"],
                         }, page_ind);
                       }}
                       color="primary"
@@ -87,7 +87,7 @@ export default class Screen extends React.Component {
                     question_title: "새로운 문항",
                     type: 1,
                     string_list: ["항목1", "항목2"],
-                    couple_list: ["남편", "아내"],
+                    couple_list: ["자신", "배우자"],
                   },
                 ],
               });

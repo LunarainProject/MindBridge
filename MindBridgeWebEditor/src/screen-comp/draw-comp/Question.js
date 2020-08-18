@@ -339,15 +339,15 @@ class ChartType1 extends React.Component {
                             couple_edit_id: couple_ind,
                             couple_edit: this.props.question.couple_list
                               ? this.props.question.couple_list[couple_ind] ||
-                                ["남편", "아내"][couple_ind]
-                              : ["남편", "아내"][couple_ind],
+                                ["자신", "배우자"][couple_ind]
+                              : ["자신", "배우자"][couple_ind],
                           });
                         }}
                       >
                         {this.props.question.couple_list
                           ? this.props.question.couple_list[couple_ind] ||
-                            ["남편", "아내"][couple_ind]
-                          : ["남편", "아내"][couple_ind]}
+                            ["자신", "배우자"][couple_ind]
+                          : ["자신", "배우자"][couple_ind]}
                       </Button>
                     )
                   ) : (
