@@ -163,6 +163,7 @@ export default class Heading extends React.Component {
                 inputProps={{ "aria-label": "description" }}
                 onChange={this.handleEditChange}
                 onKeyPress={this.handleKeyEditor}
+                onBlur={this.handleSubmit}
                 autoFocus={true}
               />
               <Button

@@ -109,6 +109,7 @@ export default class Question extends React.Component {
                   inputProps={{ "aria-label": "description" }}
                   onChange={this.handleEditChange}
                   onKeyPress={this.handleKeyEditor}
+                  onBlur={this.handleSubmit}
                   autoFocus={true}
                   fontSize="small"
                   fullWidth="100%"
@@ -291,6 +292,7 @@ class ChartType1 extends React.Component {
                     inputProps={{ "aria-label": "description" }}
                     onChange={this.handleEditChange}
                     onKeyPress={this.handleKeyEditor}
+                    onBlur={this.handleSubmit}
                     autoFocus={true}
                     fontSize="small"
                     fullWidth={true}
@@ -324,7 +326,8 @@ class ChartType1 extends React.Component {
                         value={this.state.couple_edit}
                         inputProps={{ "aria-label": "description" }}
                         onChange={this.handleCoupleEditChange}
-                        onKeyPress={this.handleCoupleKeyEditor}
+                        onKeyPress={this.handleKeyEditor}
+                        onBlur={this.handleSubmit}
                         autoFocus={true}
                         fontSize="small"
                         fullWidth="100%"
@@ -459,6 +462,7 @@ class ChartType2 extends React.Component {
                     inputProps={{ "aria-label": "description" }}
                     onChange={this.handleEditChange}
                     onKeyPress={this.handleKeyEditor}
+                    onBlur={this.handleSubmit}
                     autoFocus={true}
                     fontSize="small"
                     fullWidth="100%"
@@ -600,6 +604,7 @@ class ChartType3 extends React.Component {
                     inputProps={{ "aria-label": "description" }}
                     onChange={this.handleEditChange}
                     onKeyPress={this.handleKeyEditor}
+                    onBlur={this.handleSubmit}
                     autoFocus={true}
                     fontSize="small"
                     fullWidth={true}

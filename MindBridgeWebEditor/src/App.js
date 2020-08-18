@@ -28,6 +28,7 @@ class App extends React.Component {
     }
 
     this.props.state_store.clearUndo();
+    this.props.state_store.startAutoSave();
   }
 
   render() {
@@ -58,12 +59,21 @@ class StateStore {
     this.min_ind = -1;
     this.undoable = false;
     this.redoable = false;
+    this.autosave = false;
   }
 
   getCurrentState = () => this.state_list[this.current_ind];
 
   isUndoable = () => this.undoable;
   isRedoable = () => this.redoable;
+
+  startAutoSave = () => {
+    this.autosave = true;
+  }
+
+  autoSave = () => {
+    if(this.autosave) localStorage.setItem('package', JSON.stringify(this.getCurrentState().package));
+  }
 
   push(state) {
     if(this.current_ind !== this.max_ind) this.clearRedo();
@@ -73,6 +83,7 @@ class StateStore {
     
     this.undoable = true;
     this.redoable = false;
+    this.autoSave();
   }
   
   undo() {
@@ -81,6 +92,7 @@ class StateStore {
       this.undoable = false;
     }
     this.redoable = true;
+    this.autoSave();
   }
 
   redo() {
@@ -89,6 +101,7 @@ class StateStore {
       this.redoable = false;
     }
     this.undoable = true;
+    this.autoSave();
   }
 
   clearUndo() {

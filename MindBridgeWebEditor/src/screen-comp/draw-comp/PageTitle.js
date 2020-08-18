@@ -106,6 +106,7 @@ export default class PageTitle extends React.Component {
                 inputProps={{ "aria-label": "description" }}
                 onChange={this.handleEditChange}
                 onKeyPress={this.handleKeyEditor}
+                onBlur={this.handleSubmit}
                 autoFocus={true}
                 fontSize="small"
                 fullWidth="100%"
