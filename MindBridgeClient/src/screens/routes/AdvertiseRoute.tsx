@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Constants from "expo-constants";
 
-import { Paragraph, Text } from "react-native-paper";
+import { ActivityIndicator, Paragraph, Text } from "react-native-paper";
 import Background from "../../components/Background";
 import Counter from "../../components/Counter";
 
@@ -52,6 +52,11 @@ export default class AdvertiseRoute extends React.Component<Props> {
 type Props = StackScreenProps<StackParamList, "Main">;
 
 class Introduction extends React.Component {
+
+  state = {
+    isWebViewLoaded: false,
+  }
+
   render() {
     return (
       <View style={styles.backgroundLeft}>
@@ -62,11 +67,21 @@ class Introduction extends React.Component {
         <Text style={{ fontSize: 16, fontWeight: "bold", marginTop: 10, }}>
           알콩달콩부부학교는?
         </Text>
-        <WebView
-            style = {styles.video}
-            javaScriptEnabled={true}
-            source={{uri: 'https://www.youtube.com/embed/mMCLiXfNn9Y'}}
-        />
+        <View style={styles.videoContainer}>
+          <WebView
+              onLoad={() => {
+                this.setState({ isWebViewLoaded: true });
+              }}
+              style = {styles.video}
+              javaScriptEnabled={true}
+              source={{uri: 'https://www.youtube.com/embed/mMCLiXfNn9Y'}}>
+          </WebView>
+          {!this.state.isWebViewLoaded && (
+            <View style={styles.asyncScreen}>
+              <ActivityIndicator size="large" color="#F970B9" />
+            </View>
+          )}
+          </View>
         <Text style={{ fontSize: 16, fontWeight: "bold" }}>
           “부부가 바로 서야 가정이 바로 선다”
         </Text>
@@ -199,10 +214,23 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
   },
 
-  video: {
+  videoContainer: {
     marginTop: 10,
     marginBottom: 10,
     width: Dimensions.get("screen").width - 60,
     height: (Dimensions.get("screen").width - 60) * (9 / 16),
-  }
+  },
+
+  video: {
+    flex: 1,
+  },
+
+  asyncScreen: {
+    position: "absolute",
+    backgroundColor: "whitesmoke",
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
