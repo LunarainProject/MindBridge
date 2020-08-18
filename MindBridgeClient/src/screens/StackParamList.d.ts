@@ -2,10 +2,16 @@ type StackParamList = {
     Main: undefined;
     Register: undefined;
     Test: undefined;
-    SurveyWeb: undefined;
+    SurveyWeb: {
+        SurveyId: string,
+    };
     SurveyResult: {
         SurveyResultId: string,
+        SurveyResultCount: string,
     };
+    TipWeb: {
+        ColumnId: string,
+    }
     SurveyHistory: undefined;
     Login: undefined;
 };

@@ -17,6 +17,11 @@ import SurveyResultCard from "../components/SurveyResultCard";
 import { ScrollView } from "react-native-gesture-handler";
 
 class SurveyHistoryScreen extends React.Component<Props> {
+
+  componentDidMount() {
+    this.props.retrieveResults();
+  }
+
   render() {
     return (
       <View style={styles.main}>
@@ -25,10 +30,11 @@ class SurveyHistoryScreen extends React.Component<Props> {
         {this.props.Survey.SurveyResultCards.map((card, ind) => (
           <View style={styles.cardMargin} key={ind}>
             <SurveyResultCard
+              image={card.Image}
               key={ind}
               Title={card.Title}
               Date={card.Date}
-              OnClick={() => {this.props.navigation.navigate("SurveyResult", { SurveyResultId: card.Id})}}
+              OnClick={() => {this.props.navigation.navigate("SurveyResult", { SurveyResultId: card.Id, SurveyResultCount: card.Count})}}
             />
           </View>
         ))}
@@ -40,6 +46,7 @@ class SurveyHistoryScreen extends React.Component<Props> {
 
 type Props = StackScreenProps<StackParamList, "SurveyHistory"> & {
   Survey: SurveyState;
+  retrieveResults: () => void;
 };
 
 function mapStateToProps(state: any) {
@@ -48,7 +55,11 @@ function mapStateToProps(state: any) {
   };
 }
 function mapDispatchToProps(dispatch: Function) {
-  return {};
+  return {
+    retrieveResults: () => {
+      dispatch(CombineAction.RetrieveResultsThunk());
+    }
+  };
 }
 
 export default connect(

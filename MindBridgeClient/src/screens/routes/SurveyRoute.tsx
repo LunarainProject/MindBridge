@@ -19,18 +19,12 @@ import Constants from "expo-constants";
 import { ScrollView } from "react-native-gesture-handler";
 import Background from "../../components/Background";
 import { BackHandleService } from "../../services/BackHandleService";
+import { Card } from "react-native-paper";
 
 class SurveyRoute extends React.Component<Props> {
-  private OnClickHandler: (
-    arg1: NativeSyntheticEvent<NativeTouchEvent>
-  ) => void;
 
   constructor(props: any) {
     super(props);
-
-    this.OnClickHandler = (e: NativeSyntheticEvent<NativeTouchEvent>): void => {
-      BackHandleService.Navigate("SurveyWeb");
-    };
   }
 
   render() {
@@ -47,11 +41,12 @@ class SurveyRoute extends React.Component<Props> {
                     {category.Cards.map((card: CardType, card_ind) => (
                       <View style={styles.cardMargin} key={card_ind}>
                         <SurveyCard
+                          Image={card.Image}
                           Title={card.Title}
                           Subtitle={card.Subtitle}
                           ButtonLabel={card.ButtonLabel}
                           InfoLabel={card.InfoLabel}
-                          OnClick={this.OnClickHandler}
+                          OnClick={() => { BackHandleService.Navigate("SurveyWeb", null, {SurveyId: card.Id}); } }
                         />
                       </View>
                     ))}

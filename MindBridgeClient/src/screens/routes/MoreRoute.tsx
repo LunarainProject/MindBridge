@@ -1,7 +1,7 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
 import Constants from "expo-constants";
-import { StyleSheet, View, Text, BackHandler } from "react-native";
+import { StyleSheet, View, Text, BackHandler, Image } from "react-native";
 import DoubleCard from "../../components/DoubleCard";
 import Profile from "../../components/Profile";
 
@@ -9,16 +9,24 @@ import Tab from "../../components/Tab";
 import StackParamList from "../StackParamList";
 import Background from "../../components/Background";
 import { BackHandleService } from "../../services/BackHandleService";
-import { LoginState } from "../../StateTypes";
+import { LoginState, PrivacyState, UserInfo } from "../../StateTypes";
 import CombineAction from "../../CombineAction";
 import { connect } from "react-redux";
+import { Dialog, TextInput, Button, Portal, DefaultTheme } from "react-native-paper";
 
 class MoreRoute extends React.Component<Props> {
 
+  state = {
+    dialog: false,
+    email: "",
+  }
+
   private myPage = <MyPage onLogout={this.props.Logout}
-                           myName={this.props.LoginState.user?.givenName ?? ""}
-                           spouseName="망둥이"
-                           sex="male"
+                           userInfo={this.props.PrivacyState.UserInfo}
+                           spouseInfo={this.props.PrivacyState.SpouseInfo}
+                           onMatch={() => {
+                              this.setState({dialog: true});
+                           }}
                     />;
   private info = <Info />;
 
@@ -27,10 +35,53 @@ class MoreRoute extends React.Component<Props> {
     { title: "마이페이지", route: this.myPage },
   ];
 
+  componentDidMount() {
+    this.props.RetrieveSpouseInfo();
+  }
 
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
+        <Portal>
+        <Dialog
+          visible={this.state.dialog}
+          onDismiss={() => {
+            this.setState({ dialog: false});
+            this.setState({ email: ""});
+          }}
+        >
+          <Dialog.Title>
+            배우자 등록
+          </Dialog.Title>
+          <Dialog.Content>
+            <TextInput
+              label="배우자 이메일"
+              mode="outlined"
+              onChangeText={(value) => {
+                this.setState({email: value})
+              }}
+              style={{width: "100%"}}
+              theme={{
+                ...DefaultTheme,
+                colors: {
+                  ...DefaultTheme.colors,
+                  primary: '#F060A9',
+                }
+              }}
+            >
+            </TextInput>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button labelStyle={{ margin: 10, marginRight: 30, color: "#F970B9"}} onPress={() => { 
+              this.setState({ email: "" });
+              this.setState({ dialog: false }); 
+            }}>취소</Button>
+            <Button labelStyle={{ margin: 10, color: "#F970B9"}} 
+                    onPress={() => {
+              this.props.MatchSpouse(this.state.email)
+            }}>확인</Button>
+          </Dialog.Actions>
+        </Dialog></Portal>
         <View style={styles.statusBar}></View>
         <Background Title="더보기">
           <View style={styles.main}>
@@ -39,7 +90,9 @@ class MoreRoute extends React.Component<Props> {
                 tabs={this.tabs}
                 style={{ marginLeft: 20 }}
                 tabWidth={100}
-                onChange={() => {}}
+                onChange={(tab) => {
+                  if(tab == 1) this.props.RetrieveSpouseInfo();
+                }}
               />
             </View>
           </View>
@@ -50,13 +103,15 @@ class MoreRoute extends React.Component<Props> {
 }
 
 type Props = StackScreenProps<StackParamList, "Main"> & {
-  Logout: Function;
-  LoginState: LoginState;
+  Logout: () => void;
+  RetrieveSpouseInfo: () => void;
+  MatchSpouse: (email: string) => void;
+  PrivacyState: PrivacyState;
 };
 
 function mapStateToProps(state: any) {
   return {
-    LoginState: state.Login,
+    PrivacyState: state.Privacy,
   };
 }
 function mapDispatchToProps(dispatch: Function) {
@@ -64,6 +119,14 @@ function mapDispatchToProps(dispatch: Function) {
     Logout: () => {
       dispatch(CombineAction.LogoutThunk());
     },
+
+    MatchSpouse: (email: string) => {
+      dispatch(CombineAction.MatchSpouseThunk(email));
+    },
+
+    RetrieveSpouseInfo: () => {
+      dispatch(CombineAction.RetrieveSpouseInfoThunk());
+    }
   };
 }
 
@@ -71,13 +134,22 @@ export default connect(mapStateToProps, mapDispatchToProps)(MoreRoute);
 
 
 class MyPage extends React.Component<MyPageProps> {
+
+  state = {
+    dialog: 'none',
+  }
+
   private buttonInfo: [
     { text: string; onClick: Function },
     { text: string; onClick: Function }
   ][] = [
     [
-      { text: "내 프로필", onClick: () => {} },
-      { text: "배우자 프로필", onClick: () => {} },
+      { text: "내 프로필", onClick: () => {
+        this.setState({dialog: 'user'})
+      } },
+      { text: "배우자 프로필", onClick: () => {
+        this.setState({dialog: 'spouse'})
+      } },
     ],
 
     [
@@ -103,12 +175,58 @@ class MyPage extends React.Component<MyPageProps> {
   render() {
     return (
       <View style={styles.pageRightContainer}>
+
+        <Portal>
+        <Dialog
+          visible={this.state.dialog !== 'none'}
+          onDismiss={() => {
+            this.setState({ dialog: 'none'});
+          }}
+        >
+          <Dialog.Title>
+            프로필
+          </Dialog.Title>
+          <Dialog.Content>
+            <View style = {{justifyContent: "center", alignItems: "center"}}>
+            <View style={{width: 200, height: 200, borderRadius: 100, overflow: 'hidden', marginBottom: 20}}>
+              {this.state.dialog == 'user' &&
+              <Image style={{width: 200, height: 200}} 
+              source={{uri: this.props.userInfo.image}}></Image>
+              }
+              {this.state.dialog == 'spouse' &&
+              <Image style={{width: 200, height: 200}} 
+              source={{uri: this.props.spouseInfo.image}}></Image>
+              }
+            </View>
+            {this.state.dialog == 'user' &&
+              <Text style={styles.name}>
+                {this.props.userInfo.name}
+              </Text>
+            }
+            {this.state.dialog == 'spouse' &&
+              <Text style={styles.name}>
+                {this.props.spouseInfo.name}
+              </Text>
+            }
+            </View>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button labelStyle={{ margin: 10, marginRight: 30, color: "#F970B9"}} onPress={() => { 
+              this.setState({ dialog: 'none' }); 
+            }}>닫기</Button>
+          </Dialog.Actions>
+          </Dialog>
+        </Portal>
+
         <View style={styles.cardMargin}>
           <Profile
-            myName={this.props.myName}
-            myState={this.props.sex == "male"? "남편" : "아내"} 
-            spouseName={this.props.spouseName}
-            spouseState={this.props.sex == "female"? "남편" : "아내"} 
+            myName={this.props.userInfo.name}
+            myState={this.props.userInfo.sex == "male"? "남편" : "아내"} 
+            myImage={this.props.userInfo.image}
+            spouseName={this.props.spouseInfo.name}
+            spouseState={this.props.spouseInfo.sex == "male"? "남편" : "아내"} 
+            spouseImage={this.props.spouseInfo.image}
+            onMatch={this.props.onMatch}
           />
         </View>
         {this.buttonInfo.map((val, ind) => (
@@ -120,7 +238,12 @@ class MyPage extends React.Component<MyPageProps> {
     );
   }
 }
-type MyPageProps = { onLogout: Function, myName: string, spouseName: string, sex: "male" | "female" };
+type MyPageProps = { 
+  onLogout: Function, 
+  userInfo: UserInfo, 
+  spouseInfo: UserInfo, 
+  onMatch: () => void, 
+};
 
 class Info extends React.Component {
   private buttonInfo: [
@@ -161,6 +284,10 @@ const radius = 10;
 const styles = StyleSheet.create({
   main: {
     flex: 1,
+  },
+
+  name : {
+    fontSize: 20,
   },
 
   statusBar: {

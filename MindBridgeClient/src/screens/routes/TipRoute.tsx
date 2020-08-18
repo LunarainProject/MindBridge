@@ -20,6 +20,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import Background from "../../components/Background";
 import TabBackground from "../../components/TabBackground";
 import { Paragraph } from "react-native-paper";
+import { BackHandleService } from "../../services/BackHandleService";
 
 class TipRoute extends React.Component<Props> {
   constructor(props: any) {
@@ -30,8 +31,8 @@ class TipRoute extends React.Component<Props> {
     //this.tabRef.current?.changeFocused(1);
   }
 
-  video = <Video Card={this.props.Card}/>;
-  column = <Column Card={this.props.Card}/>;
+  video = <Video Card={this.props.Card} />;
+  column = <Column Card={this.props.Card} />;
   hahim = <Hahim />;
 
   tabs = [
@@ -92,7 +93,11 @@ class Column extends React.Component<SubProps> {
             Description={card.Description}
             ButtonLabel={card.ButtonLabel}
             InfoLabel=""
-            OnClick={() => {}}
+            OnClick={() => {
+              BackHandleService.Navigate("TipWeb", null, {
+                ColumnId: card.Id
+              })
+            }}
           />
         </View>
         ))}

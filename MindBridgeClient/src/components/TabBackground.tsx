@@ -13,6 +13,7 @@ import Constants from "expo-constants";
 import Background from "./Background";
 import { Title } from "react-native-paper";
 import GestureRecognizer from "react-native-swipe-gestures";
+import { yellow100 } from "react-native-paper/lib/typescript/src/styles/colors";
 
 export default class TabBackground extends React.Component<Props> {
   state = {
@@ -181,6 +182,8 @@ type Props = {
   style: any;
 };
 
+const height = Dimensions.get("screen").height - 330;
+
 const styles = StyleSheet.create({
   heading: {
     height: 80 - Constants.statusBarHeight,
@@ -237,6 +240,7 @@ const styles = StyleSheet.create({
   tabScreen: {
     flex: 1,
     flexDirection: "row",
+    minHeight: height,
   },
 
   tabBar: {

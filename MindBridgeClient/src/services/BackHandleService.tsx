@@ -3,10 +3,25 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import StackParamList from "../screens/StackParamList";
 
 export class BackHandleService {
+
+  public static Switch(
+    name: any,
+    navigation: any,
+    params: any = undefined,
+  ): void {
+    navigation.goBack();
+    setTimeout(() =>
+    this._mainNavigation.navigate(name, params) , 1000);
+  }
+
   public static Navigate(
     name: any,
-    navigation: any = this._mainNavigation
+    navigation: any = this._mainNavigation,
+    params: any = undefined,
   ): void {
+
+    if(navigation === undefined || navigation === null) navigation = this._mainNavigation;
+
     if (name !== "Main" && this._isMain) {
       BackHandler.removeEventListener(
         "hardwareBackPress",
@@ -14,7 +29,7 @@ export class BackHandleService {
       );
       this._isMain = false;
     }
-    if (navigation) navigation.navigate(name);
+    if (navigation) navigation.navigate(name, params);
   }
 
   //Managed by handler in MainScreen.

@@ -111,8 +111,12 @@ class MainScreen extends React.Component<Props> {
   }
 
   componentDidMount() {
-    this.props.SetFakeData();
-    this.props.LoadResults();
+    this.props.InitUserInfo();
+    this.props.InitSpouseInfo();
+    this.props.InitSurvey();
+    this.props.InitOverview();
+    this.props.InitResults();
+    this.props.InitTip();
     BackHandleService.MainScreenDidMount();
   }
 
@@ -165,8 +169,12 @@ const styles = StyleSheet.create({
 });
 
 type Props = StackScreenProps<StackParamList, "Main"> & {
-  SetFakeData: () => void;
-  LoadResults: () => void;
+  InitResults: () => void;
+  InitSurvey: () => void;
+  InitUserInfo: () => void;
+  InitSpouseInfo: () => void;
+  InitOverview: () => void;
+  InitTip: () => void;
 };
 
 function mapStateToProps(state: any) {
@@ -175,11 +183,23 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(dispatch: Function) {
   return {
-    SetFakeData: (): void => {
-      dispatch(CombineAction.SetFakeData());
+    InitResults: (): void => {
+      dispatch(CombineAction.RetrieveResultsThunk());
     },
-    LoadResults: (): void => {
-      dispatch(CombineAction.LoadResultsThunk());
+    InitSurvey: (): void => {
+      dispatch(CombineAction.RetrieveSurveyThunk());
+    },
+    InitOverview: (): void => {
+      dispatch(CombineAction.RetrieveOverviewThunk());
+    },
+    InitTip: (): void => {
+      dispatch(CombineAction.RetrieveTipThunk());
+    },
+    InitUserInfo: (): void => {
+      dispatch(CombineAction.RetrieveUserInfoThunk());
+    },
+    InitSpouseInfo: (): void => {
+      dispatch(CombineAction.RetrieveSpouseInfoThunk());
     }
   };
 }

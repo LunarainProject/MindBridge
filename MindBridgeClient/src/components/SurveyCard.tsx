@@ -20,7 +20,7 @@ export default class SurveyCard extends React.Component<Props> {
             <Image
               style={styles.image}
               resizeMode="cover"
-              source={require("../drawables/wait_normal.png")}
+              source={{uri: this.props.Image}}
             ></Image>
           </View>
           <View style={styles.textContainer}>
@@ -58,6 +58,7 @@ type Props = {
   Subtitle: string;
   ButtonLabel: string;
   InfoLabel: string;
+  Image: string;
   OnClick: (arg1: NativeSyntheticEvent<NativeTouchEvent>) => void;
 };
 

@@ -4,7 +4,9 @@ const ActionTypes = {
     COUNT_DOWN: 'COUNT_DOWN',
 
     //Card Actions
-    SET_FAKE_DATA: 'SET_FAKE_DATA',
+    SET_SURVEY: 'SET_SURVEY',
+    SET_OVERVIEW: 'SET_OVERVIEW',
+    SET_TIP: 'SET_TIP',
 
     //Login Actions
     LOGIN: 'LOGIN',
@@ -12,7 +14,11 @@ const ActionTypes = {
     REGISTER: 'REGISTER',
 
     //Survey Actions
-    ADD_RESULT: 'SAVE_RESUT',
+    SET_RESULT: 'SET_RESULT',
+
+    //Privacy Actions
+    SET_USER_INFO: 'SET_USER_INFO',
+    SET_SPOUSE_INFO: 'SET_SPOUSE_INFO',
 }
 
 export default ActionTypes;

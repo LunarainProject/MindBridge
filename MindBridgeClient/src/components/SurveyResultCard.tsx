@@ -24,7 +24,7 @@ export default class SurveyResultCard extends React.Component<Props> {
             <Image
               style={styles.image}
               resizeMode="cover"
-              source={require("../drawables/wait_normal.png")}
+              source={{uri: this.props.image}}
             ></Image>
           </View>
           <View style={styles.textContainer}>
@@ -51,6 +51,7 @@ type Props = {
   Title: string;
   Date: Date;
   OnClick: Function;
+  image: string;
 };
 
 const radius = 10;

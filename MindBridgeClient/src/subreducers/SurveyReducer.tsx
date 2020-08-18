@@ -1,14 +1,14 @@
 import ActionTypes from "../actions/ActionTypes";
-import { AddResultAction, SurveyActions } from "../actions/SurveyActions";
+import { SetResultAction, SurveyActions } from "../actions/SurveyActions";
 import { SurveyState } from "../StateTypes";
 
 export default (state: SurveyState = {
   SurveyResultCards: []
 }, action: SurveyActions): SurveyState => {
   switch (action.type) {
-    case ActionTypes.ADD_RESULT:
+    case ActionTypes.SET_RESULT:
     {
-      state = { SurveyResultCards: [...state.SurveyResultCards, ...(action as AddResultAction).resultCards]}
+      state = { SurveyResultCards: (action as SetResultAction).resultCards}
       return state;
     }
     default:

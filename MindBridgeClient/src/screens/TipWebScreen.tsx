@@ -16,23 +16,12 @@ import { connect } from "react-redux";
 import { LoginState } from "../StateTypes";
 import { StackActions } from "@react-navigation/native";
 
-class SurveyWebScreen extends React.Component<Props, State> {
-  private OnClickTestHandler: (
-    arg1: NativeSyntheticEvent<NativeTouchEvent>
-  ) => void;
+class TipWebScreen extends React.Component<Props, State> {
 
-  private surveyUri: string = "http://gfs3456.cafe24.com/manage/TestStartPage";
+  private columnUri: string = "http://gfs3456.cafe24.com/manage/ColumnScreen";
 
   constructor(props: Props) {
     super(props);
-
-    this.OnClickTestHandler = (
-      e: NativeSyntheticEvent<NativeTouchEvent>
-    ): void => {
-      props.navigation.navigate("Test");
-      return;
-    };
-
     this.state = {
       isWebViewLoaded: false,
     };
@@ -45,34 +34,8 @@ class SurveyWebScreen extends React.Component<Props, State> {
           onLoad={() => {
             this.setState({ isWebViewLoaded: true });
           }}
-          source={{ uri: `${this.surveyUri}/${this.props.route.params.SurveyId}/${this.props.LoginState.idToken}`}}
+          source={{ uri: `${this.columnUri}/${this.props.route.params.ColumnId}`}}
           style={styles.webView}
-          onMessage={(event) => {
-            switch (event.nativeEvent.data) {
-              case 'mindbridge': {
-                Alert.alert(
-                  "알콩달콩",
-                  "테스트가 완료되었습니다. 테스트 결과를 보시겠습니까?",
-                  [
-                    {
-                      text: "취소",
-                      onPress: () => {
-                        this.props.navigation.goBack();
-                      },
-                      style: "cancel"
-                    },
-                    { text: "확인", onPress: () => {
-                      /*  back handler problem fix */
-                      this.props.navigation.dispatch(
-                        StackActions.replace("SurveyHistory")
-                      );
-                    }}
-                  ],
-                  { cancelable: false }
-                );
-                break;
-              }
-          }}}
         />
         {!this.state.isWebViewLoaded && (
           <View style={styles.asyncScreen}>
@@ -88,13 +51,12 @@ type State = {
   isWebViewLoaded: boolean;
 };
 
-type Props = StackScreenProps<StackParamList, "SurveyWeb"> & {
+type Props = StackScreenProps<StackParamList, "TipWeb"> & {
   LoginState: LoginState
 };
 
 function mapStateToProps(state: any) {
   return {
-    LoginState: state.Login
   };
 }
 
@@ -103,7 +65,7 @@ function mapDispatchToProps(dispatch: Function) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SurveyWebScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(TipWebScreen);
 
 const styles = StyleSheet.create({
 
