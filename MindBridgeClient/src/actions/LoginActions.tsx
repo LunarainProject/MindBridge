@@ -105,8 +105,11 @@ export const AutoLoginThunk = () => async (dispatch: Function) => {
   //자동 로그인 부분 구현
   //기존의 Auth정보를 이용하여 구글 로그인을 암묵적으로 수행합니다
 
+  console.log("autologin");
+
   if (__DEV__) {
     //바로 자동 로그인 실패
+    console.log("development mode")
     const loggedIn: boolean = false;
     const autoLogin: boolean = false;
     const needRegister: boolean = false;
@@ -123,6 +126,7 @@ export const AutoLoginThunk = () => async (dispatch: Function) => {
     console.log(user, idToken);
 
     if (user !== null) {
+      console.log("production mode");
       //시작하기 성공
       if ((await ServerService.CheckUserRegistered(idToken)) === "Success") {
         //이미 등록된 경우

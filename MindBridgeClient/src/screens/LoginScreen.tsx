@@ -43,9 +43,15 @@ class LoginScreen extends React.Component<Props> {
     this.props.navigation.navigate("Main");
   }
 
-  async componentDidMountAsync() {
+  async componentDidMount() {
+    
+    console.log('login init');
 
-    await GoogleService.initAsync();
+    try {
+      await GoogleService.initAsync();
+    } catch(e) {
+      console.log("initialization error: ", e);
+    }
 
     if (this.props.LoginState.autoLogin) {
       setTimeout(() => {
