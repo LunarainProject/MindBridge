@@ -106,20 +106,11 @@ export const RetrieveOverviewThunk = () => async (dispatch: Function, getState: 
         ]
     }
     
+    const fullVideo = await ServerService.GetVideoList();
     const video: CardCategoryType = {
-        Title: "추천 영상",
-        Cards: [
-            {
-                Id: "",
-                Title: "테스트용 영상",
-                Subtitle: "테스트용 영상입니다",
-                Description: "테스트용 영상 설명",
-                ButtonLabel: "보러가기",
-                InfoLabel: "",
-            }
-        ]
+        Title: fullVideo.Title,
+        Cards: [fullVideo.Cards[0]]
     }
-
     const fullColumn = await ServerService.GetColumnList();
     const column: CardCategoryType = {
         Title: fullColumn.Title,
@@ -133,18 +124,6 @@ export const RetrieveOverviewThunk = () => async (dispatch: Function, getState: 
 
 export const RetrieveTipThunk = () => async (dispatch: Function, getState: Function) => {
     const column = await ServerService.GetColumnList();
-    const video: CardCategoryType = {
-        Title: "추천 영상",
-        Cards: [
-            {
-                Id: "",
-                Title: "테스트용 영상",
-                Subtitle: "테스트용 영상입니다",
-                Description: "테스트용 영상 설명",
-                ButtonLabel: "보러가기",
-                InfoLabel: "",
-            }
-        ]
-    }
+    const video = await ServerService.GetVideoList();
     dispatch(_SetTip(column, video));
 }
