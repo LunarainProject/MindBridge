@@ -21,6 +21,7 @@ import CombineAction from "../CombineAction";
 import { LoginState } from "../StateTypes";
 import StackParamList from "./StackParamList";
 import * as Google from "expo-google-app-auth";
+import GoogleService from "../services/GoogleService";
 
 class LoginScreen extends React.Component<Props> {
   state = {
@@ -42,7 +43,10 @@ class LoginScreen extends React.Component<Props> {
     this.props.navigation.navigate("Main");
   }
 
-  componentDidMount() {
+  async componentDidMountAsync() {
+
+    await GoogleService.initAsync();
+
     if (this.props.LoginState.autoLogin) {
       setTimeout(() => {
         this.props.AutoLogin();

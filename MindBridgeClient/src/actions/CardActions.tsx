@@ -111,9 +111,9 @@ export const RetrieveOverviewThunk = () => async (dispatch: Function, getState: 
         Cards: [
             {
                 Id: "",
-                Title: "김성묵인지 김상목인지 그게 뭔상관이야 시발",
-                Subtitle: "진짜 죶가네",
-                Description: "상국아~~~",
+                Title: "테스트용 영상",
+                Subtitle: "테스트용 영상입니다",
+                Description: "테스트용 영상 설명",
                 ButtonLabel: "보러가기",
                 InfoLabel: "",
             }
@@ -138,9 +138,9 @@ export const RetrieveTipThunk = () => async (dispatch: Function, getState: Funct
         Cards: [
             {
                 Id: "",
-                Title: "김성묵인지 김상목인지 그게 뭔상관이야 시발",
-                Subtitle: "진짜 죶가네",
-                Description: "상국아~~~",
+                Title: "테스트용 영상",
+                Subtitle: "테스트용 영상입니다",
+                Description: "테스트용 영상 설명",
                 ButtonLabel: "보러가기",
                 InfoLabel: "",
             }
