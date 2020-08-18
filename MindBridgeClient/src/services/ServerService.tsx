@@ -228,7 +228,7 @@ export default class ServerService {
 
     public static async GetSpouseInfo(idToken: string | null): Promise<UserInfo | null>
     {
-        console.log("Get SPOUSE INFO");
+        console.log("Get SPOUSE INFO", idToken);
 
         if(idToken !== null) {
             let response;
@@ -240,10 +240,12 @@ export default class ServerService {
                 console.log('fetch error: ', e);
             }
 
+            console.log('fetch end');
+
             let text: string | undefined;
             try {
                 text = await response?.text();
-                console.log(text);
+                console.log('[text : ', text, ']');
                 switch(text) {
                     case "등록되지 않은 유저입니다.":
                         console.log("등록되지 않은 유저입니다.");
@@ -454,6 +456,22 @@ export default class ServerService {
         }
 
         return [];
+    }
+
+    public static async CancelMembershipList(idToken: string | null) {
+        if(idToken !== null)
+        {
+            let response;
+            try {
+                response = await FetchBuilder.build("http://gfs3456.cafe24.com/api/CancelMemberShip.php")
+                                             .param("id_token", idToken)
+                                             .fetch();
+            } catch(e) {
+                console.log('fetch error: ', e);
+            }
+
+            console.log(await response?.text());
+        }
     }
 }
 

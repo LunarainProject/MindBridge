@@ -110,6 +110,7 @@ class RegisterScreen extends React.Component<Props> {
           </Text>
           <Button
             onPress={() => {
+              this.props.navigation.goBack();
               this.props.Register(this.state.date, this.state.value)
             }}
             mode="contained"

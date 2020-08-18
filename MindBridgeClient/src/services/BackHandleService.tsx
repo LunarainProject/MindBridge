@@ -100,7 +100,6 @@ export class BackHandleService {
   }
 
   public static MainGoBack() {
-    console.log(this._mainNavigation);
     this._mainNavigation.goBack();
   }
   

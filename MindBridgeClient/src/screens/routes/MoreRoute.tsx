@@ -1,7 +1,14 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import React from "react";
 import Constants from "expo-constants";
-import { StyleSheet, View, Text, BackHandler, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  BackHandler,
+  Image,
+  Alert,
+} from "react-native";
 import DoubleCard from "../../components/DoubleCard";
 import Profile from "../../components/Profile";
 
@@ -12,27 +19,36 @@ import { BackHandleService } from "../../services/BackHandleService";
 import { LoginState, PrivacyState, UserInfo } from "../../StateTypes";
 import CombineAction from "../../CombineAction";
 import { connect } from "react-redux";
-import { Dialog, TextInput, Button, Portal, DefaultTheme } from "react-native-paper";
+import {
+  Dialog,
+  TextInput,
+  Button,
+  Portal,
+  DefaultTheme,
+} from "react-native-paper";
 
 class MoreRoute extends React.Component<Props> {
-
   state = {
     dialog: false,
     email: "",
-  }
+  };
 
-  private myPage = <MyPage onLogout={this.props.Logout}
-                           userInfo={this.props.PrivacyState.UserInfo}
-                           spouseInfo={this.props.PrivacyState.SpouseInfo}
-                           onMatch={() => {
-                              this.setState({dialog: true});
-                           }}
-                    />;
-  private info = <Info />;
+  private myPage = () => (
+    <MyPage
+      onLogout={this.props.Logout}
+      userInfo={this.props.PrivacyState.UserInfo}
+      spouseInfo={this.props.PrivacyState.SpouseInfo}
+      CancelMembership={this.props.CancelMembership}
+      onMatch={() => {
+        this.setState({ dialog: true });
+      }}
+    />
+  );
+  private info = () => (<Info />);
 
-  private tabs = [
-    { title: "알림센터", route: this.info },
-    { title: "마이페이지", route: this.myPage },
+  private tabs = () => [
+    { title: "알림센터", route: this.info() },
+    { title: "마이페이지", route: this.myPage() },
   ];
 
   componentDidMount() {
@@ -43,55 +59,65 @@ class MoreRoute extends React.Component<Props> {
     return (
       <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
         <Portal>
-        <Dialog
-          visible={this.state.dialog}
-          onDismiss={() => {
-            this.setState({ dialog: false});
-            this.setState({ email: ""});
-          }}
-        >
-          <Dialog.Title>
-            배우자 등록
-          </Dialog.Title>
-          <Dialog.Content>
-            <TextInput
-              label="배우자 이메일"
-              mode="outlined"
-              onChangeText={(value) => {
-                this.setState({email: value})
-              }}
-              style={{width: "100%"}}
-              theme={{
-                ...DefaultTheme,
-                colors: {
-                  ...DefaultTheme.colors,
-                  primary: '#F060A9',
-                }
-              }}
-            >
-            </TextInput>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button labelStyle={{ margin: 10, marginRight: 30, color: "#F970B9"}} onPress={() => { 
+          <Dialog
+            visible={this.state.dialog}
+            onDismiss={() => {
+              this.setState({ dialog: false });
               this.setState({ email: "" });
-              this.setState({ dialog: false }); 
-            }}>취소</Button>
-            <Button labelStyle={{ margin: 10, color: "#F970B9"}} 
-                    onPress={() => {
-              this.props.MatchSpouse(this.state.email)
-            }}>확인</Button>
-          </Dialog.Actions>
-        </Dialog></Portal>
+            }}
+          >
+            <Dialog.Title>배우자 등록</Dialog.Title>
+            <Dialog.Content>
+              <TextInput
+                label="배우자 이메일"
+                mode="outlined"
+                onChangeText={(value) => {
+                  this.setState({ email: value });
+                }}
+                style={{ width: "100%" }}
+                theme={{
+                  ...DefaultTheme,
+                  colors: {
+                    ...DefaultTheme.colors,
+                    primary: "#F060A9",
+                  },
+                }}
+              ></TextInput>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                labelStyle={{ margin: 10, marginRight: 30, color: "#F970B9" }}
+                onPress={() => {
+                  this.setState({ email: "" });
+                  this.setState({ dialog: false });
+                }}
+              >
+                취소
+              </Button>
+              <Button
+                labelStyle={{ margin: 10, color: "#F970B9" }}
+                onPress={() => {
+                  console.log("match spouse");
+                  this.props.MatchSpouse(this.state.email);
+                  console.log("match spouse end");
+                  this.setState({ dialog: false});
+                }}
+              >
+                확인
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
         <View style={styles.statusBar}></View>
         <Background Title="더보기">
           <View style={styles.main}>
             <View style={styles.tabContainer}>
               <Tab
-                tabs={this.tabs}
+                tabs={this.tabs()}
                 style={{ marginLeft: 20 }}
                 tabWidth={100}
                 onChange={(tab) => {
-                  if(tab == 1) this.props.RetrieveSpouseInfo();
+                  if (tab == 1) this.props.RetrieveSpouseInfo();
                 }}
               />
             </View>
@@ -107,6 +133,7 @@ type Props = StackScreenProps<StackParamList, "Main"> & {
   RetrieveSpouseInfo: () => void;
   MatchSpouse: (email: string) => void;
   PrivacyState: PrivacyState;
+  CancelMembership: () => void;
 };
 
 function mapStateToProps(state: any) {
@@ -126,30 +153,38 @@ function mapDispatchToProps(dispatch: Function) {
 
     RetrieveSpouseInfo: () => {
       dispatch(CombineAction.RetrieveSpouseInfoThunk());
-    }
+    },
+
+    CancelMembership: () => {
+      dispatch(CombineAction.CancelMembership());
+    },
   };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MoreRoute);
 
-
 class MyPage extends React.Component<MyPageProps> {
-
   state = {
-    dialog: 'none',
-  }
+    dialog: "none",
+  };
 
   private buttonInfo: [
     { text: string; onClick: Function },
     { text: string; onClick: Function }
   ][] = [
     [
-      { text: "내 프로필", onClick: () => {
-        this.setState({dialog: 'user'})
-      } },
-      { text: "배우자 프로필", onClick: () => {
-        this.setState({dialog: 'spouse'})
-      } },
+      {
+        text: "내 프로필",
+        onClick: () => {
+          this.setState({ dialog: "user" });
+        },
+      },
+      {
+        text: "배우자 프로필",
+        onClick: () => {
+          this.setState({ dialog: "spouse" });
+        },
+      },
     ],
 
     [
@@ -163,68 +198,104 @@ class MyPage extends React.Component<MyPageProps> {
     ],
 
     [
-      { text: "로그아웃", onClick: () => {
-        BackHandleService.MainGoBack();
-        this.props.onLogout();
-        
-      } },
-      { text: "회원 탈퇴", onClick: () => {} },
+      {
+        text: "로그아웃",
+        onClick: () => {
+          BackHandleService.MainGoBack();
+          this.props.onLogout();
+        },
+      },
+      {
+        text: "회원 탈퇴",
+        onClick: () => {
+          Alert.alert(
+            "알콩달콩",
+            "정말로 탈퇴하시겠습니까?",
+            [
+              {
+                text: "취소",
+                onPress: () => {
+                },
+                style: "cancel",
+              },
+              {
+                text: "확인",
+                onPress: () => {
+                  BackHandleService.MainGoBack();
+                  this.props.CancelMembership();
+                },
+              },
+            ],
+            { cancelable: false }
+          );
+        },
+      },
     ],
   ];
 
   render() {
     return (
       <View style={styles.pageRightContainer}>
-
         <Portal>
-        <Dialog
-          visible={this.state.dialog !== 'none'}
-          onDismiss={() => {
-            this.setState({ dialog: 'none'});
-          }}
-        >
-          <Dialog.Title>
-            프로필
-          </Dialog.Title>
-          <Dialog.Content>
-            <View style = {{justifyContent: "center", alignItems: "center"}}>
-            <View style={{width: 200, height: 200, borderRadius: 100, overflow: 'hidden', marginBottom: 20}}>
-              {this.state.dialog == 'user' &&
-              <Image style={{width: 200, height: 200}} 
-              source={{uri: this.props.userInfo.image}}></Image>
-              }
-              {this.state.dialog == 'spouse' &&
-              <Image style={{width: 200, height: 200}} 
-              source={{uri: this.props.spouseInfo.image}}></Image>
-              }
-            </View>
-            {this.state.dialog == 'user' &&
-              <Text style={styles.name}>
-                {this.props.userInfo.name}
-              </Text>
-            }
-            {this.state.dialog == 'spouse' &&
-              <Text style={styles.name}>
-                {this.props.spouseInfo.name}
-              </Text>
-            }
-            </View>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button labelStyle={{ margin: 10, marginRight: 30, color: "#F970B9"}} onPress={() => { 
-              this.setState({ dialog: 'none' }); 
-            }}>닫기</Button>
-          </Dialog.Actions>
+          <Dialog
+            visible={this.state.dialog !== "none"}
+            onDismiss={() => {
+              this.setState({ dialog: "none" });
+            }}
+          >
+            <Dialog.Title>프로필</Dialog.Title>
+            <Dialog.Content>
+              <View style={{ justifyContent: "center", alignItems: "center" }}>
+                <View
+                  style={{
+                    width: 200,
+                    height: 200,
+                    borderRadius: 100,
+                    overflow: "hidden",
+                    marginBottom: 20,
+                  }}
+                >
+                  {this.state.dialog == "user" && (
+                    <Image
+                      style={{ width: 200, height: 200 }}
+                      source={{ uri: this.props.userInfo.image }}
+                    ></Image>
+                  )}
+                  {this.state.dialog == "spouse" && (
+                    <Image
+                      style={{ width: 200, height: 200 }}
+                      source={{ uri: this.props.spouseInfo.image }}
+                    ></Image>
+                  )}
+                </View>
+                {this.state.dialog == "user" && (
+                  <Text style={styles.name}>{this.props.userInfo.name}</Text>
+                )}
+                {this.state.dialog == "spouse" && (
+                  <Text style={styles.name}>{this.props.spouseInfo.name}</Text>
+                )}
+              </View>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                labelStyle={{ margin: 10, marginRight: 30, color: "#F970B9" }}
+                onPress={() => {
+                  this.setState({ dialog: "none" });
+                }}
+              >
+                닫기
+              </Button>
+            </Dialog.Actions>
           </Dialog>
         </Portal>
 
         <View style={styles.cardMargin}>
           <Profile
             myName={this.props.userInfo.name}
-            myState={this.props.userInfo.sex == "male"? "남편" : "아내"} 
+            myState={this.props.userInfo.sex == "male" ? "남편" : "아내"}
             myImage={this.props.userInfo.image}
             spouseName={this.props.spouseInfo.name}
-            spouseState={this.props.spouseInfo.sex == "male"? "남편" : "아내"} 
+            spouseState={this.props.spouseInfo.sex == "male" ? "남편" : "아내"}
             spouseImage={this.props.spouseInfo.image}
             onMatch={this.props.onMatch}
           />
@@ -238,11 +309,12 @@ class MyPage extends React.Component<MyPageProps> {
     );
   }
 }
-type MyPageProps = { 
-  onLogout: Function, 
-  userInfo: UserInfo, 
-  spouseInfo: UserInfo, 
-  onMatch: () => void, 
+type MyPageProps = {
+  onLogout: Function;
+  userInfo: UserInfo;
+  spouseInfo: UserInfo;
+  onMatch: () => void;
+  CancelMembership: () => void;
 };
 
 class Info extends React.Component {
@@ -286,7 +358,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  name : {
+  name: {
     fontSize: 20,
   },
 

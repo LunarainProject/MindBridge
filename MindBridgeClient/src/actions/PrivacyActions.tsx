@@ -45,13 +45,20 @@ export const RetrieveUserInfoThunk = () => async (dispatch: Function, getState: 
 
 export const RetrieveSpouseInfoThunk = () => async (dispatch: Function, getState: Function) => {
     const { idToken } = (getState().Login as LoginState);
-    const spouseInfo = await ServerService.GetSpouseInfo(idToken);
-    if(spouseInfo) {
-        dispatch(_SetSpouseInfo(spouseInfo));
+    let spouseInfo = await ServerService.GetSpouseInfo(idToken);
+    if(spouseInfo === null) {
+      spouseInfo = {
+        name: "",
+        image: "",
+        birthDay: new Date(),
+        sex: "female",
+      }
     }
+    dispatch(_SetSpouseInfo(spouseInfo));
 }
 
 export const MatchSpouseThunk = (spouseEmail: string) => async (dispatch: Function, getState: Function) => {
+  console.log('match spouse thunk');
   const { idToken } = (getState().Login as LoginState);
   await ServerService.MatchSpouse(idToken, spouseEmail);
 }

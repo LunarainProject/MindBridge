@@ -151,3 +151,10 @@ export const AutoLoginThunk = () => async (dispatch: Function) => {
     dispatch(_Login(loggedIn, autoLogin, needRegister, user, idToken));
   }
 };
+
+export const CancelMembership = () => async (dispatch: Function, getState: Function) => {
+  const { idToken } = (getState().Login as LoginState);
+  await ServerService.CancelMembershipList(idToken);
+  await GoogleService.signOutAsync();
+  dispatch(_Logout());
+}

@@ -1,7 +1,6 @@
 import ActionTypes from "../actions/ActionTypes";
 import { PrivacyActions, SetSpouseInfoAction, SetUserInfoAction } from "../actions/PrivacyActions";
-import { AddResultAction } from "../actions/SurveyActions";
-import { PrivacyState, } from "../StateTypes";
+import { PrivacyState } from "../StateTypes";
 
 export default (state: PrivacyState = {
   UserInfo: {
