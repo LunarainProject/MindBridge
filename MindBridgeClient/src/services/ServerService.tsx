@@ -111,6 +111,60 @@ export default class ServerService {
         }
     }
 
+    public static async GetVideoList(): Promise<CardCategoryType>
+    {
+            let response;
+            try {
+                response = await FetchBuilder.build("http://gfs3456.cafe24.com/api/videolist.php")
+                                             .fetch();
+            } catch(e) {
+                console.log('fetch error: ', e);
+            }
+
+            type ResultPacket = {
+                videoSrl: string;
+                videoUrl: string;
+                title: string;
+                subtitle: string;
+                description: string;
+            }
+
+            let packet = null;
+
+            try {
+                packet = await response?.json();
+                console.log(packet);
+            } catch(e) {
+                console.log("json parse error :", e);
+            }
+
+            if(packet === null) {
+                return {
+                    Title: "부부 팁 영상",
+                    Cards: []
+                };
+            }
+
+            return {
+                Title: "부부 팁 영상",
+                Cards: Object.values(packet).map((result) => {
+                    const res = result as ResultPacket;
+                    console.log(res);
+                    const ret: CardType = {
+                        Title: res.title,
+                        Id: res.videoSrl,
+                        Image: `http://gfs3456.cafe24.com/videoImg/${res.videoSrl}.jpg`,
+                        Description: res.description,
+                        Subtitle: res.subtitle,
+                        ButtonLabel: "보러가기",
+                        InfoLabel: res.videoUrl,
+                    };
+                    return ret;
+                })
+            };
+    }
+    
+
     public static async GetUserInfo(idToken: string | null, user: GoogleUser | null): Promise<UserInfo>
     {
         if(idToken !== null)
@@ -352,7 +406,7 @@ export default class ServerService {
 
     public static async GetSurveyResultList(idToken: string | null): Promise<SurveyResultCardType[]> {
 
-        console.log("GSRL")
+        console.log("GSRL, idtoken: ", idToken);
 
         if(idToken !== null)
         {
