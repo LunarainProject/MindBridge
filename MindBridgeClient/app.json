@@ -24,12 +24,7 @@
     },
     "android": {
       "package": "com.dgsw.mindbridgeapp",
-      "config": {
-        "googleSignIn": {
-          "apiKey": "AIzaSyAYdYkZB3sPkjayg1e6E41-G-KNkw9qAJk",
-          "certificateHash": "CF92CC640B62B59D7439D2357ED87E27523C33EA"
-        }
-      }
+      "googleServicesFile": "./google-services.json"
     }
   }
 }
