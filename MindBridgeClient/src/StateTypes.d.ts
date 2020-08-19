@@ -7,12 +7,14 @@ export type CardType = {
     Description: string;
     ButtonLabel: string;
     InfoLabel: string;
-    Image: string;
+    Image: any;
 }
+
+
 
 export type CardCategoryType = {
     Title: string;
-    Cards: Card[];
+    Cards: CardType[];
 }
 
 export type CardState = {
@@ -53,7 +55,7 @@ export type SurveyResultCardType = {
     Title: string;
     Date: Date;
     Id: string;
-    Image: string;
+    Image: any;
     Count: string;
 }
 
