@@ -20,7 +20,7 @@ class Card extends React.Component<Props> {
         <View style={styles.imageContainer}>
           <RatioImage
             Ratio={16 / 9}
-            Source={require("../drawables/wait_normal.png")}
+            Source={(typeof this.props.Image == 'string')? {uri: this.props.Image}: this.props.Image}
           />
           <View style={styles.imageCoverGrad}>
             <LinearGradient
@@ -76,6 +76,7 @@ type Props = {
   ButtonLabel: string;
   InfoLabel: string;
   OnClick: (arg1: NativeSyntheticEvent<NativeTouchEvent>) => void;
+  Image: any;
 };
 
 export default Card;
