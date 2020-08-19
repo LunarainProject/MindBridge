@@ -228,7 +228,7 @@ export default class ServerService {
 
     public static async GetSpouseInfo(idToken: string | null): Promise<UserInfo | null>
     {
-        console.log("Get SPOUSE INFO", idToken);
+        console.log("GET SPOUSE INFO, id token: ", idToken);
 
         if(idToken !== null) {
             let response;
@@ -320,6 +320,7 @@ export default class ServerService {
             let text;
             try {
                 text = await response?.text();
+                console.log(`[text: ${text}]`);
                 switch(text) {
                     case "1 => 커플 등록이 완료되었습니다.":
                         alert("배우자가 나를 등록하면 매칭이 완료됩니다.")
@@ -388,7 +389,7 @@ export default class ServerService {
         }
 
         const ret: CardCategoryType = {
-            Title: "실전 부부 팁",
+            Title: "부부 팁 칼럼",
             Cards: packet?.map((pack) => {
                 const card: CardType = {
                     Id: pack.ColumnSrl,
