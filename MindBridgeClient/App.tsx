@@ -18,7 +18,68 @@ const theme = {
 
 export default function App() {
   return (
-    <ReduxProvider store={createStore(CombineReducer, applyMiddleware(ReduxThunk))}>
+    <ReduxProvider store={createStore(CombineReducer, {
+      Count: {
+        Count: 0,
+      },
+      Card: {
+        OverviewSurveyCategory: {
+          Title: "테스트",
+          Cards: [],
+        },
+        OverviewVideoCategory: {
+          Title: "추천 영상",
+          Cards: [],
+        },
+        OverviewColumnCategory: {
+          Title: "추천 칼럼",
+          Cards: [],
+        },
+        SurveyCategories: [
+          {
+            Title: "테스트1",
+            Cards: [],
+          },
+          {
+            Title: "테스트2",
+            Cards: [],
+          },
+        ],
+        TipVideoCategory: {
+          Title: "실전 팁 영상",
+          Cards: [],
+        },
+    
+        TipCategory: {
+          Title: "실전 팁 칼럼",
+          Cards: [],
+        },
+      },
+      Login: {
+        autoLogin: true,
+        loggedIn: false,
+        needRegister: false,
+        user: null,
+        idToken: null,
+      },
+      Privacy: {
+        UserInfo: {
+          name: "",
+          birthDay: new Date(),
+          image: "",
+          sex: "female",
+        },
+        SpouseInfo: {
+          name: "",
+          birthDay: new Date(),
+          image: "",
+          sex: "male",
+        }
+      },
+      Survey: {
+        SurveyResultCards: []
+      }
+    } ,applyMiddleware(ReduxThunk))}>
       <PaperProvider theme={theme}>
         <Main />
       </PaperProvider>
