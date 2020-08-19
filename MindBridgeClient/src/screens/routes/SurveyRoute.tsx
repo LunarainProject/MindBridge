@@ -7,7 +7,7 @@ import {
   Button,
   NativeSyntheticEvent,
   NativeTouchEvent,
-  BackHandler,
+  BackHandler, Dimensions
 } from "react-native";
 import { connect } from "react-redux";
 import Divider from "../../components/Divider";
@@ -78,10 +78,14 @@ function mapDispatchToProps(dispatch: Function) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(SurveyRoute);
 
+const height = Dimensions.get("screen").height - 326;
+
+
 const styles = StyleSheet.create({
   main: {
     marginBottom: 50,
     marginLeft: 20, marginRight: 20,
+    minHeight: height,
   },
 
   cardMargin: {
