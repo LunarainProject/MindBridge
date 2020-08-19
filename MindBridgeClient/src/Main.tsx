@@ -11,6 +11,14 @@ import LogoTitle from "./components/LogoTitle";
 import SurveyHistoryScreen from "./screens/SurveyHistoryScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import TipWebScreen from "./screens/TipWebScreen";
+import VideoWebScreen from "./screens/VideoWebScreen";
+import AnnounceScreen from "./screens/subScreens/AnnounceScreen";
+import AppInfoScreen from "./screens/subScreens/AppInfoScreen";
+import AskScreen from "./screens/subScreens/AskScreen";
+import FAQScreen from "./screens/subScreens/FAQScreen";
+import PointUseScreen from "./screens/subScreens/PointUseScreen";
+import PointChargeScreen from "./screens/subScreens/PointChargeScreen";
+import ReferenceScreen from "./screens/subScreens/ReferenceScreen";
 
 const Stack = createStackNavigator();
 
@@ -43,6 +51,11 @@ export default function Main() {
                         headerTitle: "테스트"
                       }}
         />
+        <Stack.Screen name="VideoWeb"    component={VideoWebScreen} 
+                      options={{
+                        headerShown: false,
+                      }}
+        />
         <Stack.Screen name="TipWeb"    component={TipWebScreen} 
                       options={{
                         headerTitle: "실전 부부 팁"
@@ -58,6 +71,44 @@ export default function Main() {
                         headerTitle: "테스트 기록"
                       }}
         />
+
+        {/* subscreens */}
+        <Stack.Screen name="Announce" component={AnnounceScreen}
+                      options={{
+                        headerTitle: "공지사항"
+                      }}
+        />
+        <Stack.Screen name="AppInfo" component={AppInfoScreen}
+                      options={{
+                        headerTitle: "앱 정보"
+                      }}
+        />
+        <Stack.Screen name="Ask" component={AskScreen}
+                      options={{
+                        headerTitle: "문의하기"
+                      }}
+        />
+        <Stack.Screen name="FAQ" component={FAQScreen}
+                      options={{
+                        headerTitle: "자주 묻는 질문"
+                      }}
+        />
+        <Stack.Screen name="PointUse"    component={PointUseScreen} 
+                      options={{
+                        headerTitle: "포인트 사용"
+                      }}
+        />
+        <Stack.Screen name="PointCharge"    component={PointChargeScreen} 
+                      options={{
+                        headerTitle: "포인트 충전"
+                      }}
+        />
+        <Stack.Screen name="Reference"    component={ReferenceScreen} 
+                      options={{
+                        headerTitle: "자료실"
+                      }}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
