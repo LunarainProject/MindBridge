@@ -5,6 +5,9 @@ type StackParamList = {
     SurveyWeb: {
         SurveyId: string,
     };
+    VideoWeb: {
+        Url: string,
+    }
     SurveyResult: {
         SurveyResultId: string,
         SurveyResultCount: string,
@@ -14,6 +17,15 @@ type StackParamList = {
     }
     SurveyHistory: undefined;
     Login: undefined;
+    
+    //subScreens
+    Announce: undefined;
+    AppInfo: undefined;
+    Ask: undefined;
+    FAQ: undefined;
+    PointUse: undefined;
+    PointCharge: undefined;
+    Reference: undefined;
 };
 
 export default StackParamList;
