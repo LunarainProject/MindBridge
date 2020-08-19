@@ -31,6 +31,7 @@ import MoreRoute from "./routes/MoreRoute";
 import CombineAction from "../CombineAction";
 import { connect } from "react-redux";
 import { BackHandleService } from "../services/BackHandleService";
+import { StatusBar } from "expo-status-bar";
 
 class MainScreen extends React.Component<Props> {
   state = {
@@ -38,7 +39,7 @@ class MainScreen extends React.Component<Props> {
     appState: AppState.currentState,
   };
 
-  private OverviewRoute = () => <OverviewRoute {...this.props} />;
+  private OverviewRoute = () => <OverviewRoute {...this.props} setIndex={this.setIndex} />;
   private SurveyRoute = () => <SurveyRoute {...this.props} />;
   private TipRoute = () => <TipRoute {...this.props} />;
   private AdvertiseRoute = () => <AdvertiseRoute {...this.props} />;
@@ -111,12 +112,14 @@ class MainScreen extends React.Component<Props> {
   }
 
   componentDidMount() {
+    console.log("main screen init");
     this.props.InitUserInfo();
     this.props.InitSpouseInfo();
     this.props.InitSurvey();
     this.props.InitOverview();
     this.props.InitResults();
     this.props.InitTip();
+
     BackHandleService.MainScreenDidMount();
   }
 
@@ -128,6 +131,9 @@ class MainScreen extends React.Component<Props> {
     return (
       <View style={styles.main}>
         <View />
+        <StatusBar
+            style="dark"
+        ></StatusBar>
         <Provider theme={white_theme}>
           <BottomNavigation
             shifting={false}
