@@ -59,7 +59,7 @@ function _SetOverview(survey: CardCategoryType, video: CardCategoryType, column:
     }
 }
 
-const actionTypeSurveyId = 'temp-id'
+const actionTypeSurveyId = '27'
 
 export const RetrieveSurveyThunk = () => async (dispatch: Function, getState: Function) => {
     const idToken: string | null = (getState().Login as LoginState).idToken;
@@ -74,6 +74,7 @@ export const RetrieveSurveyThunk = () => async (dispatch: Function, getState: Fu
                 Description: "서로의 사고방식, 감정양식, 행동패턴 등을 더 폭 넓게 이해할 수 있습니다.",
                 ButtonLabel: "무료로 테스트하기",
                 InfoLabel: "40문항",
+                Image: require("../drawables/image1.jpg"),
             }
         ]
     }
@@ -94,6 +95,7 @@ export const RetrieveOverviewThunk = () => async (dispatch: Function, getState: 
                 Description: "서로의 사고방식, 감정양식, 행동패턴 등을 더 폭 넓게 이해할 수 있습니다.",
                 ButtonLabel: "무료로 테스트하기",
                 InfoLabel: "40문항",
+                Image: require("../drawables/image1.jpg"),
             },
             {
                 Id: "",
@@ -102,6 +104,7 @@ export const RetrieveOverviewThunk = () => async (dispatch: Function, getState: 
                 Description: "서로의 관계에 대해 더 알 수 있습니다. 테스트 모음",
                 ButtonLabel: "무료로 테스트하기",
                 InfoLabel: `${surveys[0].Cards.length}종`,
+                Image: require("../drawables/image2.jpg"),
             },
         ]
     }
@@ -109,14 +112,12 @@ export const RetrieveOverviewThunk = () => async (dispatch: Function, getState: 
     const fullVideo = await ServerService.GetVideoList();
     const video: CardCategoryType = {
         Title: fullVideo.Title,
-        Cards: [fullVideo.Cards[0]]
+        Cards: fullVideo.Cards.length>0? [fullVideo.Cards[0]]: []
     }
     const fullColumn = await ServerService.GetColumnList();
     const column: CardCategoryType = {
         Title: fullColumn.Title,
-        Cards: [
-            fullColumn.Cards[0],
-        ]
+        Cards: fullColumn.Cards.length>0? [fullColumn.Cards[0]]: []
     }
 
     dispatch(_SetOverview(survey, video, column));
