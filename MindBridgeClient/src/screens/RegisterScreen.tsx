@@ -29,8 +29,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 class RegisterScreen extends React.Component<Props> {
   async componentWillUnmount() {
-    await this.props.Logout();
+    if(this.cancel) await this.props.Logout();
   }
+
+  private cancel: boolean = true;
 
   state = {
     date: "",
@@ -110,6 +112,7 @@ class RegisterScreen extends React.Component<Props> {
           </Text>
           <Button
             onPress={() => {
+              this.cancel = false;
               this.props.navigation.goBack();
               this.props.Register(this.state.date, this.state.value)
             }}
