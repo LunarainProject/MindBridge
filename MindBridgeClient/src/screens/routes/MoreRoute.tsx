@@ -44,7 +44,7 @@ class MoreRoute extends React.Component<Props> {
       }}
     />
   );
-  private info = () => (<Info />);
+  private info = () => <Info />;
 
   private tabs = () => [
     { title: "알림센터", route: this.info() },
@@ -100,7 +100,7 @@ class MoreRoute extends React.Component<Props> {
                   console.log("match spouse");
                   this.props.MatchSpouse(this.state.email);
                   console.log("match spouse end");
-                  this.setState({ dialog: false});
+                  this.setState({ dialog: false });
                 }}
               >
                 확인
@@ -194,7 +194,9 @@ class MyPage extends React.Component<MyPageProps> {
           BackHandleService.Navigate("SurveyHistory");
         },
       },
-      { text: "자료실", onClick: () => {} },
+      { text: "자료실", onClick: () => {
+        BackHandleService.Navigate("Reference");
+      } },
     ],
 
     [
@@ -214,8 +216,7 @@ class MyPage extends React.Component<MyPageProps> {
             [
               {
                 text: "취소",
-                onPress: () => {
-                },
+                onPress: () => {},
                 style: "cancel",
               },
               {
@@ -323,18 +324,48 @@ class Info extends React.Component {
     { text: string; onClick: Function }
   ][] = [
     [
-      { text: "공지사항", onClick: () => {} },
-      { text: "자주 묻는 질문", onClick: () => {} },
+      {
+        text: "공지사항",
+        onClick: () => {
+          BackHandleService.Navigate("Announce");
+        },
+      },
+      {
+        text: "자주 묻는 질문",
+        onClick: () => {
+          BackHandleService.Navigate("FAQ");
+        },
+      },
     ],
 
     [
-      { text: "문의하기", onClick: () => {} },
-      { text: "앱 정보", onClick: () => {} },
+      {
+        text: "문의하기",
+        onClick: () => {
+          BackHandleService.Navigate("Ask");
+        },
+      },
+      {
+        text: "앱 정보",
+        onClick: () => {
+          BackHandleService.Navigate("AppInfo");
+        },
+      },
     ],
 
     [
-      { text: "포인트 사용", onClick: () => {} },
-      { text: "포인트 충전", onClick: () => {} },
+      {
+        text: "포인트 사용",
+        onClick: () => {
+          BackHandleService.Navigate("PointUse");
+        },
+      },
+      {
+        text: "포인트 충전",
+        onClick: () => {
+          BackHandleService.Navigate("PointCharge");
+        },
+      },
     ],
   ];
 
