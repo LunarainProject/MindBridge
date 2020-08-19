@@ -112,12 +112,10 @@ class Itinerary extends React.Component {
   render() {
     return (
       <View style={styles.background}>
-        <Text>Itinerary</Text>
+        <Text>부부학교 일정</Text>
         <Text>
-          This is sample counter to test Redux Actions: CountActions,
-          CountReducer(subreducer)
+          아직 부부학교 일정이 정해지지 않았습니다.
         </Text>
-        <Counter />
       </View>
     );
   }
@@ -127,7 +125,7 @@ class Donate extends React.Component {
   render() {
     return (
       <View style={styles.background}>
-        <Text>Donate</Text>
+        <Text>아직 후원을 받고 있지 않습니다.</Text>
       </View>
     );
   }
@@ -137,7 +135,7 @@ class Review extends React.Component {
   render() {
     return (
       <View style={styles.background}>
-        <Text>Review</Text>
+        <Text>아직 후기를 받고 있지 않습니다.</Text>
       </View>
     );
   }
@@ -147,7 +145,7 @@ class Homework extends React.Component {
   render() {
     return (
       <View style={styles.backgroundRight}>
-        <Text>Homework</Text>
+        <Text>아직 숙제가 없습니다.</Text>
       </View>
     );
   }
