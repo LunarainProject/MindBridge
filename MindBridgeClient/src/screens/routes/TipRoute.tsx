@@ -70,8 +70,13 @@ class Video extends React.Component<SubProps> {
             Subtitle={card.Subtitle}
             Description={card.Description}
             ButtonLabel={card.ButtonLabel}
+            Image={card.Image}
             InfoLabel=""
-            OnClick={() => {}}
+            OnClick={() => {
+              BackHandleService.Navigate("VideoWeb", undefined, {
+                Url: card.InfoLabel,
+              })
+            }}
           />
         </View>
         ))}
@@ -93,6 +98,7 @@ class Column extends React.Component<SubProps> {
             Description={card.Description}
             ButtonLabel={card.ButtonLabel}
             InfoLabel=""
+            Image={card.Image}
             OnClick={() => {
               BackHandleService.Navigate("TipWeb", null, {
                 ColumnId: card.Id
@@ -114,8 +120,7 @@ class Hahim extends React.Component {
           하나님을 힘써알자 - 독서모임
         </Text>
         <Paragraph>
-          이렇게 노력하는 남편을 마주하게 되는 저는 알콩달콩 부부학교와 하힘책
-          책모임을 사랑하게 되었습니다. 아내들은 아내들끼리 남편들은 남편들끼리
+          이렇게 노력하는 남편을 마주하게 되는 저는 알콩달콩 부부학교와 하힘 독서모임을 사랑하게 되었습니다. 아내들은 아내들끼리 남편들은 남편들끼리
           각자의 삶의 나누고 위로하고 공감하고 소통하는 하힘은 ‘나’를 알고
           ‘너’를 알고 나와 너를 넘어서는 ‘우리’로의 스타트였습니다.
         </Paragraph>
