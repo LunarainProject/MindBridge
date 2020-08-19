@@ -18,19 +18,11 @@ import Divider from "../../components/Divider";
 import Title from "../../components/Title";
 import { CardState, CardType } from "../../StateTypes";
 import StackParamList from "../StackParamList";
+import { BackHandleService } from "../../services/BackHandleService";
 
 class OverviewRoute extends React.Component<Props> {
-  private OnClickHandler: (
-    arg1: NativeSyntheticEvent<NativeTouchEvent>
-  ) => void;
-
   constructor(props: any) {
     super(props);
-
-    this.OnClickHandler = (e: NativeSyntheticEvent<NativeTouchEvent>): void => {
-      //alert("hello");
-      return;
-    };
   }
 
   render() {
@@ -61,15 +53,28 @@ class OverviewRoute extends React.Component<Props> {
                       Subtitle={val.Subtitle}
                       Description={val.Description}
                       ButtonLabel={val.ButtonLabel}
+                      Image={val.Image}
                       InfoLabel={val.InfoLabel}
-                      OnClick={this.OnClickHandler}
+                      OnClick={() => {
+                        // 부부 유형 테스트
+                        if(ind == 0) {
+                          BackHandleService.Navigate("SurveyWeb", null, {
+                          SurveyId: val.Id,
+                        })
+                        }
+                        // 부부 관계성 테스트 모음
+                        else if(ind == 1) {
+                          // SurveyRoute로 이동
+                          this.props.setIndex(1);
+                        }
+                      }}
                     />
                   </View>
                 )
               )}
               <Divider />
               <Title>{this.props.Card.OverviewVideoCategory.Title}</Title>
-              {this.props.Card.OverviewVideoCategory.Cards.map(
+              {this.props.Card.OverviewVideoCategory.Cards?.map(
                 (val: CardType, ind) => (
                   <View style={styles.cardMargin} key={ind}>
                     <Card
@@ -77,15 +82,20 @@ class OverviewRoute extends React.Component<Props> {
                       Subtitle={val.Subtitle}
                       Description={val.Description}
                       ButtonLabel={val.ButtonLabel}
+                      Image={val.Image}
                       InfoLabel=""
-                      OnClick={this.OnClickHandler}
+                      OnClick={() => {
+                        BackHandleService.Navigate("VideoWeb", null, {
+                          Url: val.InfoLabel
+                        });
+                      }}
                     />
                   </View>
                 )
               )}
               <Divider />
               <Title>{this.props.Card.OverviewColumnCategory.Title}</Title>
-              {this.props.Card.OverviewColumnCategory.Cards.map(
+              {this.props.Card.OverviewColumnCategory.Cards?.map(
                 (val: CardType, ind) => (
                   <View style={styles.cardMargin} key={ind}>
                     <Card
@@ -93,8 +103,13 @@ class OverviewRoute extends React.Component<Props> {
                       Subtitle={val.Subtitle}
                       Description={val.Description}
                       ButtonLabel={val.ButtonLabel}
+                      Image={val.Image}
                       InfoLabel=""
-                      OnClick={this.OnClickHandler}
+                      OnClick={() => {
+                        BackHandleService.Navigate("TipWeb", null, {
+                          ColumnId: val.Id,
+                        })
+                      }}
                     />
                   </View>
                 )
@@ -124,6 +139,7 @@ class OverviewRoute extends React.Component<Props> {
 
 type Props = StackScreenProps<StackParamList, "Main"> & {
   Card: CardState;
+  setIndex: (index: number) => void;
 };
 
 function mapStateToProps(state: any) {
