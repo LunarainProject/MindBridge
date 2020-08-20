@@ -78,14 +78,14 @@ export default class Tab extends React.Component<Props> {
                 false
               )}
             >
-              <View>
+              <View style={{width: this.props.tabWidth, height: 40}}>
                 <View
                   style={[
                     styles.centerContainer,
-                    { width: this.props.tabWidth },
+                    { width: this.props.tabWidth, height: 40 },
                   ]}
                 >
-                  <Title
+                  <Text allowFontScaling={false}
                     style={[
                       styles.tabText,
                       this.state.focused == ind
@@ -94,7 +94,7 @@ export default class Tab extends React.Component<Props> {
                     ]}
                   >
                     {val.title}
-                  </Title>
+                  </Text>
                 </View>
               </View>
             </TouchableNativeFeedback>

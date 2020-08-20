@@ -46,8 +46,8 @@ class TipRoute extends React.Component<Props> {
       <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
         <TabBackground
           tabs={this.tabs}
-          tabWidth={120}
-          title="부부팁"
+          tabWidth={100}
+          title="행복한 부부팁"
           style={{
             marginLeft: 10
           }}
@@ -116,21 +116,21 @@ class Hahim extends React.Component {
   render() {
     return (
       <View style={ styles.hahim}>
-        <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+        <Text allowFontScaling={false} style={{ fontSize: 16, fontWeight: "bold" }}>
           하나님을 힘써알자 - 독서모임
         </Text>
-        <Paragraph>
+        <Text allowFontScaling={false}>
           이렇게 노력하는 남편을 마주하게 되는 저는 알콩달콩 부부학교와 하힘 독서모임을 사랑하게 되었습니다. 아내들은 아내들끼리 남편들은 남편들끼리
           각자의 삶의 나누고 위로하고 공감하고 소통하는 하힘은 ‘나’를 알고
           ‘너’를 알고 나와 너를 넘어서는 ‘우리’로의 스타트였습니다.
-        </Paragraph>
-        <Paragraph>
+        </Text>
+        <Text allowFontScaling={false}>
           또한 이 모임이 유지되어야 하는 이유는 지적인 은혜의 삶의 태도로
           살아가도록 연명할 힘이 되어주기 때문입니다. 그래서 한 주가 미뤄지거나
           하면 하힘금단현상이 있기도... 하나님은 특별한 방법이 아닌 평범함
           속에서 아내를 알게 하시고 작은 일상 속에서 아내를 사랑하는 법을 깨닫게
           하셨습니다. 참으로 감사하고 감사한 책읽기 모임입니다.
-        </Paragraph>
+        </Text>
       </View>
     );
   }

@@ -6,8 +6,9 @@ import {
   Image,
   NativeSyntheticEvent,
   NativeTouchEvent,
+  Text,
 } from "react-native";
-import { Text, Caption, Surface } from "react-native-paper";
+import { Surface } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import InfoContainer from "./InfoContainer";
 
@@ -29,13 +30,13 @@ export default class SurveyResultCard extends React.Component<Props> {
           </View>
           <View style={styles.textContainer}>
             <View style={styles.titleContainer}>
-              <Text style={{ fontSize: 12 }}>{date(this.props.Date)}</Text>
-              <Text style={{ fontWeight: "bold", fontSize: 22 }}>
+              <Text allowFontScaling={false} style={{ fontSize: 12 }}>{date(this.props.Date)}</Text>
+              <Text allowFontScaling={false} style={{ fontWeight: "bold", fontSize: 22 }}>
                 {this.props.Title}
               </Text>
             </View>
             <View style={styles.buttonContainer}>
-              <Text style={{ fontSize: 14, color: "#F970B9" }}>
+              <Text allowFontScaling={false} style={{ fontSize: 14, color: "#F970B9" }}>
                 결과보기
               </Text>
               <AntDesign name="right" size={14} color="#F970B9" />

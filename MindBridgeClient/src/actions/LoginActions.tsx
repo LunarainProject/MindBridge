@@ -78,18 +78,24 @@ export const LoginThunk = () => async (dispatch: Function) => {
 
   if (user !== null) {
     //시작하기 성공
-    if ((await ServerService.CheckUserRegistered(idToken)) === "Success") {
+    const resp = await ServerService.CheckUserRegistered(idToken);
+    console.log(resp);
+    if (resp === "Success") {
       //이미 등록된 경우
       loggedIn = true;
       autoLogin = false;
       needRegister = false;
       console.log("Registered");
-    } else {
+    } else if (resp === "Failed") {
       //등록되지 않은 경우
       loggedIn = false;
       autoLogin = false;
       needRegister = true;
       console.log("Unregistered");
+    } else {
+      loggedIn = false;
+      autoLogin = false;
+      needRegister = false;
     }
   } else {
     //시작하기 실패
@@ -153,7 +159,7 @@ export const AutoLoginThunk = () => async (dispatch: Function) => {
 };
 
 export const CancelMembership = () => async (dispatch: Function, getState: Function) => {
-  const { idToken } = (getState().Login as LoginState);
+  const idToken = await GoogleService.getIdToken();
   await ServerService.CancelMembershipList(idToken);
   await GoogleService.signOutAsync();
   dispatch(_Logout());

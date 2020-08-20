@@ -39,7 +39,10 @@ export class BackHandleService {
       BackHandleService.handleBackButton
     );
     BackHandleService._isMain = true;
+    BackHandleService.focusCallback();
   }
+
+  public static focusCallback = () => {};
 
   private static _mainNavigation: StackNavigationProp<StackParamList, "Main">;
   public static registerNavigation(

@@ -30,16 +30,15 @@ class OverviewRoute extends React.Component<Props> {
       <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
         <View style={styles.statusBar}></View>
         <ScrollView>
-          <Background Title="모아보기">
+          <Background Title="안녕하세요!">
           <View style={styles.main}>
-            <Title>안녕하세요!</Title>
               <View>
-                <Paragraph>
+                <Text allowFontScaling={false}>
                   알콩달콩 관계성테스트와 부부학교 콘텐츠는 부부나 연인이 서로의 상태를 점검하고 분석하여, 보다 나은 관계를 형성하고 행복한 가정을 세우는데 도움을 주는 서비스입니다.
-                </Paragraph>
-                <Paragraph>
+                </Text>
+                <Text allowFontScaling={false}>
                   부부나 연인의 행동유형, 대화, 재정, 성, 친밀도, 존경, 사랑 테스트 등을 통해 서로의 상태를 점검하고 분석하여, 새로운 실천계획을 세우며, 다양한 알콩달콩 부부학교 콘텐츠를 통해 행복한 가정과 부부관계를 형성하는데 활용할 수 있습니다.
-                </Paragraph>
+                </Text>
               </View>
 
               <Divider />
@@ -117,17 +116,17 @@ class OverviewRoute extends React.Component<Props> {
               <Divider />
               <Title>알콩달콩 부부학교</Title>
               <View style={styles.advertiseText}>
-                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                <Text allowFontScaling={false} style={{ fontSize: 16, fontWeight: "bold" }}>
                   “부부가 바로 서야 가정이 바로 선다”
                 </Text>
-                <Paragraph>
+                <Text allowFontScaling={false}>
                   사회를 구성하는 가장 기초적인 단위는 가정이고 건강한 가정이
                   있어야 건강한 사회가 이룩될 수 있습니다.
-                </Paragraph>
-                <Paragraph>
+                </Text>
+                <Text allowFontScaling={false}>
                   알콜달콩부부학교는 두란노 어머니학교와 아버지학교에서 운영하는
                   부부학교입니다.
-                </Paragraph>
+                </Text>
               </View>
             </View>
           </Background>

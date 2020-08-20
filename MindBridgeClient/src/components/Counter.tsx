@@ -8,18 +8,18 @@ class Counter extends React.Component<ICountProperties> {
     render() {
       return (
         <View style={s.container}>
-          <Text style={{ fontSize: 20 }}>{this.props.Count}</Text>
+          <Text allowFontScaling={false} style={{ fontSize: 20 }}>{this.props.Count}</Text>
           <TouchableOpacity style={s.upButton} onPress={() => this.props.CountUp(1)}>
-            <Text style={{ fontSize: 20 }}>+1</Text>
+            <Text allowFontScaling={false} style={{ fontSize: 20 }}>+1</Text>
           </TouchableOpacity>
           <TouchableOpacity style={s.upButton} onPress={() => this.props.CountUp(2)}>
-            <Text style={{ fontSize: 20 }}>+2</Text>
+            <Text allowFontScaling={false} style={{ fontSize: 20 }}>+2</Text>
           </TouchableOpacity>
           <TouchableOpacity style={s.downButton} onPress={() => this.props.CountUp(-1)}>
-            <Text style={{ fontSize: 20 }}>-1</Text>
+            <Text allowFontScaling={false} style={{ fontSize: 20 }}>-1</Text>
           </TouchableOpacity>
           <TouchableOpacity style={s.downButton} onPress={() => this.props.CountUp(-2)}>
-            <Text style={{ fontSize: 20 }}>-2</Text>
+            <Text allowFontScaling={false} style={{ fontSize: 20 }}>-2</Text>
           </TouchableOpacity>
         </View>
       );

@@ -4,8 +4,9 @@ import {
   Platform,
   StyleSheet,
   View,
+  Text,
 } from "react-native";
-import { Surface, Text } from "react-native-paper";
+import { Surface } from "react-native-paper";
 import DoubleCardBase from "./DoubleCardBase";
 
 export default class DoubleCard extends React.Component<Props> {
@@ -22,7 +23,7 @@ export default class DoubleCard extends React.Component<Props> {
               )}
             >
               <View style={styles.textContainer}>
-                <Text>{this.props.upperButton.text}</Text>
+                <Text allowFontScaling={false} >{this.props.upperButton.text}</Text>
               </View>
             </TouchableNativeFeedback>
           </View>
@@ -39,7 +40,7 @@ export default class DoubleCard extends React.Component<Props> {
               onPress={this.props.downerButton.onClick}
             >
               <View style={styles.textContainer}>
-                <Text>{this.props.downerButton.text}</Text>
+                <Text allowFontScaling={false} >{this.props.downerButton.text}</Text>
               </View>
             </TouchableNativeFeedback>
           </View>

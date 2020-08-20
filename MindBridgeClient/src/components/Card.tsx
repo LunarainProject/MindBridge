@@ -4,10 +4,11 @@ import {
   View,
   Platform,
   Image,
+  Text,
   NativeSyntheticEvent,
   NativeTouchEvent,
 } from "react-native";
-import { Text, Caption, Surface } from "react-native-paper";
+import { Surface } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import RatioImage from "../components/RatioImage";
 import { AntDesign } from "@expo/vector-icons";
@@ -32,7 +33,7 @@ class Card extends React.Component<Props> {
               style={styles.grad}
             ></LinearGradient>
             <View style={styles.subtitleContainer}>
-              <Text style={{ color: "white", fontSize: 16 }}>
+              <Text allowFontScaling={false} style={{ color: "white", fontSize: 16 }}>
                 {this.props.Subtitle}
               </Text>
             </View>
@@ -40,13 +41,13 @@ class Card extends React.Component<Props> {
         </View>
         <View style={styles.footerContainer}>
           <View style={styles.footerTextContainer}>
-            <Text style={{ fontWeight: "bold", fontSize: 24 }}>
+            <Text allowFontScaling={false} style={{ fontWeight: "bold", fontSize: 24 }}>
               {this.props.Title}
             </Text>
-            <Text style={{ fontSize: 14 }}>{this.props.Description}</Text>
+            <Text allowFontScaling={false} style={{ fontSize: 14 }}>{this.props.Description}</Text>
           </View>
           <View style={styles.footerButtonLabel}>
-            <Text style={{ fontSize: 14, color: "#F970B9" }}>
+            <Text allowFontScaling={false} style={{ fontSize: 14, color: "#F970B9" }}>
               {this.props.ButtonLabel}
             </Text>
             <AntDesign name="right" size={14} color="#F970B9" />
@@ -57,9 +58,9 @@ class Card extends React.Component<Props> {
                 <InfoContainer />
               </View>
               <View style={styles.infoText}>
-                <Caption style={{ marginLeft: 15, color: "white" }}>
+                <Text allowFontScaling={false} style={{ marginLeft: 15, color: "white" }}>
                   {this.props.InfoLabel}
-                </Caption>
+                </Text>
               </View>
             </View>
           )}

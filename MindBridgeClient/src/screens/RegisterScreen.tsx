@@ -53,14 +53,14 @@ class RegisterScreen extends React.Component<Props> {
   render() {
     return (
       <View style={styles.main}>
-        <Text style={{ fontSize: 30, marginBottom: 10 }}>안녕하세요</Text>
+        <Text allowFontScaling={false} style={{ fontSize: 30, marginBottom: 10 }}>안녕하세요</Text>
         {this.props.LoginState.user && (
-          <Text>안녕하세요, {this.props.LoginState.user.name}님!</Text>
+          <Text allowFontScaling={false} >안녕하세요, {this.props.LoginState.user.name}님!</Text>
         )}
-        <Text>알콩달콩 부부관계 테스트 앱에 오신 걸 환영합니다.</Text>
-        <Text style={{ marginBottom: 20 }}>추가 정보를 입력해주세요.</Text>
+        <Text allowFontScaling={false} >알콩달콩 부부관계 테스트 앱에 오신 걸 환영합니다.</Text>
+        <Text allowFontScaling={false} style={{ marginBottom: 20 }}>추가 정보를 입력해주세요.</Text>
 
-        <Text style={{ marginTop: 10 }}>성</Text>
+        <Text allowFontScaling={false} style={{ marginTop: 10 }}>성</Text>
         <RadioButton.Group
           onValueChange={(value) => {
             this.setState({ value });
@@ -70,9 +70,9 @@ class RegisterScreen extends React.Component<Props> {
           <RadioButton.Item label="남자" value="male" />
           <RadioButton.Item label="여자" value="female" />
         </RadioButton.Group>
-        <Text style={{ marginTop: 10, marginBottom: 20 }}>생일</Text>
+        <Text allowFontScaling={false} style={{ marginTop: 10, marginBottom: 20 }}>생일</Text>
 
-        <Text style={{ marginBottom: 10 }}>
+        <Text allowFontScaling={false} style={{ marginBottom: 10 }}>
           {this.state.date ?? "생일을 선택해주세요."}
         </Text>
 
@@ -89,7 +89,7 @@ class RegisterScreen extends React.Component<Props> {
             }}
             labelStyle={{ color: "#F970B9" }}
           >
-            선택하기
+            <Text allowFontScaling={false}>선택하기</Text>
           </Button>
         )}
 
@@ -106,7 +106,7 @@ class RegisterScreen extends React.Component<Props> {
         )}
 
         <View style={styles.bottom}>
-          <Text style={{ marginBottom: 20 }}>
+          <Text allowFontScaling={false} style={{ marginBottom: 20 }}>
             정보 입력을 제대로 하셨는지 꼭 확인하시고 아래의 회원가입 버튼을
             눌러주세요.
           </Text>
@@ -120,7 +120,7 @@ class RegisterScreen extends React.Component<Props> {
             disabled={this.state.date === ""}
             labelStyle={{ color: "white" }}
           >
-            회원가입
+            <Text allowFontScaling={false}>회원가입</Text>
           </Button>
         </View>
       </View>

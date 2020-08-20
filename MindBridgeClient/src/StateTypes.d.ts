@@ -61,7 +61,8 @@ export type SurveyResultCardType = {
 
 export type SurveyState = {
     SurveyResultCards: SurveyResultCardType[];
-
+    // 배우자의 행동유형 테스트 결과
+    SpouseResultCards: SurveyResultCardType[];
 }
 
 export type UserInfo = {

@@ -6,8 +6,9 @@ import {
   Image,
   NativeSyntheticEvent,
   NativeTouchEvent,
+  Text,
 } from "react-native";
-import { Text, Caption, Surface } from "react-native-paper";
+import { Surface } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import InfoContainer from "./InfoContainer";
 
@@ -25,13 +26,13 @@ export default class SurveyCard extends React.Component<Props> {
           </View>
           <View style={styles.textContainer}>
             <View style={styles.titleContainer}>
-              <Text style={{ fontSize: 12 }}>{this.props.Subtitle}</Text>
-              <Text style={{ fontWeight: "bold", fontSize: 22 }}>
+              <Text allowFontScaling={false} style={{ fontSize: 12 }}>{this.props.Subtitle}</Text>
+              <Text allowFontScaling={false} style={{ fontWeight: "bold", fontSize: 22 }}>
                 {this.props.Title}
               </Text>
             </View>
             <View style={styles.buttonContainer}>
-              <Text style={{ fontSize: 14, color: "#F970B9" }}>
+              <Text allowFontScaling={false} style={{ fontSize: 14, color: "#F970B9" }}>
                 {this.props.ButtonLabel}
               </Text>
               <AntDesign name="right" size={14} color="#F970B9" />
@@ -43,9 +44,9 @@ export default class SurveyCard extends React.Component<Props> {
           <InfoContainer />
         </View>
           <View style={styles.infoText}>
-            <Caption style={{ marginLeft: 15, color: "white" }}>
+            <Text allowFontScaling={false} style={{ marginLeft: 15, color: "white" }}>
               {this.props.InfoLabel}
-            </Caption>
+            </Text>
           </View>
         </View>
       </Surface>

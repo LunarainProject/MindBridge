@@ -1,6 +1,6 @@
 import React from "react";
-import { Dimensions, Image, StyleSheet, View } from "react-native";
-import {  Button, Text } from "react-native-paper";
+import { Dimensions, Image, StyleSheet, View, Text } from "react-native";
+import {  Button } from "react-native-paper";
 import DoubleCardBase from "./DoubleCardBase";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -13,13 +13,14 @@ export default class Profile extends React.Component<Props> {
             <View style={styles.inner}>
               <View style={styles.myName}>
                 <Text
+                  allowFontScaling={false} 
                   numberOfLines={1}
                   ellipsizeMode="tail"
                   style={styles.myNameTextBig}
                 >
                   {this.props.myName}
                 </Text>
-                <Text style={styles.myNameText}>{this.props.myState}</Text>
+                <Text allowFontScaling={false} style={styles.myNameText}>{this.props.myState}</Text>
               </View>
               <View style={styles.imageAvatar}>
                 {this.props.myImage ? (
@@ -51,14 +52,14 @@ export default class Profile extends React.Component<Props> {
                 )}
               </View>
               <View style={styles.spouseName}>
-                <Text
+                <Text allowFontScaling={false} 
                   numberOfLines={1}
                   ellipsizeMode="tail"
                   style={styles.spouseNameTextBig}
                 >
                   {this.props.spouseName}
                 </Text>
-                <Text style={styles.spouseNameText}>
+                <Text allowFontScaling={false} style={styles.spouseNameText}>
                   {this.props.spouseState}
                 </Text>
               </View>
@@ -88,13 +89,13 @@ export default class Profile extends React.Component<Props> {
                 >
                   {this.props.myName}
                 </Text>
-                <Text style={[styles.spouseNameText, {marginLeft: 10}]}>{this.props.myState}</Text>
+                <Text allowFontScaling={false} style={[styles.spouseNameText, {marginLeft: 10}]}>{this.props.myState}</Text>
               </View>
               <Button
                   style={{ backgroundColor: "#F970B9", marginLeft: 10 }}
                   onPress={this.props.onMatch}
                 >
-                  배우자 등록하기
+                  <Text allowFontScaling={false}>배우자 등록하기</Text>
                 </Button>
             </View>
           </View>

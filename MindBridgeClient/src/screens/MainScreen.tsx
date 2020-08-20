@@ -120,6 +120,14 @@ class MainScreen extends React.Component<Props> {
     this.props.InitResults();
     this.props.InitTip();
 
+    BackHandleService.focusCallback = () => {
+      this.props.InitUserInfo();
+      this.props.InitSpouseInfo();
+      this.props.InitSurvey();
+      this.props.InitOverview();
+      this.props.InitTip();
+    }
+
     BackHandleService.MainScreenDidMount();
   }
 

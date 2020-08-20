@@ -47,7 +47,7 @@ class SurveyWebScreen extends React.Component<Props, State> {
           }}
           source={{ uri: `${this.surveyUri}/${this.props.route.params.SurveyId}/${this.props.LoginState.idToken}`}}
           style={styles.webView}
-          onMessage={(event) => {
+          onMessage={(event: any) => {
             switch (event.nativeEvent.data) {
               case 'mindbridge': {
                 Alert.alert(

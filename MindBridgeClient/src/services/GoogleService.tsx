@@ -4,6 +4,21 @@ import { Alert } from "react-native";
 
 export default class GoogleService {
   private static accessToken: string = "";
+  private static idToken: string | null = null;
+  
+  public static async getIdToken() {
+    if (__DEV__) {
+      return this.idToken; 
+    } else {
+      try {
+        const user = await GoogleSignIn.getCurrentUserAsync();
+        return user?.auth?.idToken ?? null;
+      } catch(e) {
+        console.log('id token get error: ', e);
+        return null;
+      }
+    }
+  }
 
   public static async signOutAsync() {
     if (__DEV__) {
@@ -97,6 +112,7 @@ export default class GoogleService {
           scopes: ["profile", "email"],
         });
         if (result.type === "success") {
+          this.idToken = result.idToken;
           if (result.accessToken === null) {
             this.accessToken = "";
           } else {

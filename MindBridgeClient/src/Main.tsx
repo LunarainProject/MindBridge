@@ -19,6 +19,7 @@ import FAQScreen from "./screens/subScreens/FAQScreen";
 import PointUseScreen from "./screens/subScreens/PointUseScreen";
 import PointChargeScreen from "./screens/subScreens/PointChargeScreen";
 import ReferenceScreen from "./screens/subScreens/ReferenceScreen";
+import SpouseHistoryScreen from "./screens/SpouseHistoryScreen";
 
 const Stack = createStackNavigator();
 
@@ -69,6 +70,11 @@ export default function Main() {
         <Stack.Screen name="SurveyHistory" component={SurveyHistoryScreen}
                       options={{
                         headerTitle: "테스트 기록"
+                      }}
+        />
+        <Stack.Screen name="SpouseHistory" component={SpouseHistoryScreen}
+                      options={{
+                        headerTitle: "배우자의 테스트 기록"
                       }}
         />
 

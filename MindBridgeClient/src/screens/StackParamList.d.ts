@@ -11,6 +11,11 @@ type StackParamList = {
     SurveyResult: {
         SurveyResultId: string,
         SurveyResultCount: string,
+        SpouseCount?: string,
+    };
+    SpouseHistory: {
+        SurveyResultId: string,
+        SurveyResultCount: string,
     };
     TipWeb: {
         ColumnId: string,

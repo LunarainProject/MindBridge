@@ -14,7 +14,7 @@ export default class FAQScreen extends React.Component<Props> {
     render() {
         return (
             <View style={styles.main}>
-                <Text>준비중입니다.</Text>
+                <Text allowFontScaling={false} >준비중입니다.</Text>
             </View>
         );
     }

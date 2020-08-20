@@ -15,6 +15,8 @@ import { LoginState, SurveyState } from "../StateTypes";
 import StackParamList from "./StackParamList";
 import SurveyResultCard from "../components/SurveyResultCard";
 import { ScrollView } from "react-native-gesture-handler";
+import ServerService from "../services/ServerService";
+import ActionTypes from "../actions/ActionTypes";
 
 class SurveyHistoryScreen extends React.Component<Props> {
 
@@ -25,19 +27,34 @@ class SurveyHistoryScreen extends React.Component<Props> {
   render() {
     return (
       <View style={styles.main}>
-        {/* <Text style={{fontSize: 30, marginBottom: 20, fontWeight: "bold"}}>서베이 히스토리</Text> */}
+        {/* <Text allowFontScaling={false} style={{fontSize: 30, marginBottom: 20, fontWeight: "bold"}}>서베이 히스토리</Text> */}
         <ScrollView>
-        {this.props.Survey.SurveyResultCards.map((card, ind) => (
+        {this.props.Survey.SurveyResultCards.length == 0 ? (
+          <View style={{flex: 1, justifyContent: "center", alignItems: 'center'}}>
+            <Text allowFontScaling={false} >
+              아직 테스트 결과가 없습니다.
+            </Text>
+          </View>
+        ) :
+        this.props.Survey.SurveyResultCards.map((card, ind) => (
           <View style={styles.cardMargin} key={ind}>
             <SurveyResultCard
               image={card.Image}
               key={ind}
               Title={card.Title}
               Date={card.Date}
-              OnClick={() => {this.props.navigation.navigate("SurveyResult", { SurveyResultId: card.Id, SurveyResultCount: card.Count})}}
+              OnClick={() => {
+                if(card.Id === CombineAction.actionTypeSurveyId) {
+                  this.props.navigation.navigate("SpouseHistory", { SurveyResultId: card.Id, SurveyResultCount: card.Count});
+                } else {
+                  this.props.navigation.navigate("SurveyResult", { SurveyResultId: card.Id, SurveyResultCount: card.Count});
+                }
+              }}
             />
           </View>
-        ))}
+        ))
+        }
+        
         </ScrollView>
       </View>
     );

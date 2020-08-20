@@ -7,7 +7,7 @@ export default class TestScreen extends React.Component {
   render() {
     return (
       <View style={styles.main}>
-        <Text>Open up App.tsx to start working on your app!</Text>
+        <Text allowFontScaling={false} >Open up App.tsx to start working on your app!</Text>
         <Counter />
       </View>
     );

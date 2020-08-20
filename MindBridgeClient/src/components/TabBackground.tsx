@@ -5,13 +5,13 @@ import {
   Animated,
   Dimensions,
   ScrollView,
+  Text,
   TouchableNativeFeedback,
 } from "react-native";
 import BackgroundBase from "./BackgroundBase";
 import LogoTitle from "./LogoTitle";
 import Constants from "expo-constants";
-import Background from "./Background";
-import { Title } from "react-native-paper";
+import Background from "./Background";;
 import GestureRecognizer from "react-native-swipe-gestures";
 import { yellow100 } from "react-native-paper/lib/typescript/src/styles/colors";
 
@@ -100,14 +100,15 @@ export default class TabBackground extends React.Component<Props> {
                       false
                     )}
                   >
-                    <View>
+                    <View style={{width: this.props.tabWidth, height: 40}}>
                       <View
                         style={[
                           styles.centerContainer,
-                          { width: this.props.tabWidth },
+                          { width: this.props.tabWidth, height: 40 },
                         ]}
                       >
-                        <Title
+                        <Text
+                          allowFontScaling={false}
                           style={[
                             styles.tabText,
                             this.state.focused == ind
@@ -116,7 +117,7 @@ export default class TabBackground extends React.Component<Props> {
                           ]}
                         >
                           {val.title}
-                        </Title>
+                        </Text>
                       </View>
                     </View>
                   </TouchableNativeFeedback>

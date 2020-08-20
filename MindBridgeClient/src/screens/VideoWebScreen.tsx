@@ -53,7 +53,7 @@ class VideoWebScreen extends React.Component<Props, State> {
     let url = this.props.route.params.Url;
     let code = this.decodeData(url);
     if(code === null) {
-      alert("비디오 오류가 발생했습니다. 개발자에게 문의해주세요. 오류 코드: "+url);
+      alert("비디오 오류가 발생했습니다. 오류 코드: "+url);
       this.props.navigation.goBack();
     } else {
       this.code = code;
@@ -66,7 +66,7 @@ class VideoWebScreen extends React.Component<Props, State> {
   }
 
   private code: string = "";
-  
+
   render() {
     return (
       <View style={styles.main}>
@@ -75,8 +75,8 @@ class VideoWebScreen extends React.Component<Props, State> {
           onLoad={() => {
             this.setState({ isWebViewLoaded: true });
           }}
-          source={{ uri: 
-            `http://www.youtube.com/embed/${this.code}?rel=0`
+          source={{ uri:
+            `http://www.youtube.com/embed/${this.code}`
           }}
           style={styles.webView}
         />

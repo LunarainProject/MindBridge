@@ -68,8 +68,11 @@ class MoreRoute extends React.Component<Props> {
           >
             <Dialog.Title>배우자 등록</Dialog.Title>
             <Dialog.Content>
+              <Text allowFontScaling={false} >
+                배우자가 알콩달콩 앱에 가입되어 있어야 합니다.
+              </Text>
               <TextInput
-                label="배우자 이메일"
+                label="배우자 구글 계정"
                 mode="outlined"
                 onChangeText={(value) => {
                   this.setState({ email: value });
@@ -92,7 +95,7 @@ class MoreRoute extends React.Component<Props> {
                   this.setState({ dialog: false });
                 }}
               >
-                취소
+                <Text allowFontScaling={false}>취소</Text>
               </Button>
               <Button
                 labelStyle={{ margin: 10, color: "#F970B9" }}
@@ -103,13 +106,13 @@ class MoreRoute extends React.Component<Props> {
                   this.setState({ dialog: false });
                 }}
               >
-                확인
+                <Text allowFontScaling={false}>확인</Text>
               </Button>
             </Dialog.Actions>
           </Dialog>
         </Portal>
         <View style={styles.statusBar}></View>
-        <Background Title="더보기">
+        <Background Title="">
           <View style={styles.main}>
             <View style={styles.tabContainer}>
               <Tab
@@ -203,8 +206,25 @@ class MyPage extends React.Component<MyPageProps> {
       {
         text: "로그아웃",
         onClick: () => {
-          BackHandleService.MainGoBack();
-          this.props.onLogout();
+          Alert.alert(
+            "알콩달콩",
+            "정말로 로그아웃하시겠습니까?",
+            [
+              {
+                text: "취소",
+                onPress: () => {},
+                style: "cancel",
+              },
+              {
+                text: "확인",
+                onPress: () => {
+                  BackHandleService.MainGoBack();
+                  this.props.onLogout();
+                },
+              },
+            ],
+            { cancelable: false }
+          );
         },
       },
       {
@@ -270,10 +290,10 @@ class MyPage extends React.Component<MyPageProps> {
                   )}
                 </View>
                 {this.state.dialog == "user" && (
-                  <Text style={styles.name}>{this.props.userInfo.name}</Text>
+                  <Text allowFontScaling={false} style={styles.name}>{this.props.userInfo.name}</Text>
                 )}
                 {this.state.dialog == "spouse" && (
-                  <Text style={styles.name}>{this.props.spouseInfo.name}</Text>
+                  <Text allowFontScaling={false} style={styles.name}>{this.props.spouseInfo.name}</Text>
                 )}
               </View>
             </Dialog.Content>
@@ -284,7 +304,7 @@ class MyPage extends React.Component<MyPageProps> {
                   this.setState({ dialog: "none" });
                 }}
               >
-                닫기
+                <Text allowFontScaling={false}>닫기</Text>
               </Button>
             </Dialog.Actions>
           </Dialog>

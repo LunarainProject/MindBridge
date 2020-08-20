@@ -8,15 +8,20 @@ import {
   Text,
 } from "react-native";
 import { Headline, Surface } from "react-native-paper";
+import Title from "./Title";
+
 
 export default class BackgroundBase extends React.Component<Props> {
   render() {
     return (
       <Surface style={styles.screen}>
         <View style={styles.screenPadder}>
-        <Headline style={styles.headlineTitle}>
-                  {this.props.Title || "제목"}
-                </Headline>
+        {this.props.Title ? (
+          <Title>
+            {this.props.Title}
+          </Title>
+          ): <View/>
+        }
         </View>
         
         <View style={[styles.children]}>

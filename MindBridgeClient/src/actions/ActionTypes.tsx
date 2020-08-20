@@ -15,6 +15,7 @@ const ActionTypes = {
 
     //Survey Actions
     SET_RESULT: 'SET_RESULT',
+    SET_SPOUSE_RESULT: 'SET_SPOUSE_RESULT',
 
     //Privacy Actions
     SET_USER_INFO: 'SET_USER_INFO',

@@ -56,14 +56,14 @@ class LoginScreen extends React.Component<Props> {
     if (this.props.LoginState.autoLogin) {
       setTimeout(() => {
         this.props.AutoLogin();
-      }, 2000);
+      }, 800);
     }
   }
 
   render() {
     return (
       <View style={styles.main}>
-        <Text style={{ fontSize: 30, marginBottom: 20 }}>환영합니다</Text>
+        <Text allowFontScaling={false} style={{ fontSize: 30, marginBottom: 20 }}>환영합니다</Text>
         <Image
           style={{ width: width * 0.6, height: width * 0.6 }}
           resizeMode="cover"
@@ -80,7 +80,7 @@ class LoginScreen extends React.Component<Props> {
             {/* 로그인되었을 때 */
             this.props.LoginState.loggedIn? (
               <View onLayout={this.onLoggedInLayout}>
-                <Text>로그인 완료</Text>
+                <Text allowFontScaling={false} >로그인 완료</Text>
               </View>
             ) :
             /* 로그인되지 않았을 때 */
@@ -89,7 +89,7 @@ class LoginScreen extends React.Component<Props> {
               <View>
                 <ActivityIndicator size="small"></ActivityIndicator>
                 <View style={{ marginTop: 5 }}>
-                  <Text>자동 로그인 중입니다</Text>
+                  <Text allowFontScaling={false} >자동 로그인 중입니다</Text>
                 </View>
               </View>
             ) : 
@@ -99,12 +99,12 @@ class LoginScreen extends React.Component<Props> {
                 style={{ backgroundColor: "white" }}
                 onPress={this.onLogin}
               >
-                Google 계정으로 시작하기
+                <Text allowFontScaling={false}>Google 계정으로 시작하기</Text>
               </Button>
             )}
           </View>
-          <Text>부부의 행복한 사랑을 응원합니다.</Text>
-          <Text>-알콩달콩 부부학교-</Text>
+          <Text allowFontScaling={false} >부부의 행복한 사랑을 응원합니다.</Text>
+          <Text allowFontScaling={false} >-알콩달콩 부부학교-</Text>
         </View>
       </View>
     );

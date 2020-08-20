@@ -77,7 +77,8 @@ export default function App() {
         }
       },
       Survey: {
-        SurveyResultCards: []
+        SurveyResultCards: [],
+        SpouseResultCards: [],
       }
     } ,applyMiddleware(ReduxThunk))}>
       <PaperProvider theme={theme}>
