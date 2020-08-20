@@ -76,11 +76,21 @@ export default class GoogleService {
           };
         }
 
+        let name;
+        const str = (user?.firstName ?? "")+(user?.lastName ?? "");
+        const check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+        if(check.test(str)) {
+          //korean
+          name = `${user?.lastName}${user?.firstName}`;
+        } else {
+          name = `${user?.firstName} ${user?.lastName}`;
+        }
+
         return {
           user:
             {
               id: user?.uid,
-              name: `${user?.firstName} ${user?.lastName}`,
+              name: name,
               givenName: user?.firstName,
               familyName: user?.lastName,
               photoUrl: user?.photoURL,
