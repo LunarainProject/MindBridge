@@ -81,15 +81,15 @@ export default class Profile extends React.Component<Props> {
                   ></View>
                 )}
               </View>
-              <View style={styles.myName}>
+              <View style={styles.spouseName}>
                 <Text
                   numberOfLines={1}
                   ellipsizeMode="tail"
-                  style={styles.myNameTextBig}
+                  style={styles.spouseNameTextBig}
                 >
                   {this.props.myName}
                 </Text>
-                <Text allowFontScaling={false} style={[styles.spouseNameText, {marginLeft: 10}]}>{this.props.myState}</Text>
+                <Text allowFontScaling={false} style={[styles.spouseNameText]}>{this.props.myState}</Text>
               </View>
               <Button
                   style={{ backgroundColor: "#F970B9", marginLeft: 10 }}

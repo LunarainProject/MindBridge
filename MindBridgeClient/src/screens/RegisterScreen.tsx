@@ -24,43 +24,60 @@ import CombineAction from "../CombineAction";
 import { connect } from "react-redux";
 import { LoginState } from "../StateTypes";
 import { ThemeProvider } from "@react-navigation/native";
-
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { Picker, PickerIOS } from "@react-native-community/picker";
 
 class RegisterScreen extends React.Component<Props> {
+
+  private yearItems: any[] = [];
+  private monthItems: any[] = [];
+  private dayItems: any[] = [];
+
   async componentWillUnmount() {
     if(this.cancel) await this.props.Logout();
+  }
+
+  constructor(props: Props) {
+    super(props);
+    for(var i = 1900; i <= new Date().getFullYear(); i++) {
+      this.yearItems.push(<Picker.Item label={`${i}`} value={`${i}`} />)
+    }
+    for(var i = 1; i <= 12; i++) {
+      this.monthItems.push(<Picker.Item label={`${i}`} value={`${i}`} />)
+    }
+    console.log(this.getDays("2000", "1"));
+    for(var i = 1; i <= this.getDays("2000", "1"); i++) {
+      this.dayItems.push(<Picker.Item label={`${i}`} value={`${i}`} />)
+    }
+  }
+
+  private getDays(year: string, month: string): number{
+    const date = new Date(parseInt(year), parseInt(month), 0);
+    return date.getDate();
   }
 
   private cancel: boolean = true;
 
   state = {
-    date: "",
-    show: false,
+    year: "2000",
+    month: "1",
+    day: "1",
     value: "male",
+    picked: false,
   };
 
-  private dateProcess(date: Date) {
-    return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
-  }
 
-  private onChange = (event: any, selectedDate: any) => {
-    const currentDate = selectedDate? this.dateProcess(selectedDate as Date) : this.state.date;
-    this.setState({ show: Platform.OS === "ios" });
-    this.setState({ date: currentDate });
-  };
 
   render() {
     return (
       <View style={styles.main}>
-        <Text allowFontScaling={false} style={{ fontSize: 30, marginBottom: 10 }}>안녕하세요</Text>
+        <Text style={{ fontSize: 30, marginBottom: 10 }}>안녕하세요</Text>
         {this.props.LoginState.user && (
-          <Text allowFontScaling={false} >안녕하세요, {this.props.LoginState.user.name}님!</Text>
+          <Text>안녕하세요, {this.props.LoginState.user.name}님!</Text>
         )}
-        <Text allowFontScaling={false} >알콩달콩 부부관계 테스트 앱에 오신 걸 환영합니다.</Text>
-        <Text allowFontScaling={false} style={{ marginBottom: 20 }}>추가 정보를 입력해주세요.</Text>
+        <Text>알콩달콩 부부관계 테스트 앱에 오신 걸 환영합니다.</Text>
+        <Text style={{ marginBottom: 20 }}>추가 정보를 입력해주세요.</Text>
 
-        <Text allowFontScaling={false} style={{ marginTop: 10 }}>성</Text>
+        <Text style={{ marginTop: 10 }}>성</Text>
         <RadioButton.Group
           onValueChange={(value) => {
             this.setState({ value });
@@ -70,43 +87,62 @@ class RegisterScreen extends React.Component<Props> {
           <RadioButton.Item label="남자" value="male" />
           <RadioButton.Item label="여자" value="female" />
         </RadioButton.Group>
-        <Text allowFontScaling={false} style={{ marginTop: 10, marginBottom: 20 }}>생일</Text>
+        <Text style={{ marginTop: 10, marginBottom: 20 }}>생일</Text>
 
-        <Text allowFontScaling={false} style={{ marginBottom: 10 }}>
-          {this.state.date ?? "생일을 선택해주세요."}
+        <Text style={{ marginBottom: 10 }}>
+          { this.state.picked? 
+            `${this.state.year}.${this.state.month}.${this.state.day}` :
+            "생일을 선택해주세요."
+          }
         </Text>
 
-        {Platform.OS === "android" && (
-          <Button
-            onPress={() => {
-              this.setState({ show: true });
-            }}
-            mode="outlined"
-            style={{
-              borderColor: "#F970B9",
-              backgroundColor: "#F970B911",
-              borderWidth: 1,
-            }}
-            labelStyle={{ color: "#F970B9" }}
-          >
-            <Text allowFontScaling={false}>선택하기</Text>
-          </Button>
-        )}
-
-        {this.state.show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={new Date(2000, 1, 1)}
-            mode="date"
-            is24Hour={true}
-            display="default"
-            onChange={this.onChange}
-            style={{ backgroundColor: "red" }}
-          ></DateTimePicker>
-        )}
+        <View style={{flexDirection: 'row', width: "100%"}}>
+          <View style={{borderWidth: 1, borderColor: 'pink', width: "33%", height: 60,}}>
+            <Picker
+            selectedValue={this.state.year}
+            style={{height: 60, width: "100%"}}
+            onValueChange={(itemValue, itemIndex) => {
+              this.setState({year: itemValue, picked: true,});
+              this.dayItems = [];
+              for(var i = 1; i <= this.getDays(itemValue as string, this.state.month); i++) {
+                this.dayItems.push(<Picker.Item label={`${i}`} value={`${i}`} />);
+              }
+            }
+            }>
+              {this.yearItems}
+          </Picker>
+          </View>
+          <View style={{borderWidth: 1, borderColor: 'pink', width: "33%", height: 60,}}>
+            <Picker
+            selectedValue={this.state.month}
+            style={{height: 60, width: "100%"}}
+            onValueChange={(itemValue, itemIndex) => {
+              this.setState({month: itemValue, picked: true,});
+              this.dayItems = [];
+              for(var i = 1; i <= this.getDays(this.state.year, itemValue as string); i++) {
+                this.dayItems.push(<Picker.Item label={`${i}`} value={`${i}`} />);
+              }
+            }
+            }>
+              {this.monthItems}
+          </Picker>
+          </View><View style={{borderWidth: 1, borderColor: 'pink', width: "33%", height: 60,}}>
+            <Picker
+            selectedValue={this.state.day}
+            style={{height: 60, width: "100%"}}
+            onValueChange={(itemValue, itemIndex) => {
+              this.setState({day: itemValue, picked: true,});
+            }
+            }>
+              {this.dayItems}
+          </Picker>
+          </View>
+        </View>
+          
+          
 
         <View style={styles.bottom}>
-          <Text allowFontScaling={false} style={{ marginBottom: 20 }}>
+          <Text style={{ marginBottom: 20 }}>
             정보 입력을 제대로 하셨는지 꼭 확인하시고 아래의 회원가입 버튼을
             눌러주세요.
           </Text>
@@ -114,13 +150,13 @@ class RegisterScreen extends React.Component<Props> {
             onPress={() => {
               this.cancel = false;
               this.props.navigation.goBack();
-              this.props.Register(this.state.date, this.state.value)
+              this.props.Register(`${this.state.year}.${this.state.month}.${this.state.day}`, this.state.value)
             }}
             mode="contained"
-            disabled={this.state.date === ""}
+            disabled={!this.state.picked}
             labelStyle={{ color: "white" }}
           >
-            <Text allowFontScaling={false}>회원가입</Text>
+            회원가입
           </Button>
         </View>
       </View>
