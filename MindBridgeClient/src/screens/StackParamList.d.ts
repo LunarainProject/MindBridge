@@ -28,8 +28,7 @@ type StackParamList = {
     AppInfo: undefined;
     Ask: undefined;
     FAQ: undefined;
-    PointUse: undefined;
-    PointCharge: undefined;
+    Point: undefined;
     Reference: undefined;
 };
 

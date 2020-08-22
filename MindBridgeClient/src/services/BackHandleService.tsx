@@ -1,4 +1,4 @@
-import { AppState, BackHandler, Platform, ToastAndroid } from "react-native";
+import { AppState, AppStateStatus, BackHandler, Platform, ToastAndroid } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import StackParamList from "../screens/StackParamList";
 
@@ -82,7 +82,7 @@ export class BackHandleService {
   public static _handleAppStateChange(nextAppState: any) {
     if (this._isMain) {
       if (
-        this._appState.match(/inactive|background/) &&
+        this._AppState.match(/inactive|background/) &&
         nextAppState === "active"
       ) {
         console.log("add handler again");
@@ -90,6 +90,7 @@ export class BackHandleService {
           "hardwareBackPress",
           this.handleBackButton
         );
+        BackHandleService.focusCallback();
       } else if (nextAppState === "background") {
         console.log("remove handler");
         BackHandler.removeEventListener(
@@ -99,7 +100,7 @@ export class BackHandleService {
       }
     }
 
-    this._appState = nextAppState;
+    this._AppState = nextAppState;
   }
 
   public static MainGoBack() {
@@ -107,14 +108,16 @@ export class BackHandleService {
   }
   
   public static MainScreenDidMount() {
+    console.log('mainscreen didmount');
     AppState.addEventListener("change", this._handleAppStateChange);
     this._mainNavigation.addListener("focus", this._handleFocus);
   }
   public static MainScreenWillUnmount() {
+    console.log('mainscreen willunmount');
     AppState.removeEventListener("change", this._handleAppStateChange);
     BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
     this._mainNavigation.removeListener("focus", this._handleFocus);
   }
 
-  private static _appState = AppState.currentState;
+  private static _AppState = AppState.currentState;
 }

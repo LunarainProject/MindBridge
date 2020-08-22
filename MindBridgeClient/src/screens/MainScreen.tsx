@@ -128,10 +128,16 @@ class MainScreen extends React.Component<Props> {
       this.props.InitTip();
     }
 
+    AppState.addEventListener("change", this._handler);
     BackHandleService.MainScreenDidMount();
   }
 
+  private _handler = (nextAppState: any) => {
+    BackHandleService._handleAppStateChange(nextAppState);
+  }
+
   componentWillUnmount() {
+    AppState.removeEventListener("change", this._handler);
     BackHandleService.MainScreenWillUnmount();
   }
 

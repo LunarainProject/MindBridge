@@ -47,7 +47,7 @@ class MoreRoute extends React.Component<Props> {
   private info = () => <Info />;
 
   private tabs = () => [
-    { title: "알림센터", route: this.info() },
+    //{ title: "알림센터", route: this.info() },
     { title: "마이페이지", route: this.myPage() },
   ];
 
@@ -57,7 +57,7 @@ class MoreRoute extends React.Component<Props> {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
+      <View style={{ flex: 1, backgroundColor: "#FCDCFA", position: "relative" }}>
         <Portal>
           <Dialog
             visible={this.state.dialog}
@@ -124,6 +124,11 @@ class MoreRoute extends React.Component<Props> {
                 }}
               />
             </View>
+            <View style={{ position: "absolute", bottom: 20, right: 30}}>
+              <Text>
+                앱 버전
+              </Text>
+            </View>
           </View>
         </Background>
       </View>
@@ -159,7 +164,7 @@ function mapDispatchToProps(dispatch: Function) {
     },
 
     CancelMembership: () => {
-      dispatch(CombineAction.CancelMembership());
+      dispatch(CombineAction.CancelMembershipThunk());
     },
   };
 }
@@ -197,8 +202,8 @@ class MyPage extends React.Component<MyPageProps> {
           BackHandleService.Navigate("SurveyHistory");
         },
       },
-      { text: "자료실", onClick: () => {
-        BackHandleService.Navigate("Reference");
+      { text: "My포인트", onClick: () => {
+        BackHandleService.Navigate("Point");
       } },
     ],
 
@@ -407,6 +412,7 @@ const radius = 10;
 const styles = StyleSheet.create({
   main: {
     flex: 1,
+    position: 'relative',
   },
 
   name: {

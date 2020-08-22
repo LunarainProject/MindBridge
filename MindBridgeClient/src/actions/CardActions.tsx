@@ -2,7 +2,6 @@ import IAction from "./IAction";
 import ActionTypes from "./ActionTypes";
 import { CardCategoryType, CardType, LoginState } from "../StateTypes";
 import ServerService from "../services/ServerService";
-import GoogleService from "../services/GoogleService";
 
 export type CardActions = SetSurveyAction | SetOverviewAction | SetTipAction;
 
@@ -63,8 +62,7 @@ function _SetOverview(survey: CardCategoryType, video: CardCategoryType, column:
 export const actionTypeSurveyId = '27'
 
 export const RetrieveSurveyThunk = () => async (dispatch: Function, getState: Function) => {
-    const idToken: string | null = await GoogleService.getIdToken();
-    const surveys = await ServerService.GetSurveyList(idToken);
+    const surveys = await ServerService.GetSurveyList();
     const fixedSurveys: CardCategoryType = {
         Title: "부부 행동유형 테스트",
         Cards: [
@@ -84,8 +82,7 @@ export const RetrieveSurveyThunk = () => async (dispatch: Function, getState: Fu
 }
 
 export const RetrieveOverviewThunk = () => async (dispatch: Function, getState: Function) => {
-    const idToken: string | null = (getState().Login as LoginState).idToken;
-    const surveys = await ServerService.GetSurveyList(idToken);
+    const surveys = await ServerService.GetSurveyList();
     const survey: CardCategoryType = {
         Title: "테스트",
         Cards: [

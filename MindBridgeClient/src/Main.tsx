@@ -16,8 +16,7 @@ import AnnounceScreen from "./screens/subScreens/AnnounceScreen";
 import AppInfoScreen from "./screens/subScreens/AppInfoScreen";
 import AskScreen from "./screens/subScreens/AskScreen";
 import FAQScreen from "./screens/subScreens/FAQScreen";
-import PointUseScreen from "./screens/subScreens/PointUseScreen";
-import PointChargeScreen from "./screens/subScreens/PointChargeScreen";
+import PointScreen from "./screens/subScreens/PointScreen";
 import ReferenceScreen from "./screens/subScreens/ReferenceScreen";
 import SpouseHistoryScreen from "./screens/SpouseHistoryScreen";
 
@@ -99,14 +98,9 @@ export default function Main() {
                         headerTitle: "자주 묻는 질문"
                       }}
         />
-        <Stack.Screen name="PointUse"    component={PointUseScreen} 
+        <Stack.Screen name="Point"    component={PointScreen} 
                       options={{
-                        headerTitle: "포인트 사용"
-                      }}
-        />
-        <Stack.Screen name="PointCharge"    component={PointChargeScreen} 
-                      options={{
-                        headerTitle: "포인트 충전"
+                        headerTitle: "My 포인트"
                       }}
         />
         <Stack.Screen name="Reference"    component={ReferenceScreen} 

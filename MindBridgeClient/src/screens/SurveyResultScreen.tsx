@@ -15,31 +15,19 @@ import WebView from "react-native-webview";
 import { ActivityIndicator } from "react-native-paper";
 import { LoginState } from "../StateTypes";
 import { connect } from "react-redux";
-import GoogleService from "../services/GoogleService";
+import ServerService from "../services/ServerService";
 
 class SurveyResultScreen extends React.Component<Props> {
-  private OnClickTestHandler: (
-    arg1: NativeSyntheticEvent<NativeTouchEvent>
-  ) => void;
-
-  private surveyResultUri: string = "http://gfs3456.cafe24.com/manage/TestResult"
-
-  constructor(props: Props) {
-    super(props);
-    this.OnClickTestHandler = (
-      e: NativeSyntheticEvent<NativeTouchEvent>
-    ): void => {
-      props.navigation.navigate("Test");
-      return;
-    };
-  }
 
   private url: string = "";
 
   async componentDidMount() {
-    const idToken = await GoogleService.getIdToken();
     const spouseCount: string = this.props.route.params.SpouseCount ?? "0";
-    this.url = `${this.surveyResultUri}/${this.props.route.params.SurveyResultId}/${idToken}/${this.props.route.params.SurveyResultCount}/${spouseCount}`;
+    this.url = ServerService.GetSurveyResultUrl(
+      this.props.route.params.SurveyResultId,
+      this.props.route.params.SurveyResultCount,
+      spouseCount,
+    );
     console.log(this.url);
   }
 

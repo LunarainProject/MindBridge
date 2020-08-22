@@ -2,7 +2,6 @@ import IAction from "./IAction";
 import ActionTypes from "./ActionTypes";
 import { LoginState, PrivacyState, UserInfo } from "../StateTypes";
 import ServerService from "../services/ServerService";
-import GoogleService from "../services/GoogleService";
 
 export type PrivacyActions = SetUserInfoAction | SetSpouseInfoAction;
 
@@ -39,16 +38,13 @@ function _SetSpouseInfo(spouseInfo: UserInfo): SetSpouseInfoAction {
 }
 
 export const RetrieveUserInfoThunk = () => async (dispatch: Function, getState: Function) => {
-    const idToken = await GoogleService.getIdToken();
     const { user } = (getState().Login as LoginState);
-    const userInfo = await ServerService.GetUserInfo(idToken, user);
+    const userInfo = await ServerService.GetUserInfo(user);
     dispatch(_SetUserInfo(userInfo));
 }
 
 export const RetrieveSpouseInfoThunk = () => async (dispatch: Function, getState: Function) => {
-    const idToken = await GoogleService.getIdToken();
-    console.log("RetrieveSpouseInfoThunk-idToken:", idToken);
-    let spouseInfo = await ServerService.GetSpouseInfo(idToken);
+    let spouseInfo = await ServerService.GetSpouseInfo();
     if(spouseInfo === null) {
       spouseInfo = {
         name: "",
@@ -62,10 +58,9 @@ export const RetrieveSpouseInfoThunk = () => async (dispatch: Function, getState
 
 export const MatchSpouseThunk = (spouseEmail: string) => async (dispatch: Function, getState: Function) => {
   console.log('match spouse thunk');
-  const idToken = await GoogleService.getIdToken();
-  await ServerService.MatchSpouse(idToken, spouseEmail);
+  await ServerService.MatchSpouse(spouseEmail);
   setTimeout(() => {
-    ServerService.GetSpouseInfo(idToken).then((spouseInfo) => {
+    ServerService.GetSpouseInfo().then((spouseInfo) => {
       if(spouseInfo === null) {
         spouseInfo = {
           name: "",
@@ -76,6 +71,6 @@ export const MatchSpouseThunk = (spouseEmail: string) => async (dispatch: Functi
       }
       dispatch(_SetSpouseInfo(spouseInfo));
     });
-  }, 500);
+  }, 1000);
 }
   

@@ -20,8 +20,7 @@ import { LoginThunk } from "../actions/LoginActions";
 import CombineAction from "../CombineAction";
 import { LoginState } from "../StateTypes";
 import StackParamList from "./StackParamList";
-import * as Google from "expo-google-app-auth";
-import GoogleService from "../services/GoogleService";
+import EnvGetGoogleService from "../services/EnvGetGoogleService";
 
 class LoginScreen extends React.Component<Props> {
   state = {
@@ -48,7 +47,7 @@ class LoginScreen extends React.Component<Props> {
     console.log('login init');
 
     try {
-      await GoogleService.initAsync();
+      await EnvGetGoogleService().initAsync();
     } catch(e) {
       console.log("initialization error: ", e);
     }

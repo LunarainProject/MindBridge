@@ -1,9 +1,9 @@
 import IAction from "./IAction";
 import ActionTypes from "./ActionTypes";
-import GoogleService from "../services/GoogleService";
 import { GoogleUser } from "expo-google-app-auth";
 import ServerService from "../services/ServerService";
 import { LoginState } from "../StateTypes";
+import EnvGetGoogleService from "../services/EnvGetGoogleService";
 
 export type LoginActions = LoginAction | LogoutAction | RegisterAction;
 
@@ -37,7 +37,7 @@ function _Logout(): LogoutAction {
   };
 }
 export const LogoutThunk = () => async (dispatch: Function) => {
-  await GoogleService.signOutAsync();
+  EnvGetGoogleService().signOutAsync();
   dispatch(_Logout());
 };
 
@@ -67,7 +67,7 @@ function _Login(
 }
 
 export const LoginThunk = () => async (dispatch: Function) => {
-  let { user, idToken } = await GoogleService.signInAsync();
+  let { user, idToken } = await EnvGetGoogleService().signInAsync();
   if (user === undefined) user = null;
 
   let loggedIn: boolean;
@@ -93,6 +93,7 @@ export const LoginThunk = () => async (dispatch: Function) => {
       needRegister = true;
       console.log("Unregistered");
     } else {
+      //시작하기 실패
       loggedIn = false;
       autoLogin = false;
       needRegister = false;
@@ -122,7 +123,7 @@ export const AutoLoginThunk = () => async (dispatch: Function) => {
     dispatch(_Login(loggedIn, autoLogin, needRegister, null, null));
   } else {
     //앱 출시
-    let { user, idToken } = await GoogleService.autoSignInAsync();
+    let { user, idToken } = await EnvGetGoogleService().autoSignInAsync();
     if (user === undefined) user = null;
 
     let loggedIn: boolean;
@@ -158,9 +159,8 @@ export const AutoLoginThunk = () => async (dispatch: Function) => {
   }
 };
 
-export const CancelMembership = () => async (dispatch: Function, getState: Function) => {
-  const idToken = await GoogleService.getIdToken();
-  await ServerService.CancelMembershipList(idToken);
-  await GoogleService.signOutAsync();
+export const CancelMembershipThunk = () => async (dispatch: Function, getState: Function) => {
+  await ServerService.CancelMembership();
+  await EnvGetGoogleService().signOutAsync();
   dispatch(_Logout());
 }

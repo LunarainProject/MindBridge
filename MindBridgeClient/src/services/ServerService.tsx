@@ -6,8 +6,12 @@ import {
   UserInfo,
 } from "../StateTypes";
 import NetInfo from "@react-native-community/netinfo";
+import JwtDecode from "jwt-decode";
 
 export default class ServerService {
+
+  private static accessToken: string | null = null;
+
   private static async InternetCheck() {
     const status = await NetInfo.fetch();
     if (!status.isConnected) {
@@ -15,6 +19,35 @@ export default class ServerService {
       return false;
     }
     return true;
+  }
+
+  private static async RetrieveAccessToken(idToken: string | null) {
+    //서버에서 액세스 토큰을 받아옵니다. 근데 그냥 제가 만들 겁니다.
+    if(idToken !== null) {
+      const decoded = JwtDecode(idToken);
+      console.log(decoded);
+      type Decode = {
+        sub: string;
+      }
+      const uid = (decoded as Decode)?.sub;
+      console.log('userId: ', uid);
+      //uid 를 암호화
+      ServerService.accessToken = uid ?? null;
+    }
+  }
+
+  public static _GetAccessToken(): string | null {
+    return ServerService.accessToken;
+  }
+
+  public static GetSurveyResultUrl(resultId: string, resultCount: string, spouseCount: string) {
+    const surveyResultUri: string = "http://gfs3456.cafe24.com/manage/TestResult";
+    return `${surveyResultUri}/${resultId}/${this.accessToken}/${resultCount}/${spouseCount}`;
+  }
+
+  public static GetSurveyStartUrl(surveyId: string) {
+    const surveyUri: string = "http://gfs3456.cafe24.com/manage/TestStartPage";
+    return `${surveyUri}/${surveyId}/${this.accessToken}`
   }
 
   public static async RegisterAccount(
@@ -49,6 +82,7 @@ export default class ServerService {
         console.log("text request error: ", e);
       }
 
+      this.RetrieveAccessToken(idToken);
       return responseText;
     }
   }
@@ -78,15 +112,16 @@ export default class ServerService {
         console.log("response parse error: ", e);
       }
 
+      if(responseText != "Su")
+      this.RetrieveAccessToken(idToken);
+      
       console.log(responseText);
       return responseText;
     }
   }
 
-  public static async GetSurveyList(
-    idToken: string | null
-  ): Promise<CardCategoryType[]> {
-    if (idToken !== null) {
+  public static async GetSurveyList(): Promise<CardCategoryType[]> {
+    if (ServerService.accessToken !== null) {
       if (!(await this.InternetCheck())) {
         return [
           {
@@ -227,11 +262,8 @@ export default class ServerService {
     };
   }
 
-  public static async GetUserInfo(
-    idToken: string | null,
-    user: GoogleUser | null
-  ): Promise<UserInfo> {
-    if (idToken !== null) {
+  public static async GetUserInfo(user: GoogleUser | null): Promise<UserInfo> {
+    if (ServerService.accessToken !== null) {
       if (!(await this.InternetCheck())) {
         return {
           name: user?.name ?? "",
@@ -254,7 +286,7 @@ export default class ServerService {
         response = await FetchBuilder.build(
           "http://gfs3456.cafe24.com/api/BringUserInfo.php"
         )
-          .param("id_token", idToken)
+          .param("access_token", ServerService.accessToken)
           .fetch();
       } catch (e) {
         console.log("fetch error: ", e);
@@ -315,12 +347,10 @@ export default class ServerService {
     }
   }
 
-  public static async GetSpouseInfo(
-    idToken: string | null
-  ): Promise<UserInfo | null> {
-    console.log("GET SPOUSE INFO, id token: ", idToken);
+  public static async GetSpouseInfo(): Promise<UserInfo | null> {
+    console.log("GET SPOUSE INFO, access token: ", this.accessToken);
 
-    if (idToken !== null) {
+    if (this.accessToken !== null) {
       if (!(await this.InternetCheck())) {
         return null;
       }
@@ -330,7 +360,7 @@ export default class ServerService {
         response = await FetchBuilder.build(
           "http://gfs3456.cafe24.com/api/CheckMatching.php"
         )
-          .param("id_token", idToken)
+          .param("access_token", this.accessToken)
           .fetch();
       } catch (e) {
         console.log("fetch error: ", e);
@@ -412,10 +442,10 @@ export default class ServerService {
     return null;
   }
 
-  public static async MatchSpouse(idToken: string | null, spouseEmail: string) {
-    console.log("Match Spouse, id token: ", idToken);
+  public static async MatchSpouse(spouseEmail: string) {
+    console.log("Match Spouse, access token: ", this.accessToken);
 
-    if (idToken !== null) {
+    if (this.accessToken !== null) {
       if (!(await this.InternetCheck())) {
         return;
       }
@@ -425,7 +455,7 @@ export default class ServerService {
         response = await FetchBuilder.build(
           "http://gfs3456.cafe24.com/api/MatchingPartner.php"
         )
-          .param("id_token", idToken)
+          .param("access_token", this.accessToken)
           .param("partner_email", spouseEmail)
           .fetch();
       } catch (e) {
@@ -536,22 +566,20 @@ export default class ServerService {
     return ret;
   }
 
-  public static async GetSurveyResultList(
-    idToken: string | null
-  ): Promise<SurveyResultCardType[]> {
-    console.log("GSRL, idtoken: ", idToken);
+  public static async GetSurveyResultList(): Promise<SurveyResultCardType[]> {
+    console.log("GSRL, accessToken: ", ServerService.accessToken);
 
     if (!(await this.InternetCheck())) {
       return [];
     }
 
-    if (idToken !== null) {
+    if (this.accessToken !== null) {
       let response;
       try {
         response = await FetchBuilder.build(
           "http://gfs3456.cafe24.com/api/resultlist.php"
         )
-          .param("id_token", idToken)
+          .param("access_token", this.accessToken)
           .fetch();
       } catch (e) {
         console.log("fetch error: ", e);
@@ -595,22 +623,20 @@ export default class ServerService {
     return [];
   }
 
-  public static async GetSpouseResultList(
-    idToken: string | null
-  ): Promise<SurveyResultCardType[]> {
-    console.log("GSPOUSERL, idtoken: ", idToken);
+  public static async GetSpouseResultList(): Promise<SurveyResultCardType[]> {
+    console.log("GSPOUSERL, accessToken: ", this.accessToken);
 
     if (!(await this.InternetCheck())) {
       return [];
     }
 
-    if (idToken !== null) {
+    if (this.accessToken !== null) {
       let response;
       try {
         response = await FetchBuilder.build(
           "http://gfs3456.cafe24.com/api/partnerresultlist.php"
         )
-          .param("id_token", idToken)
+          .param("access_token", this.accessToken)
           .fetch();
       } catch (e) {
         console.log("fetch error: ", e);
@@ -654,8 +680,8 @@ export default class ServerService {
     return [];
   }
 
-  public static async CancelMembershipList(idToken: string | null) {
-    if (idToken !== null) {
+  public static async CancelMembership() {
+    if (this.accessToken !== null) {
       if (!(await this.InternetCheck())) {
         return;
       }
@@ -665,7 +691,7 @@ export default class ServerService {
         response = await FetchBuilder.build(
           "http://gfs3456.cafe24.com/api/CancelMemberShip.php"
         )
-          .param("id_token", idToken)
+          .param("access_token", this.accessToken)
           .fetch();
       } catch (e) {
         console.log("fetch error: ", e);

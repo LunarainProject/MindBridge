@@ -2,7 +2,6 @@ import IAction from "./IAction";
 import ActionTypes from "./ActionTypes";
 import { LoginState, SurveyResultCardType, SurveyResultType } from "../StateTypes";
 import ServerService from "../services/ServerService";
-import GoogleService from "../services/GoogleService";
 
 export type SurveyActions = SetResultAction | SetSpouseResultAction;
 
@@ -24,9 +23,7 @@ const _SetResults = (resultCards: SurveyResultCardType[]): SetResultAction => {
 }
 
 export const RetrieveResultsThunk = () => async (dispatch: Function, getState: Function) => {
-
-    const idToken = await GoogleService.getIdToken();
-    const result = await ServerService.GetSurveyResultList(idToken);
+    const result = await ServerService.GetSurveyResultList();
 
     //읽은 데이터로 디스패치
     dispatch(_SetResults(result));
@@ -50,9 +47,7 @@ const _SetSpouseResults = (resultCards: SurveyResultCardType[]): SetResultAction
 }
 
 export const RetrieveSpouseResultsThunk = () => async (dispatch: Function, getState: Function) => {
-
-    const idToken = await GoogleService.getIdToken();
-    const result = await ServerService.GetSpouseResultList(idToken);
+    const result = await ServerService.GetSpouseResultList();
 
     //읽은 데이터로 디스패치
     dispatch(_SetSpouseResults(result));

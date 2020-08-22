@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Button,
   NativeSyntheticEvent,
   NativeTouchEvent, Dimensions
 } from "react-native";
@@ -12,30 +11,14 @@ import StackParamList from "./StackParamList";
 
 import Counter from "../components/Counter";
 import WebView from "react-native-webview";
-import { ActivityIndicator } from "react-native-paper";
+import { ActivityIndicator, Button } from "react-native-paper";
 import { LoginState, SurveyState } from "../StateTypes";
 import { connect } from "react-redux";
-import GoogleService from "../services/GoogleService";
 import { ScrollView } from "react-native-gesture-handler";
 import CombineAction from "../CombineAction";
 import SurveyResultCard from "../components/SurveyResultCard";
 
 class SpouseHistoryScreen extends React.Component<Props> {
-  private OnClickTestHandler: (
-    arg1: NativeSyntheticEvent<NativeTouchEvent>
-  ) => void;
-
-  private surveyResultUri: string = "http://gfs3456.cafe24.com/manage/TestResult"
-
-  constructor(props: Props) {
-    super(props);
-    this.OnClickTestHandler = (
-      e: NativeSyntheticEvent<NativeTouchEvent>
-    ): void => {
-      props.navigation.navigate("Test");
-      return;
-    };
-  }
 
   componentDidMount() {
     this.props.retrieveSpouse();
@@ -46,6 +29,22 @@ class SpouseHistoryScreen extends React.Component<Props> {
       <View style={styles.main}>
         {/* <Text allowFontScaling={false} style={{fontSize: 30, marginBottom: 20, fontWeight: "bold"}}>서베이 히스토리</Text> */}
         <ScrollView>
+          <View>
+            <Button
+              onPress={() => {
+                this.props.navigation.navigate("SurveyResult", {
+                  SurveyResultId: this.props.route.params.SurveyResultId,
+                  SurveyResultCount: this.props.route.params.SurveyResultCount,
+                  SpouseCount: "-1",
+                })
+              }}
+              mode="outlined"
+              labelStyle={{ color: "pink" }}
+              style={{backgroundColor: "EE9933"}}
+            >
+              내 테스트 결과만 보기
+            </Button>
+          </View>
         {this.props.Survey.SpouseResultCards.length == 0 ? (
           <View style={{flex: 1, justifyContent: "center", alignItems: 'center'}}>
             <Text allowFontScaling={false} >

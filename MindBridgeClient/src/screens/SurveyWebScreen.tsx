@@ -15,28 +15,14 @@ import { BackHandleService } from "../services/BackHandleService";
 import { connect } from "react-redux";
 import { LoginState } from "../StateTypes";
 import { StackActions } from "@react-navigation/native";
+import ServerService from "../services/ServerService";
 
 class SurveyWebScreen extends React.Component<Props, State> {
-  private OnClickTestHandler: (
-    arg1: NativeSyntheticEvent<NativeTouchEvent>
-  ) => void;
 
-  private surveyUri: string = "http://gfs3456.cafe24.com/manage/TestStartPage";
 
-  constructor(props: Props) {
-    super(props);
-
-    this.OnClickTestHandler = (
-      e: NativeSyntheticEvent<NativeTouchEvent>
-    ): void => {
-      props.navigation.navigate("Test");
-      return;
-    };
-
-    this.state = {
+  state = {
       isWebViewLoaded: false,
     };
-  }
   
   render() {
     return (
@@ -45,7 +31,9 @@ class SurveyWebScreen extends React.Component<Props, State> {
           onLoad={() => {
             this.setState({ isWebViewLoaded: true });
           }}
-          source={{ uri: `${this.surveyUri}/${this.props.route.params.SurveyId}/${this.props.LoginState.idToken}`}}
+          source={{ uri: ServerService.GetSurveyStartUrl(
+            this.props.route.params.SurveyId
+          )}}
           style={styles.webView}
           onMessage={(event: any) => {
             switch (event.nativeEvent.data) {
