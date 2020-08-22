@@ -14,6 +14,7 @@ import { PanGestureHandler, ScrollView } from "react-native-gesture-handler";
 export default class Tab extends React.Component<Props> {
   state = {
     focused: 0,
+    width: Dimensions.get("screen").width,
     Pos: new Animated.Value(0),
   };
 
@@ -43,6 +44,19 @@ export default class Tab extends React.Component<Props> {
 
   constructor(props: Props) {
     super(props);
+  }
+
+  componentDidMount() {
+    Dimensions.addEventListener("change", this._handler);
+  }
+
+  private _handler = () => {
+    console.log('orientation changed. now width: ', Dimensions.get("screen").width);
+    this.setState({width: Dimensions.get('screen').width});
+  }
+
+  componentWillUnmount() {
+    Dimensions.removeEventListener("change", this._handler);
   }
 
   render() {
@@ -115,15 +129,14 @@ export default class Tab extends React.Component<Props> {
             style={[
               styles.tabScreen,
               {
-                width:
-                  Dimensions.get("screen").width * this.props.tabs.length,
+                width: this.state.width * this.props.tabs.length,
               },
               {
                 transform: [
                   {
                     translateX: this.state.Pos.interpolate({
                       inputRange: [0, this.props.tabs.length - 1],
-                      outputRange: [0, -Dimensions.get("screen").width * (this.props.tabs.length - 1)],
+                      outputRange: [0, -this.state.width * (this.props.tabs.length - 1)],
                     }),
                   },
                 ],
@@ -131,7 +144,7 @@ export default class Tab extends React.Component<Props> {
             ]}
           >
             {this.props.tabs.map((val: TabType, ind) => (
-              <View style={{ width: Dimensions.get("screen").width }} key={ind}>
+              <View style={{ width: this.state.width }} key={ind}>
                 {val.route}
               </View>
             ))}

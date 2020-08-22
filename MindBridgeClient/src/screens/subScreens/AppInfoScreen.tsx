@@ -12,6 +12,7 @@ import StackParamList from "../StackParamList";
 import Markdown from "react-native-markdown-renderer";
 import md from "../../../assets/release.md";
 import { Asset } from 'expo-asset';
+import { ScrollView } from "react-native-gesture-handler";
 
 export default class AppInfoScreen extends React.Component<Props> {
     
@@ -30,9 +31,11 @@ export default class AppInfoScreen extends React.Component<Props> {
     
     render() {
         return (
-            <View style={styles.main}>
-                <Markdown>{this.state.release}</Markdown>
-            </View>
+            <ScrollView>
+                <View style={styles.main}>
+                    <Markdown>{this.state.release}</Markdown>
+                </View>
+            </ScrollView>
         );
     }
 }

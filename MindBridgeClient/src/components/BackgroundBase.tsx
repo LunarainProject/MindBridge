@@ -4,7 +4,6 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  Dimensions,
   Text,
 } from "react-native";
 import { Headline, Surface } from "react-native-paper";

@@ -7,7 +7,7 @@ import {
   Text,
   BackHandler,
   Image,
-  Alert,
+  Alert, Dimensions
 } from "react-native";
 import DoubleCard from "../../components/DoubleCard";
 import Profile from "../../components/Profile";
@@ -55,7 +55,12 @@ class MoreRoute extends React.Component<Props> {
     this.props.RetrieveSpouseInfo();
   }
 
+  componentWillUnmount() {
+  }
+
   render() {
+
+    console.log("ReRendered");
     return (
       <View style={{ flex: 1, backgroundColor: "#FCDCFA", position: "relative" }}>
         <Portal>
@@ -125,8 +130,17 @@ class MoreRoute extends React.Component<Props> {
               />
             </View>
             <View style={{ position: "absolute", bottom: 20, right: 30}}>
-              <Text>
-                앱 버전
+              <Text 
+              style={{
+                textDecorationLine: 'underline',
+                color: '#3A3A3A',
+                fontSize: 15,
+              }}
+              onPress={()=> {
+                BackHandleService.Navigate("AppInfo");
+              }}
+              >
+                앱 정보 보기
               </Text>
             </View>
           </View>

@@ -43,7 +43,7 @@ class MainScreen extends React.Component<Props> {
   private SurveyRoute = () => <SurveyRoute {...this.props} />;
   private TipRoute = () => <TipRoute {...this.props} />;
   private AdvertiseRoute = () => <AdvertiseRoute {...this.props} />;
-  private MoreRoute = () => <MoreRoute {...this.props} />;
+  private MoreRoute = () => <MoreRoute {...this.props}/>;
 
   private routes = [
     { key: "Overview", title: "모아보기" },
@@ -126,6 +126,7 @@ class MainScreen extends React.Component<Props> {
       this.props.InitSurvey();
       this.props.InitOverview();
       this.props.InitTip();
+      this.forceUpdate();
     }
 
     AppState.addEventListener("change", this._handler);

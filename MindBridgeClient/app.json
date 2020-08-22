@@ -2,7 +2,7 @@
   "expo": {
     "name": "마음다리",
     "slug": "MindBridgeApp",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {

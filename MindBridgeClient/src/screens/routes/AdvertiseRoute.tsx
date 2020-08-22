@@ -160,10 +160,10 @@ const homework = <Homework />;
 
 const tabs = [
   { title: "소개", route: myPage },
-  { title: "일정", route: itinerary },
-  { title: "후원", route: donate },
-  { title: "후기", route: review },
-  { title: "숙제", route: homework },
+  //{ title: "일정", route: itinerary },
+  //{ title: "후원", route: donate },
+  //{ title: "후기", route: review },
+  //{ title: "숙제", route: homework },
 ];
 
 const styles = StyleSheet.create({
