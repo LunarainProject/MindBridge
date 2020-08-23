@@ -51,6 +51,7 @@ class RegisterScreen extends React.Component<Props> {
   }
 
   private getDays(year: string, month: string): number{
+    // month -1 이 일반적이나 month 라고 넣어서 그 다음 월의 0일을 가져오는 코드
     const date = new Date(parseInt(year), parseInt(month), 0);
     return date.getDate();
   }

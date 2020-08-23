@@ -327,12 +327,8 @@ export default class ServerService {
           year && month && day
             ? new Date(
                 parseInt(year),
-                parseInt(month),
+                parseInt(month) -1,
                 parseInt(day),
-                0,
-                0,
-                0,
-                0
               )
             : new Date(),
         sex: packet.sex,
@@ -415,9 +411,9 @@ export default class ServerService {
         return null;
       } else {
         // // `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`
-        // const [year, month, day] = packet.birth.split('.');
+        const [year, month, day] = packet.birth.split('.');
 
-        const [year, month, day] = ["2020", "10", "3"];
+        // const [year, month, day] = ["2020", "10", "3"];
 
         return {
           name: packet?.name ?? "",
@@ -426,12 +422,8 @@ export default class ServerService {
             year && month && day
               ? new Date(
                   parseInt(year),
-                  parseInt(month),
+                  parseInt(month) - 1,
                   parseInt(day),
-                  0,
-                  0,
-                  0,
-                  0
                 )
               : new Date(),
           sex: packet.sex,
@@ -609,12 +601,18 @@ export default class ServerService {
 
       return Object.values(packet).map((result) => {
         const res = result as ResultPacket;
-        console.log(res);
+        console.log('SurveyResult: ', res);
+        const [ year, month, date ] = res.date.split('.');
+        console.log(year ,month, date);
         return {
           Title: res.title,
           Count: res.count,
           Image: res.img_url,
-          Date: new Date(),
+          Date: new Date(
+            parseInt(year),
+            parseInt(month) - 1,
+            parseInt(date),
+          ),
           Id: res.pkg_id,
         };
       });
@@ -666,12 +664,17 @@ export default class ServerService {
 
       return Object.values(packet).map((result) => {
         const res = result as ResultPacket;
+        const [ year, month, date ] = res.date.split('.');
         console.log(res);
         return {
           Title: res.title,
           Count: res.count,
           Image: res.img_url,
-          Date: new Date(),
+          Date: new Date(
+            parseInt(year),
+            parseInt(month) - 1,
+            parseInt(date)
+          ),
           Id: res.pkg_id,
         };
       });

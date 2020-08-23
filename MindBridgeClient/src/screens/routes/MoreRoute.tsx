@@ -96,8 +96,7 @@ class MoreRoute extends React.Component<Props> {
               <Button
                 labelStyle={{ margin: 10, marginRight: 30, color: "#F970B9" }}
                 onPress={() => {
-                  this.setState({ email: "" });
-                  this.setState({ dialog: false });
+                  this.setState({ email: "", dialog: false });
                 }}
               >
                 <Text allowFontScaling={false}>취소</Text>
@@ -204,7 +203,11 @@ class MyPage extends React.Component<MyPageProps> {
       {
         text: "배우자 프로필",
         onClick: () => {
-          this.setState({ dialog: "spouse" });
+          if(this.props.spouseInfo.name) {
+            this.setState({ dialog: "spouse" });
+          } else {
+            alert("배우자가 등록되어 있지 않습니다.");
+          }
         },
       },
     ],
@@ -309,10 +312,16 @@ class MyPage extends React.Component<MyPageProps> {
                   )}
                 </View>
                 {this.state.dialog == "user" && (
-                  <Text allowFontScaling={false} style={styles.name}>{this.props.userInfo.name}</Text>
+                  <View style={{alignItems: 'center'}}>
+                    <Text allowFontScaling={false} style={styles.name}>{this.props.userInfo.name}</Text>
+                    <Text allowFontScaling={false}>{`생일 : ${this.props.userInfo.birthDay.getFullYear()}년 ${this.props.userInfo.birthDay.getMonth() + 1}월 ${this.props.userInfo.birthDay.getDate()}일`}</Text>
+                  </View>
                 )}
                 {this.state.dialog == "spouse" && (
-                  <Text allowFontScaling={false} style={styles.name}>{this.props.spouseInfo.name}</Text>
+                  <View style={{alignItems: 'center'}}>
+                    <Text allowFontScaling={false} style={styles.name}>{this.props.spouseInfo.name}</Text>
+                    <Text allowFontScaling={false}>{`생일 : ${this.props.spouseInfo.birthDay.getFullYear()}년 ${this.props.spouseInfo.birthDay.getMonth() + 1}월 ${this.props.spouseInfo.birthDay.getDate()}일`}</Text>
+                  </View>
                 )}
               </View>
             </Dialog.Content>

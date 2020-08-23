@@ -13,7 +13,7 @@ import { AntDesign } from "@expo/vector-icons";
 import InfoContainer from "./InfoContainer";
 
 function date(date: Date): string {
-  return date.getFullYear() + '. ' + (date.getMonth() + 1) + '. ' + date.getDay() +'. ';
+  return date.getFullYear() + '. ' + (date.getMonth() + 1) + '. ' + date.getDate() +'. ';
 }
 
 export default class SurveyResultCard extends React.Component<Props> {
