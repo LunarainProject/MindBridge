@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "마음다리",
+    "name": "알콩달콩",
     "slug": "MindBridgeApp",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -24,6 +24,7 @@
     },
     "android": {
       "package": "com.dgsw.mindbridgeapp",
+      "versionCode": 2,
       "googleServicesFile": "./google-services.json"
     }
   }
