@@ -29,7 +29,7 @@ class SpouseHistoryScreen extends React.Component<Props> {
       <View style={styles.main}>
         {/* <Text allowFontScaling={false} style={{fontSize: 30, marginBottom: 20, fontWeight: "bold"}}>서베이 히스토리</Text> */}
         <ScrollView>
-          <View>
+          <View style={styles.cardMargin}>
             <Button
               onPress={() => {
                 this.props.navigation.navigate("SurveyResult", {
@@ -39,12 +39,16 @@ class SpouseHistoryScreen extends React.Component<Props> {
                 })
               }}
               mode="outlined"
-              labelStyle={{ color: "pink" }}
-              style={{backgroundColor: "EE9933"}}
+              style={{
+                borderColor: "#F970B9",
+                backgroundColor: "#F970B911",
+                borderWidth: 1,
+              }}
+              labelStyle={{ color: "#F970B9" }}
             >
               내 테스트 결과만 보기
             </Button>
-          </View>
+            </View>                            
         {this.props.Survey.SpouseResultCards.length == 0 ? (
           <View style={{flex: 1, justifyContent: "center", alignItems: 'center'}}>
             <Text allowFontScaling={false} >

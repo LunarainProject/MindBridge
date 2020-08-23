@@ -19,6 +19,8 @@ import Title from "../../components/Title";
 import { CardState, CardType } from "../../StateTypes";
 import StackParamList from "../StackParamList";
 import { BackHandleService } from "../../services/BackHandleService";
+import RatioImage from "../../components/RatioImage";
+import * as WebBrowser from 'expo-web-browser';
 
 class OverviewRoute extends React.Component<Props> {
   constructor(props: any) {
@@ -115,8 +117,9 @@ class OverviewRoute extends React.Component<Props> {
               )}
               <Divider />
               <Title>알콩달콩 부부학교</Title>
+              <RatioImage Ratio={16/9} Source={require('../../drawables/advertise.png')}></RatioImage>        
               <View style={styles.advertiseText}>
-                <Text allowFontScaling={false} style={{ fontSize: 16, fontWeight: "bold" }}>
+                <Text allowFontScaling={false} style={{ fontSize: 16, fontWeight: "bold", marginTop: 10, }}>
                   “부부가 바로 서야 가정이 바로 선다”
                 </Text>
                 <Text allowFontScaling={false}>

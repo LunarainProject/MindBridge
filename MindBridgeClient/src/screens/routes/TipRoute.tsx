@@ -33,12 +33,12 @@ class TipRoute extends React.Component<Props> {
 
   video = <Video Card={this.props.Card} />;
   column = <Column Card={this.props.Card} />;
-  hahim = <Hahim />;
+  //hahim = <Hahim />;
 
   tabs = [
     { title: "부부행복팁", route: this.video },
     { title: "부부칼럼", route: this.column },
-    { title: "독서모임", route: this.hahim },
+    //{ title: "독서모임", route: this.hahim },
   ];
 
   render() {
@@ -113,9 +113,16 @@ class Column extends React.Component<SubProps> {
 }
 
 class Hahim extends React.Component {
+  private styles = StyleSheet.create({
+    hahim: {
+      marginLeft: 20,
+      marginRight: 20,
+      marginTop: 10,
+    }
+  })
   render() {
     return (
-      <View style={ styles.hahim}>
+      <View style={this.styles.hahim}>
         <Text allowFontScaling={false} style={{ fontSize: 16, fontWeight: "bold" }}>
           하나님을 힘써알자 - 독서모임
         </Text>
@@ -182,10 +189,4 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 50,
   },
-
-  hahim: {
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 10,
-  }
 });
