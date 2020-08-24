@@ -99,7 +99,7 @@ export const RetrieveOverviewThunk = () => async (dispatch: Function, getState: 
                 Id: "",
                 Title: "부부 관계성 테스트 모음",
                 Subtitle: "우리관계가 얼마나 좋은지 알아볼까요?",
-                Description: "서로의 관계에 대해 더 알 수 있습니다. 테스트 모음",
+                Description: "서로의 관계에 대해 더 잘 알 수 있습니다.",
                 ButtonLabel: "무료로 테스트하기",
                 InfoLabel: `${surveys[0].Cards.length}종`,
                 Image: require("../drawables/image2.jpg"),
