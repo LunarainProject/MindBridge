@@ -19,7 +19,20 @@ export default class TabBackground extends React.Component<Props> {
   state = {
     focused: 0,
     Pos: new Animated.Value(0),
+    width: Dimensions.get("screen").width,
   };
+
+  componentDidMount() {
+    Dimensions.addEventListener("change", this._handler);
+  }
+
+  private _handler = () => {
+    this.setState({width: Dimensions.get("screen").width});
+  }
+
+  componentWillUnmount() {
+    Dimensions.removeEventListener("change", this._handler);
+  }
 
   private ref = createRef<ScrollView>();
 
