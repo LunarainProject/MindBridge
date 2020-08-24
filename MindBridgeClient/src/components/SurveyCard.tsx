@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
 
   textContainer: {
     display: "flex",
+    flex: 1,
     marginLeft: 20,
     flexDirection: "column",
     justifyContent: "space-between",
