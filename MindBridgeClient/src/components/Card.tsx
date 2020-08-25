@@ -21,7 +21,13 @@ class Card extends React.Component<Props> {
         <View style={styles.imageContainer}>
           <RatioImage
             Ratio={16 / 9}
-            Source={(typeof this.props.Image == 'string')? {uri: this.props.Image}: this.props.Image}
+            Source={(typeof this.props.Image == 'string')? {
+              uri: this.props.Image,
+              method: 'POST',
+              headers: {
+                Pragma: 'no-cache'
+              }
+            }: this.props.Image}
           />
           <View style={styles.imageCoverGrad}>
             <LinearGradient
