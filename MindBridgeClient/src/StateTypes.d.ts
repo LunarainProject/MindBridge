@@ -57,6 +57,7 @@ export type SurveyResultCardType = {
     Id: string;
     Image: any;
     Count: string;
+    IsCoupled: boolean;
 }
 
 export type SurveyState = {

@@ -44,7 +44,7 @@ class SurveyHistoryScreen extends React.Component<Props> {
               Title={card.Title}
               Date={card.Date}
               OnClick={() => {
-                if(card.Id === CombineAction.actionTypeSurveyId) {
+                if(card.IsCoupled) {
                   this.props.navigation.navigate("SpouseHistory", { SurveyResultId: card.Id, SurveyResultCount: card.Count});
                 } else {
                   this.props.navigation.navigate("SurveyResult", { SurveyResultId: card.Id, SurveyResultCount: card.Count});

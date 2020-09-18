@@ -9,7 +9,6 @@ import NetInfo from "@react-native-community/netinfo";
 import JwtDecode from "jwt-decode";
 
 export default class ServerService {
-
   private static accessToken: string | null = null;
 
   private static async InternetCheck() {
@@ -23,15 +22,15 @@ export default class ServerService {
 
   private static async RetrieveAccessToken(idToken: string | null) {
     //서버에서 액세스 토큰을 받아옵니다. 근데 그냥 제가 만들 겁니다.
-    if(idToken !== null) {
+    if (idToken !== null) {
       const decoded = JwtDecode(idToken);
       console.log(decoded);
       type Decode = {
         sub: string;
-      }
+      };
       const uid = (decoded as Decode)?.sub;
-      console.log('userId: ', uid);
-      //uid 를 암호화
+      console.log("userId: ", uid);
+      //uid 를 암호화 (따위 안 함)
       ServerService.accessToken = uid ?? null;
     }
   }
@@ -40,14 +39,19 @@ export default class ServerService {
     return ServerService.accessToken;
   }
 
-  public static GetSurveyResultUrl(resultId: string, resultCount: string, spouseCount: string) {
-    const surveyResultUri: string = "http://gfs3456.cafe24.com/manage/TestResult";
+  public static GetSurveyResultUrl(
+    resultId: string,
+    resultCount: string,
+    spouseCount: string
+  ) {
+    const surveyResultUri: string =
+      "http://gfs3456.cafe24.com/manage/TestResult";
     return `${surveyResultUri}/${resultId}/${this.accessToken}/${resultCount}/${spouseCount}`;
   }
 
   public static GetSurveyStartUrl(surveyId: string) {
     const surveyUri: string = "http://gfs3456.cafe24.com/manage/TestStartPage";
-    return `${surveyUri}/${surveyId}/${this.accessToken}`
+    return `${surveyUri}/${surveyId}/${this.accessToken}`;
   }
 
   public static async RegisterAccount(
@@ -112,9 +116,8 @@ export default class ServerService {
         console.log("response parse error: ", e);
       }
 
-      if(responseText != "Su")
-      this.RetrieveAccessToken(idToken);
-      
+      if (responseText != "Su") this.RetrieveAccessToken(idToken);
+
       console.log(responseText);
       return responseText;
     }
@@ -325,11 +328,7 @@ export default class ServerService {
         image: user?.photoUrl ?? "",
         birthDay:
           year && month && day
-            ? new Date(
-                parseInt(year),
-                parseInt(month) -1,
-                parseInt(day),
-              )
+            ? new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
             : new Date(),
         sex: packet.sex,
       };
@@ -411,7 +410,7 @@ export default class ServerService {
         return null;
       } else {
         // // `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`
-        const [year, month, day] = packet.birth.split('.');
+        const [year, month, day] = packet.birth.split(".");
 
         // const [year, month, day] = ["2020", "10", "3"];
 
@@ -420,11 +419,7 @@ export default class ServerService {
           image: packet?.picture_url ?? "",
           birthDay:
             year && month && day
-              ? new Date(
-                  parseInt(year),
-                  parseInt(month) - 1,
-                  parseInt(day),
-                )
+              ? new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
               : new Date(),
           sex: packet.sex,
         };
@@ -599,29 +594,54 @@ export default class ServerService {
         return [];
       }
 
-      return Object.values(packet).map((result) => {
+      return await Promise.all(Object.values(packet).map(async (result) => {
         const res = result as ResultPacket;
-        console.log('SurveyResult: ', res);
-        const [ year, month, date ] = res.date.split('.');
-        console.log(year ,month, date);
+        console.log("SurveyResult: ", res);
+
+        let coupledRes;
+        try {
+          coupledRes = await FetchBuilder.build(
+            "http://gfs3456.cafe24.com/api/CheckCouple.php"
+          )
+            .param("pkg_id", res.pkg_id)
+            .fetch();
+        } catch (e) {
+          console.log("fetch error: ", e);
+        }
+
+        let coupledJson;
+        try {
+          coupledJson = await coupledRes?.json() ?? {};
+        } catch(e) {
+          console.log('json parse error: ', e);
+        }
+
+        type Couple = {
+          couple: string;
+        }
+
+        let isCoupled: boolean = false;
+        if((coupledJson as Couple).couple == "false") isCoupled = false;
+        if((coupledJson as Couple).couple == "null") isCoupled = false;
+        if((coupledJson as Couple).couple == "true") isCoupled = true;
+
+        const [year, month, date] = res.date.split(".");
+        console.log(year, month, date);
         return {
           Title: res.title,
           Count: res.count,
           Image: res.img_url,
-          Date: new Date(
-            parseInt(year),
-            parseInt(month) - 1,
-            parseInt(date),
-          ),
+          Date: new Date(parseInt(year), parseInt(month) - 1, parseInt(date)),
           Id: res.pkg_id,
+          IsCoupled: isCoupled,
         };
-      });
+      }));
     }
 
     return [];
   }
 
-  public static async GetSpouseResultList(): Promise<SurveyResultCardType[]> {
+  public static async GetSpouseResultList(pkgId: string): Promise<SurveyResultCardType[]> {
     console.log("GSPOUSERL, accessToken: ", this.accessToken);
 
     if (!(await this.InternetCheck())) {
@@ -632,9 +652,10 @@ export default class ServerService {
       let response;
       try {
         response = await FetchBuilder.build(
-          "http://gfs3456.cafe24.com/api/partnerresultlist.php"
+          "http://gfs3456.cafe24.com/api/PartnerResultList2.php"
         )
           .param("access_token", this.accessToken)
+          .param("pkg_id", pkgId)
           .fetch();
       } catch (e) {
         console.log("fetch error: ", e);
@@ -664,18 +685,15 @@ export default class ServerService {
 
       return Object.values(packet).map((result) => {
         const res = result as ResultPacket;
-        const [ year, month, date ] = res.date.split('.');
+        const [year, month, date] = res.date.split(".");
         console.log(res);
         return {
           Title: res.title,
           Count: res.count,
           Image: res.img_url,
-          Date: new Date(
-            parseInt(year),
-            parseInt(month) - 1,
-            parseInt(date)
-          ),
+          Date: new Date(parseInt(year), parseInt(month) - 1, parseInt(date)),
           Id: res.pkg_id,
+          IsCoupled: true,
         };
       });
     }

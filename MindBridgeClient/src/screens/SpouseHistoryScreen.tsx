@@ -21,7 +21,11 @@ import SurveyResultCard from "../components/SurveyResultCard";
 class SpouseHistoryScreen extends React.Component<Props> {
 
   componentDidMount() {
-    this.props.retrieveSpouse();
+    const pkgId = this.props.route.params.SurveyResultId;
+    if(pkgId != "") {
+      this.props.retrieveSpouse(pkgId);
+    }
+    
   }
 
   render() {
@@ -29,6 +33,11 @@ class SpouseHistoryScreen extends React.Component<Props> {
       <View style={styles.main}>
         {/* <Text allowFontScaling={false} style={{fontSize: 30, marginBottom: 20, fontWeight: "bold"}}>서베이 히스토리</Text> */}
         <ScrollView>
+          <View style={styles.cardMargin}>
+            <Text allowFontScaling={false} >
+              나의 테스트 결과와 비교할 배우자의 테스트 결과를 골라 주세요.
+            </Text>
+          </View>
           <View style={styles.cardMargin}>
             <Button
               onPress={() => {
@@ -48,11 +57,11 @@ class SpouseHistoryScreen extends React.Component<Props> {
             >
               내 테스트 결과만 보기
             </Button>
-            </View>                            
+          </View>                            
         {this.props.Survey.SpouseResultCards.length == 0 ? (
           <View style={{flex: 1, justifyContent: "center", alignItems: 'center'}}>
             <Text allowFontScaling={false} >
-              아직 테스트 결과가 없습니다.
+              아직 배우자의 테스트 결과가 없습니다.
             </Text>
           </View>
         ) :
@@ -98,7 +107,7 @@ const styles = StyleSheet.create({
 
 type Props = StackScreenProps<StackParamList, "SpouseHistory"> & {
   Survey: SurveyState;
-  retrieveSpouse: () => void;
+  retrieveSpouse: (pkgId: string) => void;
 };
 
 function mapStateToProps(state: any) {
@@ -109,8 +118,8 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(dispatch: Function) {
   return {
-    retrieveSpouse: () => {
-      dispatch(CombineAction.RetrieveSpouseResultsThunk());
+    retrieveSpouse: (pkgId: string) => {
+      dispatch(CombineAction.RetrieveSpouseResultsThunk(pkgId));
     }
   };
 }

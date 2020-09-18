@@ -13,6 +13,7 @@ export class SetResultAction implements IAction {
         Id: "",
         Image: "",
         Count: "",
+        IsCoupled: false,
     }];
 }
 const _SetResults = (resultCards: SurveyResultCardType[]): SetResultAction => {
@@ -37,6 +38,7 @@ export class SetSpouseResultAction implements IAction {
         Id: "",
         Image: "",
         Count: "",
+        IsCoupled: false,
     }];
 }
 const _SetSpouseResults = (resultCards: SurveyResultCardType[]): SetResultAction => {
@@ -46,9 +48,8 @@ const _SetSpouseResults = (resultCards: SurveyResultCardType[]): SetResultAction
     };
 }
 
-export const RetrieveSpouseResultsThunk = () => async (dispatch: Function, getState: Function) => {
-    const result = await ServerService.GetSpouseResultList();
-
+export const RetrieveSpouseResultsThunk = (pkgId: string) => async (dispatch: Function, getState: Function) => {
+    const result = await ServerService.GetSpouseResultList(pkgId);
     //읽은 데이터로 디스패치
     dispatch(_SetSpouseResults(result));
 }
