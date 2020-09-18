@@ -1,6 +1,6 @@
 import IAction from "./IAction";
 import ActionTypes from "./ActionTypes";
-import { CardCategoryType, CardType, LoginState } from "../StateTypes";
+import { CardCategoryType, CardType, LoginState, PrivacyState } from "../StateTypes";
 import ServerService from "../services/ServerService";
 
 export type CardActions = SetSurveyAction | SetOverviewAction | SetTipAction;
@@ -61,8 +61,29 @@ function _SetOverview(survey: CardCategoryType, video: CardCategoryType, column:
 
 export const actionTypeSurveyId = '27'
 
+const surveyIdForMale = ['60'];
+const surveyIdForFemale = ['61'];
+
 export const RetrieveSurveyThunk = () => async (dispatch: Function, getState: Function) => {
     const surveys = await ServerService.GetSurveyList();
+    
+    let dispatchSurveys: CardCategoryType[] = [];
+
+    /**
+     * 임시로 남편 / 아내별로 뜨는 목록이 다르게 만들기 위한 코드
+     *  */
+    if((getState().Privacy as PrivacyState).UserInfo.sex === 'male') {
+        dispatchSurveys = [{
+            Title: surveys[0].Title,
+            Cards: surveys[0].Cards.filter(val => !surveyIdForFemale.includes(val.Id))
+        }, ...surveys.slice(1)];
+    } else {
+        dispatchSurveys = [{
+            Title: surveys[0].Title,
+            Cards: surveys[0].Cards.filter(val => !surveyIdForMale.includes(val.Id))
+        }, ...surveys.slice(1)];
+    }
+
     const fixedSurveys: CardCategoryType = {
         Title: "부부 행동유형 테스트",
         Cards: [
@@ -78,7 +99,7 @@ export const RetrieveSurveyThunk = () => async (dispatch: Function, getState: Fu
         ]
     }
 
-    dispatch(_SetSurvey([fixedSurveys, ...surveys]));
+    dispatch(_SetSurvey([fixedSurveys, ...dispatchSurveys]));
 }
 
 export const RetrieveOverviewThunk = () => async (dispatch: Function, getState: Function) => {
