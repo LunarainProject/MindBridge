@@ -128,7 +128,7 @@ class MoreRoute extends React.Component<Props> {
                 }}
               />
             </View>
-            <View style={{ position: "absolute", bottom: 20, right: 30}}>
+            <View style={{ position: "absolute", top: 5, right: 30}}>
               <Text 
               style={{
                 textDecorationLine: 'underline',
