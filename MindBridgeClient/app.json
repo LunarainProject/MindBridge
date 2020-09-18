@@ -2,7 +2,7 @@
   "expo": {
     "name": "알콩달콩",
     "slug": "MindBridgeApp",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -24,7 +24,7 @@
     },
     "android": {
       "package": "com.dgsw.mindbridgeapp",
-      "versionCode": 5,
+      "versionCode": 6,
       "googleServicesFile": "./google-services.json"
     }
   }
