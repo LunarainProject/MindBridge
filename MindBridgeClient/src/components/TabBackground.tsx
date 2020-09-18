@@ -1,4 +1,4 @@
-import React, { createRef, Ref } from "react";
+import React, { createRef, Ref, RefObject } from "react";
 import {
   StyleSheet,
   View,
@@ -49,7 +49,6 @@ export default class TabBackground extends React.Component<Props> {
   };
 
   public changeFocused(index: number) {
-    this.setState({ focused: index });
     Animated.timing(this.state.Pos, {
       toValue: index,
       duration: 150,
@@ -57,11 +56,13 @@ export default class TabBackground extends React.Component<Props> {
     }).start();
     if(this.ref) {
       this.ref.current?.scrollTo({
-        x: this.props.tabWidth * index,
+        x: 0,
         y: 0,
-        animated: true,
+        animated: false,
       });
     }
+
+    this.setState({ focused: index });
   }
 
   render() {
@@ -148,38 +149,11 @@ export default class TabBackground extends React.Component<Props> {
             }}
             style={{ flex: 1, backgroundColor: "#FFFFFF" }}
           >
-            <Animated.View
-              style={[
-                styles.tabScreen,
-                {
-                  width:
-                    Dimensions.get("screen").width * this.props.tabs.length,
-                },
-                {
-                  transform: [
-                    {
-                      translateX: this.state.Pos.interpolate({
-                        inputRange: [0, this.props.tabs.length - 1],
-                        outputRange: [
-                          0,
-                          -Dimensions.get("screen").width *
-                            (this.props.tabs.length - 1),
-                        ],
-                      }),
-                    },
-                  ],
-                },
-              ]}
+            <View
+              style={{ width: Dimensions.get("screen").width  }}
             >
-              {this.props.tabs.map((val: TabType, ind) => (
-                <View
-                  style={{ width: Dimensions.get("screen").width }}
-                  key={ind}
-                >
-                  {val.route}
-                </View>
-              ))}
-            </Animated.View>
+              {this.props.tabs[this.state.focused].route}
+            </View>
           </GestureRecognizer>
         </ScrollView>
       </View>
