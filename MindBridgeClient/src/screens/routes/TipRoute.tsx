@@ -44,7 +44,9 @@ class TipRoute extends React.Component<Props> {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
-        <TabBackground
+        <View style={styles.statusBar}></View>
+        <ScrollView>
+          {/* <TabBackground
           tabs={this.tabs}
           tabWidth={100}
           title="행복한 부부팁"
@@ -52,8 +54,13 @@ class TipRoute extends React.Component<Props> {
             marginLeft: 10
           }}
         >
-        </TabBackground>
-    </View>
+        </TabBackground> */}
+          <Background Title="부부 팁 영상">
+            <Video Card={this.props.Card}></Video>
+
+          </Background>
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -62,23 +69,23 @@ class Video extends React.Component<SubProps> {
   render() {
     return (
       <View style={[styles.background, styles.paddingContainer]}>
-        <Title>{this.props.Card.TipVideoCategory.Title}</Title>
+        {/* <Title>{this.props.Card.TipVideoCategory.Title}</Title> */}
         {this.props.Card.TipVideoCategory.Cards.map((card: CardType, ind) => (
           <View style={styles.cardMargin} key={ind}>
-          <Card
-            Title={card.Title}
-            Subtitle={card.Subtitle}
-            Description={card.Description}
-            ButtonLabel={card.ButtonLabel}
-            Image={card.Image}
-            InfoLabel=""
-            OnClick={() => {
-              BackHandleService.Navigate("VideoWeb", undefined, {
-                Url: card.InfoLabel,
-              })
-            }}
-          />
-        </View>
+            <Card
+              Title={card.Title}
+              Subtitle={card.Subtitle}
+              Description={card.Description}
+              ButtonLabel={card.ButtonLabel}
+              Image={card.Image}
+              InfoLabel=""
+              OnClick={() => {
+                BackHandleService.Navigate("VideoWeb", undefined, {
+                  Url: card.InfoLabel,
+                })
+              }}
+            />
+          </View>
         ))}
       </View>
     );
@@ -92,20 +99,20 @@ class Column extends React.Component<SubProps> {
         <Title>{this.props.Card.TipCategory.Title}</Title>
         {this.props.Card.TipCategory.Cards.map((card: CardType, ind) => (
           <View style={styles.cardMargin} key={ind}>
-          <Card
-            Title={card.Title}
-            Subtitle={card.Subtitle}
-            Description={card.Description}
-            ButtonLabel={card.ButtonLabel}
-            InfoLabel=""
-            Image={card.Image}
-            OnClick={() => {
-              BackHandleService.Navigate("TipWeb", null, {
-                ColumnId: card.Id
-              })
-            }}
-          />
-        </View>
+            <Card
+              Title={card.Title}
+              Subtitle={card.Subtitle}
+              Description={card.Description}
+              ButtonLabel={card.ButtonLabel}
+              InfoLabel=""
+              Image={card.Image}
+              OnClick={() => {
+                BackHandleService.Navigate("TipWeb", null, {
+                  ColumnId: card.Id
+                })
+              }}
+            />
+          </View>
         ))}
       </View>
     );
