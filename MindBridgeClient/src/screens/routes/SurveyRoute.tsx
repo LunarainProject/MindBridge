@@ -7,13 +7,13 @@ import {
   Button,
   NativeSyntheticEvent,
   NativeTouchEvent,
-  BackHandler, Dimensions
+  BackHandler, Dimensions, Alert
 } from "react-native";
 import { connect } from "react-redux";
 import Divider from "../../components/Divider";
 import SurveyCard from "../../components/SurveyCard";
 import Title from "../../components/Title";
-import { CardCategoryType, CardState, CardType } from "../../StateTypes";
+import { CardCategoryType, CardState, CardType, LoginState } from "../../StateTypes";
 import StackParamList from "../StackParamList";
 import Constants from "expo-constants";
 import { ScrollView } from "react-native-gesture-handler";
@@ -46,7 +46,31 @@ class SurveyRoute extends React.Component<Props> {
                           Subtitle={card.Subtitle}
                           ButtonLabel={card.ButtonLabel}
                           InfoLabel={card.InfoLabel}
-                          OnClick={() => { BackHandleService.Navigate("SurveyWeb", null, {SurveyId: card.Id}); } }
+                          OnClick={() => {
+                            if(this.props.Login.loggedIn) {
+                              BackHandleService.Navigate("SurveyWeb", null, {SurveyId: card.Id});
+                            } else {
+                              Alert.alert(
+                                "알콩달콩",
+                                "로그인 후 사용하실 수 있습니다. 둘러보기를 그만두고 로그인하시겠습니까?",
+                                [
+                                  {
+                                    text: "취소",
+                                    onPress: () => { },
+                                    style: "cancel",
+                                  },
+                                  {
+                                    text: "확인",
+                                    onPress: () => {
+                                      BackHandleService.MainGoBack();
+                                    },
+                                  },
+                                ],
+                                { cancelable: false }
+                              );
+                            }
+                             
+                           } }
                         />
                       </View>
                     ))}
@@ -64,11 +88,13 @@ class SurveyRoute extends React.Component<Props> {
 
 type Props = StackScreenProps<StackParamList, "Main"> & {
   Card: CardState;
+  Login: LoginState;
 };
 
 function mapStateToProps(state: any) {
   return {
     Card: state.Card,
+    Login: state.Login,
   };
 }
 
