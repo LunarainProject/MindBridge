@@ -55,7 +55,7 @@ type Props = {
   image: string;
 };
 
-const radius = 10;
+const radius = 5;
 
 const styles = StyleSheet.create({
   cardContainer: {

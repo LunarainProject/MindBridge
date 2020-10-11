@@ -12,7 +12,7 @@ export default class DoubleCardBase extends React.Component {
     }
 }
 
-const radius = 10;
+const radius = 5;
 
 const styles = StyleSheet.create({
     main: {

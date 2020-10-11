@@ -55,7 +55,7 @@ type Props = {
   downerButton: { text: string; onClick: any };
 };
 
-const radius = 10;
+const radius = 5;
 
 const styles = StyleSheet.create({
   textContainer: {

@@ -66,7 +66,7 @@ type Props = {
   OnClick: (arg1: NativeSyntheticEvent<NativeTouchEvent>) => void;
 };
 
-const radius = 10;
+const radius = 5;
 
 const styles = StyleSheet.create({
   cardContainer: {

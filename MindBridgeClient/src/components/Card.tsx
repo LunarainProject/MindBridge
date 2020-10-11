@@ -88,7 +88,7 @@ type Props = {
 
 export default Card;
 
-const radius = 10;
+const radius = 5;
 
 const styles = StyleSheet.create({
   cardContainer: {
