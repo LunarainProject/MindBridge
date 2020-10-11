@@ -94,12 +94,23 @@ class LoginScreen extends React.Component<Props> {
             ) : 
             (
               /* 자동 로그인 실패 시 */
+              <View>
               <Button
                 style={{ backgroundColor: "white" }}
                 onPress={this.onLogin}
               >
                 <Text allowFontScaling={false}>Google 계정으로 시작하기</Text>
               </Button>
+              <Button
+                style={{ backgroundColor: "transparent",
+                          marginTop: 10,
+                }}
+                onPress={this.onLoggedInLayout}
+              >
+                <Text allowFontScaling={false} style={{ color: "black"}}>로그인하지 않고 둘러보기</Text>
+              </Button>
+              </View>
+              
             )}
           </View>
           <Text allowFontScaling={false} >부부의 행복한 사랑을 응원합니다.</Text>

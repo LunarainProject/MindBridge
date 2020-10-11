@@ -7,6 +7,7 @@ import {
   Button,
   NativeSyntheticEvent,
   NativeTouchEvent,
+  Alert,
 } from "react-native";
 import Constants from "expo-constants";
 import { ScrollView } from "react-native-gesture-handler";
@@ -16,7 +17,7 @@ import Background from "../../components/Background";
 import Card from "../../components/Card";
 import Divider from "../../components/Divider";
 import Title from "../../components/Title";
-import { CardState, CardType } from "../../StateTypes";
+import { CardState, CardType, LoginState } from "../../StateTypes";
 import StackParamList from "../StackParamList";
 import { BackHandleService } from "../../services/BackHandleService";
 import RatioImage from "../../components/RatioImage";
@@ -59,9 +60,28 @@ class OverviewRoute extends React.Component<Props> {
                       OnClick={() => {
                         // 부부 유형 테스트
                         if(ind == 0) {
-                          BackHandleService.Navigate("SurveyWeb", null, {
-                          SurveyId: val.Id,
-                        })
+                          if(this.props.Login.loggedIn) {
+                            BackHandleService.Navigate("SurveyWeb", null, {SurveyId: val.Id});
+                          } else {
+                            Alert.alert(
+                              "알콩달콩",
+                              "로그인 후 사용하실 수 있습니다. 둘러보기를 그만두고 로그인하시겠습니까?",
+                              [
+                                {
+                                  text: "취소",
+                                  onPress: () => { },
+                                  style: "cancel",
+                                },
+                                {
+                                  text: "확인",
+                                  onPress: () => {
+                                    BackHandleService.MainGoBack();
+                                  },
+                                },
+                              ],
+                              { cancelable: false }
+                            );
+                          }
                         }
                         // 부부 관계성 테스트 모음
                         else if(ind == 1) {
@@ -95,7 +115,7 @@ class OverviewRoute extends React.Component<Props> {
                 )
               )}
               <Divider />
-              <Title>{this.props.Card.OverviewColumnCategory.Title}</Title>
+              {/* <Title>{this.props.Card.OverviewColumnCategory.Title}</Title>
               {this.props.Card.OverviewColumnCategory.Cards?.map(
                 (val: CardType, ind) => (
                   <View style={styles.cardMargin} key={ind}>
@@ -115,7 +135,7 @@ class OverviewRoute extends React.Component<Props> {
                   </View>
                 )
               )}
-              <Divider />
+              <Divider /> */}
               <Title>알콩달콩 부부학교</Title>
               <RatioImage Ratio={16/9} Source={require('../../drawables/advertise.png')}></RatioImage>        
               <View style={styles.advertiseText}>
@@ -141,12 +161,14 @@ class OverviewRoute extends React.Component<Props> {
 
 type Props = StackScreenProps<StackParamList, "Main"> & {
   Card: CardState;
+  Login: LoginState;
   setIndex: (index: number) => void;
 };
 
 function mapStateToProps(state: any) {
   return {
     Card: state.Card,
+    Login: state.Login,
   };
 }
 
