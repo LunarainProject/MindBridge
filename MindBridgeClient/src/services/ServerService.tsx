@@ -124,74 +124,7 @@ export default class ServerService {
   }
 
   public static async GetSurveyList(): Promise<CardCategoryType[]> {
-    if (ServerService.accessToken !== null) {
-      if (!(await this.InternetCheck())) {
-        return [
-          {
-            Title: "부부 관계성 테스트",
-            Cards: [],
-          },
-        ];
-      }
-
-      let response;
-      try {
-        response = await FetchBuilder.build(
-          "http://gfs3456.cafe24.com/api/testlist.php"
-        ).fetch();
-      } catch (e) {
-        console.log("fetch error: ", e);
-        return [
-          {
-            Title: "부부 관계성 테스트",
-            Cards: [],
-          },
-        ];
-      }
-
-      type SurveyPacket = {
-        PkgId: string;
-        Title: string;
-        SubTitle: string;
-        Description: string;
-        InfoLabel: string;
-      };
-
-      let data: SurveyPacket[] | null = null;
-      try {
-        data = await response?.json();
-      } catch (e) {
-        console.log("json parse error:", e);
-        data = null;
-      }
-
-      if (data === null)
-        return [
-          {
-            Title: "부부 관계성 테스트",
-            Cards: [],
-          },
-        ];
-
-      console.log("TEST** : ", data);
-
-      return [
-        {
-          Title: "부부 관계성 테스트",
-          Cards: data.map((data) => {
-            return {
-              Title: data.Title ?? "",
-              Subtitle: data.SubTitle ?? "",
-              Description: data.Description ?? "",
-              ButtonLabel: "무료 테스트하기",
-              InfoLabel: data.InfoLabel ?? "",
-              Id: data.PkgId ?? "",
-              Image: `http://gfs3456.cafe24.com/pkgImg/${data.PkgId}.jpg`,
-            };
-          }),
-        },
-      ];
-    } else {
+    if (!(await this.InternetCheck())) {
       return [
         {
           Title: "부부 관계성 테스트",
@@ -199,7 +132,66 @@ export default class ServerService {
         },
       ];
     }
+
+    let response;
+    try {
+      response = await FetchBuilder.build(
+        "http://gfs3456.cafe24.com/api/testlist.php"
+      ).fetch();
+    } catch (e) {
+      console.log("fetch error: ", e);
+      return [
+        {
+          Title: "부부 관계성 테스트",
+          Cards: [],
+        },
+      ];
+    }
+
+    type SurveyPacket = {
+      PkgId: string;
+      Title: string;
+      SubTitle: string;
+      Description: string;
+      InfoLabel: string;
+    };
+
+    let data: SurveyPacket[] | null = null;
+    try {
+      data = await response?.json();
+    } catch (e) {
+      console.log("json parse error:", e);
+      data = null;
+    }
+
+    if (data === null)
+      return [
+        {
+          Title: "부부 관계성 테스트",
+          Cards: [],
+        },
+      ];
+
+    console.log("TEST** : ", data);
+
+    return [
+      {
+        Title: "부부 관계성 테스트",
+        Cards: data.map((data) => {
+          return {
+            Title: data.Title ?? "",
+            Subtitle: data.SubTitle ?? "",
+            Description: data.Description ?? "",
+            ButtonLabel: "무료 테스트하기",
+            InfoLabel: data.InfoLabel ?? "",
+            Id: data.PkgId ?? "",
+            Image: `http://gfs3456.cafe24.com/pkgImg/${data.PkgId}.jpg`,
+          };
+        }),
+      },
+    ];
   }
+
 
   public static async GetVideoList(): Promise<CardCategoryType> {
     if (!(await this.InternetCheck())) {
@@ -612,7 +604,7 @@ export default class ServerService {
         let coupledJson;
         try {
           coupledJson = await coupledRes?.json() ?? {};
-        } catch(e) {
+        } catch (e) {
           console.log('json parse error: ', e);
         }
 
@@ -621,9 +613,9 @@ export default class ServerService {
         }
 
         let isCoupled: boolean = false;
-        if((coupledJson as Couple).couple == "false") isCoupled = false;
-        if((coupledJson as Couple).couple == "null") isCoupled = false;
-        if((coupledJson as Couple).couple == "true") isCoupled = true;
+        if ((coupledJson as Couple).couple == "false") isCoupled = false;
+        if ((coupledJson as Couple).couple == "null") isCoupled = false;
+        if ((coupledJson as Couple).couple == "true") isCoupled = true;
 
         const [year, month, date] = res.date.split(".");
         console.log(year, month, date);
