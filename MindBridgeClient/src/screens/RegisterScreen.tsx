@@ -25,6 +25,7 @@ import { connect } from "react-redux";
 import { LoginState } from "../StateTypes";
 import { ThemeProvider } from "@react-navigation/native";
 import { Picker, PickerIOS } from "@react-native-community/picker";
+import { ScrollView } from "react-native-gesture-handler";
 
 class RegisterScreen extends React.Component<Props> {
 
@@ -70,7 +71,7 @@ class RegisterScreen extends React.Component<Props> {
 
   render() {
     return (
-      <View style={styles.main}>
+      <ScrollView style={styles.main}>
         <Text style={{ fontSize: 30, marginBottom: 10 }}>안녕하세요</Text>
         {this.props.LoginState.user && (
           <Text>안녕하세요, {this.props.LoginState.user.name}님!</Text>
@@ -106,7 +107,7 @@ class RegisterScreen extends React.Component<Props> {
               this.setState({year: itemValue, picked: true,});
               this.dayItems = [];
               for(var i = 1; i <= this.getDays(itemValue as string, this.state.month); i++) {
-                this.dayItems.push(<Picker.Item label={`${i}`} value={`${i}`} />);
+                this.dayItems.push(<Picker.Item key={i} label={`${i}`} value={`${i}`} />);
               }
             }
             }>
@@ -121,7 +122,7 @@ class RegisterScreen extends React.Component<Props> {
               this.setState({month: itemValue, picked: true,});
               this.dayItems = [];
               for(var i = 1; i <= this.getDays(this.state.year, itemValue as string); i++) {
-                this.dayItems.push(<Picker.Item label={`${i}`} value={`${i}`} />);
+                this.dayItems.push(<Picker.Item key={i} label={`${i}`} value={`${i}`} />);
               }
             }
             }>
@@ -139,28 +140,23 @@ class RegisterScreen extends React.Component<Props> {
           </Picker>
           </View>
         </View>
-          
-          
-
-        <View style={styles.bottom}>
-          <Text style={{ marginBottom: 20 }}>
-            정보 입력을 제대로 하셨는지 꼭 확인하시고 아래의 회원가입 버튼을
-            눌러주세요.
-          </Text>
-          <Button
-            onPress={() => {
-              this.cancel = false;
-              this.props.navigation.goBack();
-              this.props.Register(`${this.state.year}.${this.state.month}.${this.state.day}`, this.state.value)
-            }}
-            mode="contained"
-            disabled={!this.state.picked}
-            labelStyle={{ color: "white" }}
-          >
-            회원가입
-          </Button>
-        </View>
-      </View>
+        <Text style={{ marginTop: 60, marginBottom: 20}}>
+          정보 입력을 제대로 하셨는지 꼭 확인하시고 아래의 회원가입 버튼을
+          눌러주세요.
+        </Text>
+        <Button
+          onPress={() => {
+            this.cancel = false;
+            this.props.navigation.goBack();
+            this.props.Register(`${this.state.year}.${this.state.month}.${this.state.day}`, this.state.value)
+          }}
+          mode="contained"
+          disabled={!this.state.picked}
+          labelStyle={{ color: "white" }}
+        >
+          회원가입
+        </Button>
+      </ScrollView>
     );
   }
 }
@@ -193,7 +189,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
 const styles = StyleSheet.create({
   main: {
     position: "relative",
-    flex: 1,
+    width: "100%",
     paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 30,
@@ -201,9 +197,7 @@ const styles = StyleSheet.create({
   },
 
   bottom: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
+    marginTop: 20,
     marginLeft: 20,
     width: "100%",
     marginBottom: 40,
