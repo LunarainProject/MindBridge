@@ -13,9 +13,10 @@ import { WebView } from "react-native-webview";
 import { ActivityIndicator } from "react-native-paper";
 import { BackHandleService } from "../services/BackHandleService";
 import { connect } from "react-redux";
-import { LoginState } from "../StateTypes";
+import { LoginState, SurveyState } from "../StateTypes";
 import { StackActions } from "@react-navigation/native";
 import ServerService from "../services/ServerService";
+import CombineAction from "../CombineAction";
 
 class SurveyWebScreen extends React.Component<Props, State> {
 
@@ -54,6 +55,27 @@ class SurveyWebScreen extends React.Component<Props, State> {
                       this.props.navigation.dispatch(
                         StackActions.replace("SurveyHistory")
                       );
+
+                      this.props.retrieveResults();
+
+                      setTimeout(() => {
+                        const recent = this.props.Survey.SurveyResultCards
+                          .filter(card => card.Id === this.props.route.params.SurveyId)
+                          .sort((a, b) => (parseInt(a.Count) - parseInt(b.Count)))
+                          [0];
+
+                        if(recent === undefined) {
+                          this.props.navigation.dispatch(
+                            StackActions.replace("SurveyHistory")
+                          );
+                        }
+                        if(recent.IsCoupled) {
+                          this.props.navigation.navigate("SpouseHistory", { SurveyResultId: recent.Id, SurveyResultCount: recent.Count});
+                        } else {
+                          this.props.navigation.navigate("SurveyResult", { SurveyResultId: recent.Id, SurveyResultCount: recent.Count});
+                        }
+                      }, 500);
+                      
                     }}
                   ],
                   { cancelable: false }
@@ -78,16 +100,22 @@ type State = {
 
 type Props = StackScreenProps<StackParamList, "SurveyWeb"> & {
   LoginState: LoginState
+  Survey: SurveyState;
+  retrieveResults: () => void;
 };
 
 function mapStateToProps(state: any) {
   return {
-    LoginState: state.Login
+    LoginState: state.Login,
+    Survey: state.Survey,
   };
 }
 
 function mapDispatchToProps(dispatch: Function) {
   return {
+    retrieveResults: () => {
+      dispatch(CombineAction.RetrieveResultsThunk());
+    }
   };
 }
 
