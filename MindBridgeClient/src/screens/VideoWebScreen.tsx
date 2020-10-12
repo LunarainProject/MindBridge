@@ -5,7 +5,7 @@ import {
   Text,
   Button,
   NativeSyntheticEvent,
-  NativeTouchEvent, BackHandler, Alert
+  NativeTouchEvent, BackHandler, Alert, Platform, DeviceEventEmitter
 } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import StackParamList from "./StackParamList";
@@ -41,12 +41,12 @@ class VideoWebScreen extends React.Component<Props, State> {
 
   async changeLandscape() {
     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT);
-    setTimeout(() => {this.setState({ orientation : 'landscape'});}, 2000);
+    this.setState({ orientation : 'landscape'});
   }
 
   async changePortrait() {
     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-    setTimeout(() => {this.setState({ orientation : 'portrait'});}, 2000);
+    this.setState({ orientation : 'portrait'});
   }
 
   async componentDidMount() {
@@ -67,14 +67,22 @@ class VideoWebScreen extends React.Component<Props, State> {
 
   private code: string = "";
 
+  private injected = `["fullscreenchange", "webkitfullscreenchange", "mozfullscreenchange", "msfullscreenchange"].forEach( eventType => document.addEventListener(eventType, function(e){ window.ReactNativeWebView.postMessage(e) }, false) ); true;`;
+
   render() {
     return (
       <View style={styles.main}>
         <View style={styles.statusBar}></View>
         <WebView
+          injectedJavaScript={this.injected}
           allowsFullscreenVideo={true}
+          javaScriptEnabled={true}
           onLoad={() => {
             this.setState({ isWebViewLoaded: true });
+          }}
+          onMessage={e => {
+            console.log('message');
+            ScreenOrientation.unlockAsync();
           }}
           source={{ uri:
             `http://www.youtube.com/embed/${this.code}`
