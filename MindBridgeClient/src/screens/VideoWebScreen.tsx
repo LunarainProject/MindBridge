@@ -75,7 +75,7 @@ class VideoWebScreen extends React.Component<Props, State> {
         <View style={styles.statusBar}></View>
         <WebView
           injectedJavaScript={this.injected}
-          allowsFullscreenVideo={true}
+          // allowsFullscreenVideo={true}
           javaScriptEnabled={true}
           onLoad={() => {
             this.setState({ isWebViewLoaded: true });
