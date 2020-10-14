@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "373996144704",
-    "firebase_url": "https://mind-bridge-285809.firebaseio.com",
-    "project_id": "mind-bridge-285809",
-    "storage_bucket": "mind-bridge-285809.appspot.com"
+    "project_number": "500481310176",
+    "firebase_url": "https://mind-bridge-test.firebaseio.com",
+    "project_id": "mind-bridge-test",
+    "storage_bucket": "mind-bridge-test.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:373996144704:android:ee6b011c47b5b53bc4b7a5",
+        "mobilesdk_app_id": "1:500481310176:android:360f1c1375bb7c124a7f85",
         "android_client_info": {
           "package_name": "com.dgsw.mindbridgeapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "373996144704-20tcboru7a7e04ud6aeigm0r173m07g5.apps.googleusercontent.com",
+          "client_id": "500481310176-u5uj7qj3itrq1kvajprl0h7ajlh6pjtl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.dgsw.mindbridgeapp",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "373996144704-1rrounu847cotccjdhih1cehm32talp2.apps.googleusercontent.com",
+          "client_id": "500481310176-8sem5vf9q99iru8o41g8o2ffl68bl5o8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAYdYkZB3sPkjayg1e6E41-G-KNkw9qAJk"
+          "current_key": "AIzaSyD6CvCJRb_93O6cFjdi4pyfssIkZ0lrYSE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "373996144704-1rrounu847cotccjdhih1cehm32talp2.apps.googleusercontent.com",
+              "client_id": "500481310176-8sem5vf9q99iru8o41g8o2ffl68bl5o8.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

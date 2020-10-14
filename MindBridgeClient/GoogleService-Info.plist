@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>373996144704-lpl5kjhgrbnk7dj9pbqaf3ej1t5gbshv.apps.googleusercontent.com</string>
+	<string>500481310176-gu72541ovsjhr5crlt9dcu78fc52k0t5.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.373996144704-lpl5kjhgrbnk7dj9pbqaf3ej1t5gbshv</string>
+	<string>com.googleusercontent.apps.500481310176-gu72541ovsjhr5crlt9dcu78fc52k0t5</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>373996144704-rvdkl4jg54ridbtt88fk4d3asmca9srj.apps.googleusercontent.com</string>
+	<string>500481310176-t8l7tr9jhvg8v0jc2a8f378oqsdirrbn.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDRlIi8v1v5Uu6PnmEXBeZCcYkkKwZgiVw</string>
+	<string>AIzaSyBxjy9W3aVhjfGeZ9NnhST1NnKBPMBzygo</string>
 	<key>GCM_SENDER_ID</key>
-	<string>373996144704</string>
+	<string>500481310176</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.dgsw.mindbridgeapp</string>
 	<key>PROJECT_ID</key>
-	<string>mind-bridge-285809</string>
+	<string>mind-bridge-test</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mind-bridge-285809.appspot.com</string>
+	<string>mind-bridge-test.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:373996144704:ios:5ffdcb415061cc36c4b7a5</string>
+	<string>1:500481310176:ios:dc00148739f0f2da4a7f85</string>
 	<key>DATABASE_URL</key>
-	<string>https://mind-bridge-285809.firebaseio.com</string>
+	<string>https://mind-bridge-test.firebaseio.com</string>
 </dict>
 </plist>
