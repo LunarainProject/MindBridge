@@ -11,48 +11,52 @@ import {
 import { Surface } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import InfoContainer from "./InfoContainer";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export default class SurveyCard extends React.Component<Props> {
   render() {
     return (
-      <Surface style={styles.cardContainer} onTouchEnd={this.props.OnClick}>
-        <View style={styles.dataContainer}>
-          <View style={styles.imageAvatar}>
-            <Image
-              style={styles.image}
-              resizeMode="cover"
-              source={(typeof this.props.Image == 'string')? {
-                uri: `${this.props.Image}?date=${new Date()}`,
-                cache: ''
-              }: this.props.Image}
-            ></Image>
+      <View style={styles.cardContainer}>
+        <TouchableWithoutFeedback style={styles.touch} onPress={this.props.OnClick}>
+          <View style={styles.dataContainer}>
+            <View style={styles.imageAvatar}>
+              <Image
+                style={styles.image}
+                resizeMode="cover"
+                source={(typeof this.props.Image == 'string') ? {
+                  uri: `${this.props.Image}?date=${new Date()}`,
+                  cache: ''
+                } : this.props.Image}
+              ></Image>
+            </View>
+            <View style={styles.textContainer}>
+              <View style={styles.titleContainer}>
+                <Text allowFontScaling={false} style={{ fontSize: 12 }}>{this.props.Subtitle}</Text>
+                <Text allowFontScaling={false} style={{ fontWeight: "bold", fontSize: 22 }}>
+                  {this.props.Title}
+                </Text>
+              </View>
+              <View style={styles.buttonContainer}>
+                <Text allowFontScaling={false} style={{ fontSize: 14, color: "#F970B9" }}>
+                  {this.props.ButtonLabel}
+                </Text>
+                <AntDesign name="right" size={14} color="#F970B9" />
+              </View>
+            </View>
           </View>
-          <View style={styles.textContainer}>
-            <View style={styles.titleContainer}>
-              <Text allowFontScaling={false} style={{ fontSize: 12 }}>{this.props.Subtitle}</Text>
-              <Text allowFontScaling={false} style={{ fontWeight: "bold", fontSize: 22 }}>
-                {this.props.Title}
+          <View style={styles.infoContainer}>
+            <View style={{ width: 90, height: 32 }}>
+              <InfoContainer />
+            </View>
+            <View style={styles.infoText}>
+              <Text allowFontScaling={false} style={{ marginLeft: 15, color: "white" }}>
+                {this.props.InfoLabel}
               </Text>
             </View>
-            <View style={styles.buttonContainer}>
-              <Text allowFontScaling={false} style={{ fontSize: 14, color: "#F970B9" }}>
-                {this.props.ButtonLabel}
-              </Text>
-              <AntDesign name="right" size={14} color="#F970B9" />
-            </View>
           </View>
-        </View>
-        <View style={styles.infoContainer}>
-        <View style={{ width: 90, height: 32}}>
-          <InfoContainer />
-        </View>
-          <View style={styles.infoText}>
-            <Text allowFontScaling={false} style={{ marginLeft: 15, color: "white" }}>
-              {this.props.InfoLabel}
-            </Text>
-          </View>
-        </View>
-      </Surface>
+
+        </TouchableWithoutFeedback>
+      </View>
     );
   }
 }
@@ -97,6 +101,13 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
       },
     }),
+  },
+
+
+  touch: {
+    width: "100%",
+    borderRadius: radius,
+    overflow: "hidden",
   },
 
   dataContainer: {

@@ -11,39 +11,42 @@ import {
 import { Surface } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import InfoContainer from "./InfoContainer";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 function date(date: Date): string {
-  return date.getFullYear() + '. ' + (date.getMonth() + 1) + '. ' + date.getDate() +'. ';
+  return date.getFullYear() + '. ' + (date.getMonth() + 1) + '. ' + date.getDate() + '. ';
 }
 
 export default class SurveyResultCard extends React.Component<Props> {
   render() {
     return (
-      <Surface style={styles.cardContainer} onTouchEnd={(this.props.OnClick as any)}>
-        <View style={styles.dataContainer}>
-          <View style={styles.imageAvatar}>
-            <Image
-              style={styles.image}
-              resizeMode="cover"
-              source={{uri: this.props.image}}
-            ></Image>
-          </View>
-          <View style={styles.textContainer}>
-            <View style={styles.titleContainer}>
-              <Text allowFontScaling={false} style={{ fontSize: 12 }}>{date(this.props.Date)}</Text>
-              <Text allowFontScaling={false} style={{ fontWeight: "bold", fontSize: 22 }}>
-                {this.props.Title}
-              </Text>
+      <View style={styles.cardContainer}>
+        <TouchableWithoutFeedback style={styles.touch} onPress={(this.props.OnClick as any)}>
+          <View style={styles.dataContainer}>
+            <View style={styles.imageAvatar}>
+              <Image
+                style={styles.image}
+                resizeMode="cover"
+                source={{ uri: this.props.image }}
+              ></Image>
             </View>
-            <View style={styles.buttonContainer}>
-              <Text allowFontScaling={false} style={{ fontSize: 14, color: "#F970B9" }}>
-                결과보기
+            <View style={styles.textContainer}>
+              <View style={styles.titleContainer}>
+                <Text allowFontScaling={false} style={{ fontSize: 12 }}>{date(this.props.Date)}</Text>
+                <Text allowFontScaling={false} style={{ fontWeight: "bold", fontSize: 22 }}>
+                  {this.props.Title}
+                </Text>
+              </View>
+              <View style={styles.buttonContainer}>
+                <Text allowFontScaling={false} style={{ fontSize: 14, color: "#F970B9" }}>
+                  결과보기
               </Text>
-              <AntDesign name="right" size={14} color="#F970B9" />
+                <AntDesign name="right" size={14} color="#F970B9" />
+              </View>
             </View>
           </View>
-        </View>
-      </Surface>
+        </TouchableWithoutFeedback>
+      </View>
     );
   }
 }
@@ -86,6 +89,12 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
       },
     }),
+  },
+
+  touch: {
+    width: "100%",
+    borderRadius: radius,
+    overflow: "hidden",
   },
 
   dataContainer: {

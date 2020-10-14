@@ -13,65 +13,68 @@ import { LinearGradient } from "expo-linear-gradient";
 import RatioImage from "../components/RatioImage";
 import { AntDesign } from "@expo/vector-icons";
 import InfoContainer from "./InfoContainer";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 class Card extends React.Component<Props> {
   render() {
     return (
-      <Surface style={styles.cardContainer} onTouchEnd={this.props.OnClick}>
-        <View style={styles.imageContainer}>
-          <RatioImage
-            Ratio={16 / 9}
-            Source={(typeof this.props.Image == 'string')? {
-              uri: this.props.Image,
-              method: 'POST',
-              headers: {
-                Pragma: 'no-cache'
-              }
-            }: this.props.Image}
-          />
-          <View style={styles.imageCoverGrad}>
-            <LinearGradient
-              colors={[
-                "rgba(0, 0, 0, 0)",
-                "rgba(0, 0, 0, 0.2)",
-                "rgba(0, 0, 0, 0.8)",
-              ]}
-              style={styles.grad}
-            ></LinearGradient>
-            <View style={styles.subtitleContainer}>
-              <Text allowFontScaling={false} style={{ color: "white", fontSize: 16 }}>
-                {this.props.Subtitle}
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.footerContainer}>
-          <View style={styles.footerTextContainer}>
-            <Text allowFontScaling={false} style={{ fontWeight: "bold", fontSize: 24 }}>
-              {this.props.Title}
-            </Text>
-            <Text allowFontScaling={false} style={{ fontSize: 14 }}>{this.props.Description}</Text>
-          </View>
-          <View style={styles.footerButtonLabel}>
-            <Text allowFontScaling={false} style={{ fontSize: 14, color: "#F970B9" }}>
-              {this.props.ButtonLabel}
-            </Text>
-            <AntDesign name="right" size={14} color="#F970B9" />
-          </View>
-          {this.props.InfoLabel !== "" && (
-            <View style={styles.footerInfoLabel}>
-              <View style={{ width: 90, height: 32 }}>
-                <InfoContainer />
-              </View>
-              <View style={styles.infoText}>
-                <Text allowFontScaling={false} style={{ marginLeft: 15, color: "white" }}>
-                  {this.props.InfoLabel}
+      <View style={styles.cardContainer}>
+        <TouchableWithoutFeedback style={styles.touch} onPress={this.props.OnClick}>
+          <View style={styles.imageContainer}>
+            <RatioImage
+              Ratio={16 / 9}
+              Source={(typeof this.props.Image == 'string') ? {
+                uri: this.props.Image,
+                method: 'POST',
+                headers: {
+                  Pragma: 'no-cache'
+                }
+              } : this.props.Image}
+            />
+            <View style={styles.imageCoverGrad}>
+              <LinearGradient
+                colors={[
+                  "rgba(0, 0, 0, 0)",
+                  "rgba(0, 0, 0, 0.2)",
+                  "rgba(0, 0, 0, 0.8)",
+                ]}
+                style={styles.grad}
+              ></LinearGradient>
+              <View style={styles.subtitleContainer}>
+                <Text allowFontScaling={false} style={{ color: "white", fontSize: 16 }}>
+                  {this.props.Subtitle}
                 </Text>
               </View>
             </View>
-          )}
-        </View>
-      </Surface>
+          </View>
+          <View style={styles.footerContainer}>
+            <View style={styles.footerTextContainer}>
+              <Text allowFontScaling={false} style={{ fontWeight: "bold", fontSize: 24 }}>
+                {this.props.Title}
+              </Text>
+              <Text allowFontScaling={false} style={{ fontSize: 14 }}>{this.props.Description}</Text>
+            </View>
+            <View style={styles.footerButtonLabel}>
+              <Text allowFontScaling={false} style={{ fontSize: 14, color: "#F970B9" }}>
+                {this.props.ButtonLabel}
+              </Text>
+              <AntDesign name="right" size={14} color="#F970B9" />
+            </View>
+            {this.props.InfoLabel !== "" && (
+              <View style={styles.footerInfoLabel}>
+                <View style={{ width: 90, height: 32 }}>
+                  <InfoContainer />
+                </View>
+                <View style={styles.infoText}>
+                  <Text allowFontScaling={false} style={{ marginLeft: 15, color: "white" }}>
+                    {this.props.InfoLabel}
+                  </Text>
+                </View>
+              </View>
+            )}
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
     );
   }
 }
@@ -120,6 +123,12 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
       },
     }),
+  },
+
+  touch : {
+    width: "100%",
+    borderRadius: radius,
+    overflow: "hidden",
   },
 
   imageContainer: {
