@@ -97,6 +97,7 @@ export const LoginThunk = () => async (dispatch: Function) => {
       loggedIn = false;
       autoLogin = false;
       needRegister = false;
+      console.log("시작하기 실패: [", resp, "]")
     }
   } else {
     //시작하기 실패
@@ -135,18 +136,25 @@ export const AutoLoginThunk = () => async (dispatch: Function) => {
     if (user !== null) {
       console.log("production mode");
       //시작하기 성공
-      if ((await ServerService.CheckUserRegistered(idToken)) === "Success") {
+      const resp = await ServerService.CheckUserRegistered(idToken);
+      if (resp === "Success") {
         //이미 등록된 경우
         loggedIn = true;
         autoLogin = false;
         needRegister = false;
         console.log("Registered");
-      } else {
+      } else if(resp === "Failed") {
         //등록되지 않은 경우
         loggedIn = false;
         autoLogin = false;
         needRegister = true;
         console.log("Unregistered");
+      } else {
+        //시작하기 실패
+        loggedIn = false;
+        autoLogin = false;
+        needRegister = false;
+        console.log("google login failed");
       }
     } else {
       //시작하기 실패

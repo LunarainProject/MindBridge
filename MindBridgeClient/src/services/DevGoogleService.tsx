@@ -18,10 +18,8 @@ export default class DevGoogleService implements IGoogleService {
     try {
       await Google.logOutAsync({
         accessToken: DevGoogleService.accessToken,
-        androidClientId:
-          "373996144704-lb8cbsmuclh62v4rnf4qg2qi2fmb973f.apps.googleusercontent.com",
-        androidStandaloneAppClientId:
-          "373996144704-lb8cbsmuclh62v4rnf4qg2qi2fmb973f.apps.googleusercontent.com",
+        iosClientId: "500481310176-lft49ekir2fbet9vm4u6qmcrlqlrfdl6.apps.googleusercontent.com",
+        androidClientId: "500481310176-t8l7tr9jhvg8v0jc2a8f378oqsdirrbn.apps.googleusercontent.com",
         scopes: ["profile", "email"],
       });
       console.log("google signed out");
@@ -49,10 +47,8 @@ export default class DevGoogleService implements IGoogleService {
   }> {
       try {
         const result = await Google.logInAsync({
-          androidClientId:
-            "373996144704-lb8cbsmuclh62v4rnf4qg2qi2fmb973f.apps.googleusercontent.com",
-          androidStandaloneAppClientId:
-            "373996144704-lb8cbsmuclh62v4rnf4qg2qi2fmb973f.apps.googleusercontent.com",
+          iosClientId: "500481310176-lft49ekir2fbet9vm4u6qmcrlqlrfdl6.apps.googleusercontent.com",
+          androidClientId: "500481310176-t8l7tr9jhvg8v0jc2a8f378oqsdirrbn.apps.googleusercontent.com",
           scopes: ["profile", "email"],
         });
         if (result.type === "success") {
