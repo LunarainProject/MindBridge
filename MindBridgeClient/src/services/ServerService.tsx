@@ -97,6 +97,8 @@ export default class ServerService {
         return "NoInternet";
       }
 
+      console.log('hi');
+
       let response;
       try {
         response = await FetchBuilder.build(
@@ -105,9 +107,11 @@ export default class ServerService {
           .param("id_token", idToken)
           .fetch();
       } catch (e) {
-        console.log("fetch error. error Msg: ", e, response);
+        console.log("fetch error. error Msg: ", e);
         return "Fetch Failed";
       }
+
+      console.log('check user', idToken);
 
       let responseText;
       try {
@@ -116,9 +120,9 @@ export default class ServerService {
         console.log("response parse error: ", e);
       }
 
-      if (responseText != "Su") this.RetrieveAccessToken(idToken);
+      console.log('response : <<', responseText, '>>');
 
-      console.log(responseText);
+      if (responseText != "Failed") this.RetrieveAccessToken(idToken);
       return responseText;
     }
   }
