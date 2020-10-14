@@ -74,7 +74,7 @@ class SurveyWebScreen extends React.Component<Props, State> {
                         } else {
                           this.props.navigation.navigate("SurveyResult", { SurveyResultId: recent.Id, SurveyResultCount: recent.Count});
                         }
-                      }, 500);
+                      }, 1000);
                       
                     }}
                   ],
