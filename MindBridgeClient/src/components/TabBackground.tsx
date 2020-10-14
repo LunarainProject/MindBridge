@@ -67,7 +67,7 @@ export default class TabBackground extends React.Component<Props> {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "white" }}> 
+      <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
         <View style={styles.statusBar}></View>
         <ScrollView stickyHeaderIndices={[1]}>
           <Background Title={this.props.title}></Background>

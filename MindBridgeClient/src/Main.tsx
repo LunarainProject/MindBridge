@@ -54,7 +54,7 @@ export default class Main extends React.Component {
           />
           <Stack.Screen name="VideoWeb" component={VideoWebScreen}
             options={{
-              headerShown: false,
+              headerTitle: "실전 부부 팁"
             }}
           />
           <Stack.Screen name="TipWeb" component={TipWebScreen}

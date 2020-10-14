@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
         height: 110,
         backgroundColor: "white",
         borderRadius: radius,
-        overflow: "hidden",
         ...Platform.select({
           ios: {
             shadowColor: "#4d4d4d",
@@ -29,19 +28,10 @@ const styles = StyleSheet.create({
               height: 2,
             },
             shadowOpacity: 0.2,
-            shadowRadius: 4,
+            shadowRadius: 2,
           },
           android: {
             elevation: 2,
-          },
-          web: {
-            shadowColor: "#4d4d4d",
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.2,
-            shadowRadius: 4,
           },
         }),
     }

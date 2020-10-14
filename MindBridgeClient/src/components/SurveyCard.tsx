@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: "white",
     borderRadius: radius,
-    overflow: "hidden",
+    // borderWidth: 0.5,
+    // borderColor: '#F970B9',
     ...Platform.select({
       ios: {
         shadowColor: "#4d4d4d",
@@ -81,10 +82,10 @@ const styles = StyleSheet.create({
           height: 2,
         },
         shadowOpacity: 0.2,
-        shadowRadius: 4,
+        shadowRadius: 2,
       },
       android: {
-        elevation: 2,
+        elevation: 1,
       },
       web: {
         shadowColor: "#4d4d4d",
