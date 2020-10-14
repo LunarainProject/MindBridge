@@ -15,7 +15,6 @@ import { BackHandleService } from "../services/BackHandleService";
 import { connect } from "react-redux";
 import { LoginState } from "../StateTypes";
 import { StackActions } from "@react-navigation/native";
-import * as ScreenOrientation from 'expo-screen-orientation';
 import Constants from 'expo-constants';
 import { StatusBar } from "expo-status-bar";
 
@@ -25,7 +24,6 @@ class VideoWebScreen extends React.Component<Props, State> {
     super(props);
     this.state = {
       isWebViewLoaded: false,
-      orientation: 'portrait',
     };
   }
 
@@ -39,16 +37,6 @@ class VideoWebScreen extends React.Component<Props, State> {
     return (data.match(p)) ? RegExp.$1 : null ;
   }
 
-  async changeLandscape() {
-    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT);
-    this.setState({ orientation : 'landscape'});
-  }
-
-  async changePortrait() {
-    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-    this.setState({ orientation : 'portrait'});
-  }
-
   async componentDidMount() {
     let url = this.props.route.params.Url;
     let code = this.decodeData(url);
@@ -58,45 +46,33 @@ class VideoWebScreen extends React.Component<Props, State> {
     } else {
       this.code = code;
     }
-    await this.changeLandscape();
-  }
-
-  async componentWillUnmount() {
-    await this.changePortrait();
   }
 
   private code: string = "";
 
-  private injected = `["fullscreenchange", "webkitfullscreenchange", "mozfullscreenchange", "msfullscreenchange"].forEach( eventType => document.addEventListener(eventType, function(e){ window.ReactNativeWebView.postMessage(e) }, false) ); true;`;
-
   render() {
     return (
       <View style={styles.main}>
-        <View style={styles.statusBar}></View>
         <WebView
-          injectedJavaScript={this.injected}
-          // allowsFullscreenVideo={true}
+          allowsFullscreenVideo={true}
           javaScriptEnabled={true}
           onLoad={() => {
             this.setState({ isWebViewLoaded: true });
           }}
-          onMessage={e => {
-            console.log('message');
-            ScreenOrientation.unlockAsync();
-          }}
+
           source={{ uri:
             `http://www.youtube.com/embed/${this.code}`
           }}
           style={styles.webView}
         />
-        {(!this.state.isWebViewLoaded || (this.state.orientation == 'portrait')) && (
+        {(!this.state.isWebViewLoaded && (
           <View style={styles.asyncScreen}>
             <ActivityIndicator size="large" color="#F970B9" />
           </View>
-        )}
-        <StatusBar
+        ))}
+        {/* <StatusBar
             style="light"
-        ></StatusBar>
+        ></StatusBar> */}
       </View>
     );
   }
@@ -104,7 +80,6 @@ class VideoWebScreen extends React.Component<Props, State> {
 
 type State = {
   isWebViewLoaded: boolean;
-  orientation: 'portrait'|'landscape';
 };
 
 type Props = StackScreenProps<StackParamList, "VideoWeb"> & {
