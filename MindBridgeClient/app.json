@@ -19,6 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.dgsw.mindbridgeapp",
+      "buildNumber": "1.1.7",
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.500481310176-gu72541ovsjhr5crlt9dcu78fc52k0t5"
