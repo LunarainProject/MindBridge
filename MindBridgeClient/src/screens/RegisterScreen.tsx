@@ -40,14 +40,14 @@ class RegisterScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
     for(var i = 1900; i <= new Date().getFullYear(); i++) {
-      this.yearItems.push(<Picker.Item label={`${i}`} value={`${i}`} />)
+      this.yearItems.push(<Picker.Item key={i} label={`${i}`} value={`${i}`} />)
     }
     for(var i = 1; i <= 12; i++) {
-      this.monthItems.push(<Picker.Item label={`${i}`} value={`${i}`} />)
+      this.monthItems.push(<Picker.Item key={i} label={`${i}`} value={`${i}`} />)
     }
     console.log(this.getDays("2000", "1"));
     for(var i = 1; i <= this.getDays("2000", "1"); i++) {
-      this.dayItems.push(<Picker.Item label={`${i}`} value={`${i}`} />)
+      this.dayItems.push(<Picker.Item key={i} label={`${i}`} value={`${i}`} />)
     }
   }
 
@@ -99,10 +99,10 @@ class RegisterScreen extends React.Component<Props> {
         </Text>
 
         <View style={{flexDirection: 'row', width: "100%"}}>
-          <View style={{borderWidth: 1, borderColor: 'pink', width: "33%", height: 60,}}>
+          <View style={{borderWidth: 1, borderColor: 'pink', width: "33%", }}>
             <Picker
             selectedValue={this.state.year}
-            style={{height: 60, width: "100%"}}
+            style={{width: "100%"}}
             onValueChange={(itemValue, itemIndex) => {
               this.setState({year: itemValue, picked: true,});
               this.dayItems = [];
@@ -114,10 +114,10 @@ class RegisterScreen extends React.Component<Props> {
               {this.yearItems}
           </Picker>
           </View>
-          <View style={{borderWidth: 1, borderColor: 'pink', width: "33%", height: 60,}}>
+          <View style={{borderWidth: 1, borderColor: 'pink', width: "33%", }}>
             <Picker
             selectedValue={this.state.month}
-            style={{height: 60, width: "100%"}}
+            style={{width: "100%"}}
             onValueChange={(itemValue, itemIndex) => {
               this.setState({month: itemValue, picked: true,});
               this.dayItems = [];
@@ -128,10 +128,10 @@ class RegisterScreen extends React.Component<Props> {
             }>
               {this.monthItems}
           </Picker>
-          </View><View style={{borderWidth: 1, borderColor: 'pink', width: "33%", height: 60,}}>
+          </View><View style={{borderWidth: 1, borderColor: 'pink', width: "33%",}}>
             <Picker
             selectedValue={this.state.day}
-            style={{height: 60, width: "100%"}}
+            style={{width: "100%"}}
             onValueChange={(itemValue, itemIndex) => {
               this.setState({day: itemValue, picked: true,});
             }
