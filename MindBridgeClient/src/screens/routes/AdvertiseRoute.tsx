@@ -75,6 +75,7 @@ class Introduction extends React.Component {
         </Text>
         <View style={styles.videoContainer}>
           <WebView
+    originWhitelist={['*']}
               onLoad={() => {
                 this.setState({ isWebViewLoaded: true });
               }}

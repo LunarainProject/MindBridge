@@ -29,6 +29,7 @@ class SurveyWebScreen extends React.Component<Props, State> {
     return (
       <View style={styles.main}>
         <WebView
+    originWhitelist={['*']}
           onLoad={() => {
             this.setState({ isWebViewLoaded: true });
           }}
