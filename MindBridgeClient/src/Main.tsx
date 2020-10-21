@@ -54,12 +54,12 @@ export default class Main extends React.Component {
           />
           <Stack.Screen name="VideoWeb" component={VideoWebScreen}
             options={{
-              headerTitle: "실전 부부 팁"
+              headerTitle: "행복부부팁"
             }}
           />
           <Stack.Screen name="TipWeb" component={TipWebScreen}
             options={{
-              headerTitle: "실전 부부 팁"
+              headerTitle: "행복부부팁"
             }}
           />
           <Stack.Screen name="SurveyResult" component={SurveyResultScreen}

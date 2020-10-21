@@ -48,7 +48,7 @@ class MainScreen extends React.Component<Props> {
   private routes = [
     { key: "Overview", title: "모아보기" },
     { key: "survey", title: "테스트" },
-    { key: "tip", title: "부부팁" },
+    { key: "tip", title: "행복부부팁" },
     { key: "advertise", title: "부부학교" },
     { key: "more", title: "더보기" },
   ];
