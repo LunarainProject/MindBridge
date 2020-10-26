@@ -32,6 +32,7 @@ import CombineAction from "../CombineAction";
 import { connect } from "react-redux";
 import { BackHandleService } from "../services/BackHandleService";
 import { StatusBar } from "expo-status-bar";
+import { SystemState } from "../StateTypes";
 
 class MainScreen extends React.Component<Props> {
   state = {
@@ -42,7 +43,7 @@ class MainScreen extends React.Component<Props> {
   private OverviewRoute = () => <OverviewRoute {...this.props} setIndex={this.setIndex} />;
   private SurveyRoute = () => <SurveyRoute {...this.props} />;
   private TipRoute = () => <TipRoute {...this.props} />;
-  private AdvertiseRoute = () => <AdvertiseRoute {...this.props} />;
+  private AdvertiseRoute = () => <AdvertiseRoute {...this.props}/>;
   private MoreRoute = () => <MoreRoute {...this.props}/>;
 
   private routes = [
@@ -135,6 +136,18 @@ class MainScreen extends React.Component<Props> {
 
   private _handler = (nextAppState: any) => {
     BackHandleService._handleAppStateChange(nextAppState);
+
+    switch(nextAppState) {
+      case "active":
+        this.props.SetAppState("active");
+        break;
+      case "inactive":
+      case "background":
+        this.props.SetAppState("inactive");
+        break;
+      default:
+        break;
+    }
   }
 
   componentWillUnmount() {
@@ -196,10 +209,14 @@ type Props = StackScreenProps<StackParamList, "Main"> & {
   InitSpouseInfo: () => void;
   InitOverview: () => void;
   InitTip: () => void;
+  SetAppState: (state: "active"|"inactive") => void;
+  System: SystemState;
 };
 
 function mapStateToProps(state: any) {
-  return {};
+  return {
+    System: state.System as SystemState
+  };
 }
 
 function mapDispatchToProps(dispatch: Function) {
@@ -221,6 +238,9 @@ function mapDispatchToProps(dispatch: Function) {
     },
     InitSpouseInfo: (): void => {
       dispatch(CombineAction.RetrieveSpouseInfoThunk());
+    },
+    SetAppState: (state: "active"|"inactive"): void => {
+      dispatch(CombineAction.SetAppState(state));
     }
   };
 }
