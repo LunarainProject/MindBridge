@@ -13,7 +13,7 @@ import { WebView } from "react-native-webview";
 import { ActivityIndicator } from "react-native-paper";
 import { BackHandleService } from "../services/BackHandleService";
 import { connect } from "react-redux";
-import { LoginState } from "../StateTypes";
+import { LoginState, SystemState } from "../StateTypes";
 import { StackActions } from "@react-navigation/native";
 import Constants from 'expo-constants';
 import { StatusBar } from "expo-status-bar";
@@ -53,7 +53,7 @@ class VideoWebScreen extends React.Component<Props, State> {
   render() {
     return (
       <View style={styles.main}>
-        <WebView
+        {this.props.System.appState == "active" && <WebView
           allowsFullscreenVideo={true}
           javaScriptEnabled={true}
           onLoad={() => {
@@ -64,7 +64,7 @@ class VideoWebScreen extends React.Component<Props, State> {
             `http://www.youtube.com/embed/${this.code}`
           }}
           style={styles.webView}
-        />
+        />}
         {(!this.state.isWebViewLoaded && (
           <View style={styles.asyncScreen}>
             <ActivityIndicator size="large" color="#F970B9" />
@@ -83,11 +83,13 @@ type State = {
 };
 
 type Props = StackScreenProps<StackParamList, "VideoWeb"> & {
-  LoginState: LoginState
+  LoginState: LoginState,
+  System: SystemState,
 };
 
 function mapStateToProps(state: any) {
   return {
+    System: state.System as SystemState,
   };
 }
 
