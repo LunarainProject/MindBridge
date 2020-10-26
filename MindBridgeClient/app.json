@@ -32,7 +32,7 @@
     },
     "android": {
       "package": "com.dgsw.mindbridgeapp",
-      "versionCode": 8,
+      "versionCode": 9,
       "googleServicesFile": "./google-services.json"
     }
   }
