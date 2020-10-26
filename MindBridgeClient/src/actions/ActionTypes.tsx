@@ -20,6 +20,9 @@ const ActionTypes = {
     //Privacy Actions
     SET_USER_INFO: 'SET_USER_INFO',
     SET_SPOUSE_INFO: 'SET_SPOUSE_INFO',
+
+    //System Actions
+    SET_APP_STATE: 'SET_APP_STATE',
 }
 
 export default ActionTypes;

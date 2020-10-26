@@ -80,6 +80,9 @@ export default class App extends React.Component {
         Survey: {
           SurveyResultCards: [],
           SpouseResultCards: [],
+        },
+        System: {
+          appState: "active",
         }
       }, applyMiddleware(ReduxThunk))}>
         <PaperProvider theme={theme}>

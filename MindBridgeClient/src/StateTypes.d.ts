@@ -77,3 +77,7 @@ export type PrivacyState = {
     UserInfo: UserInfo;
     SpouseInfo: UserInfo;
 }
+
+export type SystemState = {
+    appState: "active" | "inactive";
+}

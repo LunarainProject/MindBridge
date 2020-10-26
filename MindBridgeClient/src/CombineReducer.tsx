@@ -4,6 +4,7 @@ import CountReducer from './subreducers/CountReducer';
 import LoginReducer from './subreducers/LoginReducer';
 import PrivacyReducer from './subreducers/PrivacyReducer';
 import SurveyReducer from './subreducers/SurveyReducer';
+import SystemReducer from './subreducers/SystemReducer';
 
 export default combineReducers({
     Count: CountReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
     Login: LoginReducer,
     Survey: SurveyReducer,
     Privacy: PrivacyReducer,
+    System: SystemReducer,
 });

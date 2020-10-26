@@ -3,6 +3,7 @@ import * as CardActions from './actions/CardActions';
 import * as LoginActions from './actions/LoginActions';
 import * as SurveyActions from './actions/SurveyActions';
 import * as PrivacyActions from './actions/PrivacyActions';
+import * as SystemActions from './actions/SystemActions';
 
 const CombineAction = Object.assign({},
     CountActions,
@@ -10,6 +11,7 @@ const CombineAction = Object.assign({},
     LoginActions,
     SurveyActions,
     PrivacyActions,
+    SystemActions,
 );
 
 export default CombineAction;
