@@ -25,7 +25,6 @@ export default class SurveyCard extends React.Component<Props> {
                 resizeMode="cover"
                 source={(typeof this.props.Image == 'string') ? {
                   uri: `${this.props.Image}?date=${new Date()}`,
-                  cache: ''
                 } : this.props.Image}
               ></Image>
             </View>

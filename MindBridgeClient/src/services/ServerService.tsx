@@ -200,7 +200,7 @@ export default class ServerService {
   public static async GetVideoList(): Promise<CardCategoryType> {
     if (!(await this.InternetCheck())) {
       return {
-        Title: "부부 팁 영상",
+        Title: "행복부부팁",
         Cards: [],
       };
     }
@@ -213,7 +213,7 @@ export default class ServerService {
     } catch (e) {
       console.log("fetch error: ", e);
       return {
-        Title: "부부 팁 영상",
+        Title: "행복부부팁",
         Cards: [],
       };
     }
@@ -237,13 +237,13 @@ export default class ServerService {
 
     if (packet === null) {
       return {
-        Title: "부부 팁 영상",
+        Title: "행복부부팁",
         Cards: [],
       };
     }
 
     return {
-      Title: "부부 팁 영상",
+      Title: "행복부부팁",
       Cards: Object.values(packet).map((result) => {
         const res = result as ResultPacket;
         console.log(res);

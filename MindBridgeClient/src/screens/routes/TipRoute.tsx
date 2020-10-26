@@ -55,7 +55,7 @@ class TipRoute extends React.Component<Props> {
           }}
         >
         </TabBackground> */}
-          <Background Title="부부 팁 영상">
+          <Background Title="행복부부팁">
             <Video Card={this.props.Card}></Video>
 
           </Background>

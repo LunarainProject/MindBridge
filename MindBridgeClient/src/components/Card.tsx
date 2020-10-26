@@ -24,11 +24,7 @@ class Card extends React.Component<Props> {
             <RatioImage
               Ratio={16 / 9}
               Source={(typeof this.props.Image == 'string') ? {
-                uri: this.props.Image,
-                method: 'POST',
-                headers: {
-                  Pragma: 'no-cache'
-                }
+                uri: `${this.props.Image}?date=${new Date()}`,
               } : this.props.Image}
             />
             <View style={styles.imageCoverGrad}>

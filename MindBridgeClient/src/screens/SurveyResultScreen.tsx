@@ -17,32 +17,36 @@ import { LoginState } from "../StateTypes";
 import { connect } from "react-redux";
 import ServerService from "../services/ServerService";
 
-class SurveyResultScreen extends React.Component<Props> {
+type State = {
+  url: string;
+  isWebViewLoaded: boolean;
+}
 
-  private url: string = "";
+class SurveyResultScreen extends React.Component<Props, State> {
+
+  state = {
+    url: "",
+    isWebViewLoaded: false,
+  };
 
   async componentDidMount() {
     const spouseCount: string = this.props.route.params.SpouseCount ?? "0";
-    this.url = ServerService.GetSurveyResultUrl(
+    this.setState({url: ServerService.GetSurveyResultUrl(
       this.props.route.params.SurveyResultId,
       this.props.route.params.SurveyResultCount,
       spouseCount,
-    );
-    console.log(this.url);
-  }
-
-  state = {
-    isWebViewLoaded: false,
+    )});
   }
 
   render() {
     return (
       <View style={styles.main}>
         <WebView
+          originWhitelist={['*']}
           onLoad={() => {
             this.setState({ isWebViewLoaded: true });
           }}
-          source={{ uri: this.url }}
+          source={{ uri: this.state.url }}
           style={styles.webView}
         />
         {!this.state.isWebViewLoaded && (
