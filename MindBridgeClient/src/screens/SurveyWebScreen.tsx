@@ -13,7 +13,7 @@ import { WebView } from "react-native-webview";
 import { ActivityIndicator } from "react-native-paper";
 import { BackHandleService } from "../services/BackHandleService";
 import { connect } from "react-redux";
-import { LoginState, SurveyState } from "../StateTypes";
+import { LoginState, SurveyState, SystemState } from "../StateTypes";
 import { StackActions } from "@react-navigation/native";
 import ServerService from "../services/ServerService";
 import CombineAction from "../CombineAction";
@@ -28,8 +28,8 @@ class SurveyWebScreen extends React.Component<Props, State> {
   render() {
     return (
       <View style={styles.main}>
-        <WebView
-    originWhitelist={['*']}
+        {this.props.System.appState === "active" && <WebView
+          originWhitelist={['*']}
           onLoad={() => {
             this.setState({ isWebViewLoaded: true });
           }}
@@ -84,7 +84,7 @@ class SurveyWebScreen extends React.Component<Props, State> {
                 break;
               }
           }}}
-        />
+        />}
         {!this.state.isWebViewLoaded && (
           <View style={styles.asyncScreen}>
             <ActivityIndicator size="large" color="#F970B9" />
@@ -102,6 +102,7 @@ type State = {
 type Props = StackScreenProps<StackParamList, "SurveyWeb"> & {
   LoginState: LoginState
   Survey: SurveyState;
+  System: SystemState;
   retrieveResults: () => void;
 };
 
@@ -109,6 +110,7 @@ function mapStateToProps(state: any) {
   return {
     LoginState: state.Login,
     Survey: state.Survey,
+    System: state.System,
   };
 }
 
