@@ -5,7 +5,7 @@ import {
   View,
   Text,
   NativeSyntheticEvent,
-  NativeTouchEvent, Dimensions
+  NativeTouchEvent, Dimensions, ScrollView,
 } from "react-native";
 import Constants from "expo-constants";
 
@@ -19,8 +19,10 @@ import TabBackground from "../../components/TabBackground";
 import WebView from "react-native-webview";
 import RatioImage from "../../components/RatioImage";
 import * as WebBrowser from "expo-web-browser";
+import { SystemState } from "../../StateTypes";
+import { connect } from "react-redux";
 
-export default class AdvertiseRoute extends React.Component<Props> {
+class AdvertiseRoute extends React.Component<Props> {
   private OnClickTestHandler: (
     arg1: NativeSyntheticEvent<NativeTouchEvent>
   ) => void;
@@ -38,22 +40,41 @@ export default class AdvertiseRoute extends React.Component<Props> {
 
   render() {
     return (
-        <TabBackground
-          title="알콩달콩 부부학교"
-          tabWidth={90}
-          tabs={tabs}
-          style={{
-            marginLeft: 10
-          }}          
+      <View style={{ flex: 1, backgroundColor: "#FCDCFA" }}>
+      <View style={styles.statusBar}></View>
+      <ScrollView>
+        <Background
+          Title="알콩달콩 부부학교"        
         >
-        </TabBackground>
+          <Introduction system={this.props.System}></Introduction>
+        </Background>
+        </ScrollView>
+        </View>
     );
   }
 }
 
-type Props = StackScreenProps<StackParamList, "Main">;
+type Props = StackScreenProps<StackParamList, "Main"> & {
+  System: SystemState;
+};
 
-class Introduction extends React.Component {
+function mapStateToProps(state: any) {
+  return {
+    System: state.System as SystemState,
+  };
+}
+
+function mapDispatchToProps(dispatch: Function) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdvertiseRoute);
+
+type IntroductionProps = {
+  system: SystemState,
+}
+
+class Introduction extends React.Component<IntroductionProps> {
 
   state = {
     isWebViewLoaded: false,
@@ -74,14 +95,14 @@ class Introduction extends React.Component {
           알콩달콩부부학교 소개영상
         </Text>
         <View style={styles.videoContainer}>
-          <WebView
+          {this.props.system.appState === "active" && <WebView
               onLoad={() => {
                 this.setState({ isWebViewLoaded: true });
               }}
               style = {styles.video}
               javaScriptEnabled={true}
               source={{uri: 'https://www.youtube.com/embed/mMCLiXfNn9Y'}}>
-          </WebView>
+          </WebView>}
           {!this.state.isWebViewLoaded && (
             <View style={styles.asyncScreen}>
               <ActivityIndicator size="large" color="#F970B9" />
@@ -203,20 +224,6 @@ class Homework extends React.Component {
     );
   }
 }
-
-const myPage = <Introduction />;
-const itinerary = <Itinerary />;
-const donate = <Donate />;
-const review = <Review />;
-const homework = <Homework />;
-
-const tabs = [
-  { title: "소개", route: myPage },
-  //{ title: "일정", route: itinerary },
-  //{ title: "후원", route: donate },
-  //{ title: "후기", route: review },
-  //{ title: "숙제", route: homework },
-];
 
 const styles = StyleSheet.create({
   main: {
