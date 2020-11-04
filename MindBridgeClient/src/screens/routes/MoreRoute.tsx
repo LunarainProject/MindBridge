@@ -321,13 +321,13 @@ class MyPage extends React.Component<MyPageProps> {
                     {this.state.dialog == "user" && (
                       <View style={{ alignItems: 'center' }}>
                         <Text allowFontScaling={false} style={styles.name}>{this.props.userInfo.name}</Text>
-                        <Text allowFontScaling={false}>{`생일 : ${this.props.userInfo.birthDay.getFullYear()}년 ${this.props.userInfo.birthDay.getMonth() + 1}월 ${this.props.userInfo.birthDay.getDate()}일`}</Text>
+                        {/* <Text allowFontScaling={false}>{`생일 : ${this.props.userInfo.birthDay.getFullYear()}년 ${this.props.userInfo.birthDay.getMonth() + 1}월 ${this.props.userInfo.birthDay.getDate()}일`}</Text> */}
                       </View>
                     )}
                     {this.state.dialog == "spouse" && (
                       <View style={{ alignItems: 'center' }}>
                         <Text allowFontScaling={false} style={styles.name}>{this.props.spouseInfo.name}</Text>
-                        <Text allowFontScaling={false}>{`생일 : ${this.props.spouseInfo.birthDay.getFullYear()}년 ${this.props.spouseInfo.birthDay.getMonth() + 1}월 ${this.props.spouseInfo.birthDay.getDate()}일`}</Text>
+                        {/* <Text allowFontScaling={false}>{`생일 : ${this.props.spouseInfo.birthDay.getFullYear()}년 ${this.props.spouseInfo.birthDay.getMonth() + 1}월 ${this.props.spouseInfo.birthDay.getDate()}일`}</Text> */}
                       </View>
                     )}
                   </View>

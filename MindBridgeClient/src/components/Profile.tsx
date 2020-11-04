@@ -89,7 +89,7 @@ export default class Profile extends React.Component<Props> {
                 >
                   {this.props.myName}
                 </Text>
-                <Text allowFontScaling={false} style={[styles.spouseNameText]}>{this.props.myState}</Text>
+                {/* <Text allowFontScaling={false} style={[styles.spouseNameText]}>{this.props.myState}</Text> */}
               </View>
               <Button
                   style={{ backgroundColor: "#F970B9", marginLeft: 10 }}
