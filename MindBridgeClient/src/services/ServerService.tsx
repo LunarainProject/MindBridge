@@ -7,6 +7,7 @@ import {
 } from "../StateTypes";
 import NetInfo from "@react-native-community/netinfo";
 import JwtDecode from "jwt-decode";
+import { Alert, Platform } from "react-native";
 
 export default class ServerService {
   private static accessToken: string | null = null;
@@ -22,6 +23,7 @@ export default class ServerService {
 
   private static async RetrieveAccessToken(idToken: string | null) {
     //서버에서 액세스 토큰을 받아옵니다. 근데 그냥 제가 만들 겁니다.
+    if(Platform.OS==="android"){
     if (idToken !== null) {
       const decoded = JwtDecode(idToken);
       console.log(decoded);
@@ -32,6 +34,10 @@ export default class ServerService {
       console.log("userId: ", uid);
       //uid 를 암호화 (따위 안 함)
       ServerService.accessToken = uid ?? null;
+    }
+    }
+    else if(Platform.OS==="ios"){
+      ServerService.accessToken = idToken;
     }
   }
 
@@ -91,6 +97,45 @@ export default class ServerService {
     }
   }
 
+  public static async AppleRegisterAccount(
+    email: string,
+    password: string,
+    name: string
+  ) {
+      if (!(await this.InternetCheck())) {
+        return "NoInternet";
+      }
+
+      console.log('register', email, password, name);
+
+      let response;
+      try {
+        const build = FetchBuilder.build(
+          "http://gfs3456.cafe24.com/api/apple/join.php"
+        )
+          .param("name", name)
+          .param("email", email)
+          .param("password", password);
+        console.log(build.toString());
+        response = await build.fetch();
+      } catch (e) {
+        console.log("fetch error. error Msg: ", e, response);
+        return "Fetch Failed";
+      }
+
+      console.log('register apple');
+
+      let responseJson: { log: string} = {
+        log: "fail"
+      };
+      try {
+        responseJson = await response?.json();
+      } catch (e) {
+        console.log("json request error: ", e);
+      }
+      return responseJson;
+  }
+
   public static async CheckUserRegistered(idToken: string | null) {
     if (idToken !== null) {
       if (!(await this.InternetCheck())) {
@@ -125,6 +170,45 @@ export default class ServerService {
       if (responseText != "Failed") this.RetrieveAccessToken(idToken);
       return responseText;
     }
+  }
+
+  public static async AppleCheckUserRegistered(email: string, password: string) {
+      if (!(await this.InternetCheck())) {
+        return "NoInternet";
+      }
+
+      console.log('hi');
+
+      let response;
+      try {
+        response = await FetchBuilder.build(
+          "http://gfs3456.cafe24.com/api/apple/login.php"
+        )
+          .param("email", email)
+          .param("password", password)
+          .fetch();
+      } catch (e) {
+        console.log("fetch error. error Msg: ", e);
+        return "Fetch Failed";
+      }
+
+      console.log('check user', email);
+
+      let responseJson : {
+        log: string, id: string, name: string
+      } = {
+        log : "falied", id: "", name: ""
+      };
+      try {
+        responseJson = await response?.json();
+      } catch (e) {
+        console.log("response parse error: ", e);
+      }
+
+      console.log('response : <<', responseJson, '>>');
+
+      if (responseJson.log == "success") this.RetrieveAccessToken(responseJson.id);
+      return responseJson;
   }
 
   public static async GetSurveyList(): Promise<CardCategoryType[]> {
@@ -175,8 +259,6 @@ export default class ServerService {
           Cards: [],
         },
       ];
-
-    console.log("TEST** : ", data);
 
     return [
       {
@@ -230,7 +312,6 @@ export default class ServerService {
 
     try {
       packet = await response?.json();
-      console.log(packet);
     } catch (e) {
       console.log("json parse error :", e);
     }
@@ -246,7 +327,6 @@ export default class ServerService {
       Title: "행복부부팁",
       Cards: Object.values(packet).map((result) => {
         const res = result as ResultPacket;
-        console.log(res);
         const ret: CardType = {
           Title: res.title,
           Id: res.videoSrl,
@@ -316,16 +396,13 @@ export default class ServerService {
         };
       }
 
-      // `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`
-      const [year, month, day] = packet.birth.split(".");
+      if(Platform.OS === "ios")
+        if(user != null) user.photoUrl = "";
 
       return {
         name: user?.name ?? "",
         image: user?.photoUrl ?? "",
-        birthDay:
-          year && month && day
-            ? new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
-            : new Date(),
+        birthDay: new Date(),
         sex: packet.sex,
       };
     } else {
@@ -400,23 +477,17 @@ export default class ServerService {
         return null;
       }
 
-      console.log(packet);
-
       if (packet === null) {
         return null;
       } else {
-        // // `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`
-        const [year, month, day] = packet.birth.split(".");
 
-        // const [year, month, day] = ["2020", "10", "3"];
+        if(Platform.OS === "ios")
+          packet.picture_url = "";
 
         return {
           name: packet?.name ?? "",
           image: packet?.picture_url ?? "",
-          birthDay:
-            year && month && day
-              ? new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
-              : new Date(),
+          birthDay: new Date(),
           sex: packet.sex,
         };
       }
@@ -716,6 +787,48 @@ export default class ServerService {
       }
 
       console.log(await response?.text());
+    }
+  }
+
+  public static async AppleEmailValidation(email: string) {
+    let response;
+    try {
+      response = await FetchBuilder.build(
+        "http://gfs3456.cafe24.com/api/email/send.php"
+      ).param("email", email).fetch();
+    } catch(e) {
+      console.log("fetch error", e);
+      return "failed";
+    }
+
+    let respJson;
+    try{
+      respJson = await response.json();
+    } catch(e)
+    {
+      console.log("json parse error", e);
+      return "failed";
+    }
+
+    type Packet = {
+      log: string;
+      count: string;
+      msg: string;
+    }
+
+    if((respJson as Packet).log === "success")
+      return "success";
+    else
+    {
+      if(respJson.msg === "email already certified")
+      {
+        Alert.alert("이메일이 이미 인증되었습니다.");
+        return "email already certified";
+      }
+      else
+      {
+        return "failed";
+      }
     }
   }
 }

@@ -19,6 +19,7 @@ import FAQScreen from "./screens/subScreens/FAQScreen";
 import PointScreen from "./screens/subScreens/PointScreen";
 import ReferenceScreen from "./screens/subScreens/ReferenceScreen";
 import SpouseHistoryScreen from "./screens/SpouseHistoryScreen";
+import AppleLoginScreen from "./screens/AppleLoginScreen";
 
 const Stack = createStackNavigator();
 
@@ -75,6 +76,11 @@ export default class Main extends React.Component {
           <Stack.Screen name="SpouseHistory" component={SpouseHistoryScreen}
             options={{
               headerTitle: "배우자의 테스트 기록"
+            }}
+          />
+          <Stack.Screen name="AppleLogin" component={AppleLoginScreen}
+            options={{
+              headerTitle: "로그인"
             }}
           />
 

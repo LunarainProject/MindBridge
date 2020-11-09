@@ -31,7 +31,7 @@ export default class Profile extends React.Component<Props> {
                   ></Image>
                 ) : (
                   <View
-                    style={{ backgroundColor: "lightgrey", flex: 1 }}
+                    style={{ backgroundColor: "#ffc9e7", flex: 1 }}
                   ></View>
                 )}
               </View>
@@ -47,7 +47,7 @@ export default class Profile extends React.Component<Props> {
                   ></Image>
                 ) : (
                   <View
-                    style={{ backgroundColor: "lightgrey", flex: 1 }}
+                    style={{ backgroundColor: "#ffc9e7", flex: 1 }}
                   ></View>
                 )}
               </View>
@@ -77,7 +77,7 @@ export default class Profile extends React.Component<Props> {
                   ></Image>
                 ) : (
                   <View
-                    style={{ backgroundColor: "lightgrey", flex: 1 }}
+                    style={{ backgroundColor: "#ffc9e7", flex: 1 }}
                   ></View>
                 )}
               </View>

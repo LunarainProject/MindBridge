@@ -7,7 +7,7 @@ import {
   Text,
   BackHandler,
   Image,
-  Alert, Dimensions
+  Alert, Dimensions, Platform
 } from "react-native";
 import DoubleCard from "../../components/DoubleCard";
 import Profile from "../../components/Profile";
@@ -78,7 +78,7 @@ class MoreRoute extends React.Component<Props> {
                 배우자가 알콩달콩 앱에 가입되어 있어야 합니다.
               </Text>
               <TextInput
-                label="배우자 구글 계정"
+                label="배우자 계정"
                 mode="outlined"
                 onChangeText={(value) => {
                   this.setState({ email: value });
@@ -168,7 +168,15 @@ function mapStateToProps(state: any) {
 function mapDispatchToProps(dispatch: Function) {
   return {
     Logout: () => {
-      dispatch(CombineAction.LogoutThunk());
+      if(Platform.OS === "android")
+      {
+        dispatch(CombineAction.LogoutThunk());
+      }
+      else if(Platform.OS === "ios")
+      {
+        dispatch(CombineAction.AppleLogoutThunk());
+      }
+
     },
 
     MatchSpouse: (email: string) => {
@@ -180,7 +188,14 @@ function mapDispatchToProps(dispatch: Function) {
     },
 
     CancelMembership: () => {
-      dispatch(CombineAction.CancelMembershipThunk());
+      if(Platform.OS === "android")
+      {
+        dispatch(CombineAction.CancelMembershipThunk());
+      }
+      else
+      {
+        dispatch(CombineAction.AppleCancelMembershipThunk());
+      }
     },
   };
 }
@@ -306,12 +321,20 @@ class MyPage extends React.Component<MyPageProps> {
                       }}
                     >
                       {this.state.dialog == "user" && (
+                        this.props.userInfo.image === "" ?
+                        <View style={{width: 200, height: 200, borderRadius: 100, backgroundColor: '#ffc9e7'}}>
+                        </View> 
+                          :
                         <Image
                           style={{ width: 200, height: 200 }}
                           source={{ uri: this.props.userInfo.image }}
                         ></Image>
                       )}
-                      {this.state.dialog == "spouse" && (
+                      {this.state.dialog == "spouse" &&  (
+                        this.props.spouseInfo.image === "" ?
+                        <View style={{width: 200, height: 200, borderRadius: 100, backgroundColor: '#ffc9e7'}}>
+                        </View> 
+                          :
                         <Image
                           style={{ width: 200, height: 200 }}
                           source={{ uri: this.props.spouseInfo.image }}
@@ -347,10 +370,10 @@ class MyPage extends React.Component<MyPageProps> {
             <View style={styles.cardMargin}>
               <Profile
                 myName={this.props.userInfo.name}
-                myState={this.props.userInfo.sex == "male" ? "남편" : "아내"}
+                myState={this.props.userInfo.sex == "male" ? "" : ""}
                 myImage={this.props.userInfo.image}
                 spouseName={this.props.spouseInfo.name}
-                spouseState={this.props.spouseInfo.sex == "male" ? "남편" : "아내"}
+                spouseState={this.props.spouseInfo.sex == "male" ? "" : ""}
                 spouseImage={this.props.spouseInfo.image}
                 onMatch={this.props.onMatch}
               />

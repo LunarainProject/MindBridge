@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef, RefObject } from "react";
 import {
   StyleSheet,
   View,
@@ -8,6 +8,7 @@ import {
   BackHandler,
   Platform,
   Image,
+  Alert,
 } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import StackParamList from "./StackParamList";
@@ -18,6 +19,7 @@ import {
   RadioButton,
   ToggleButton,
   Button,
+  TextInput,
 } from "react-native-paper";
 import { BackHandleService } from "../services/BackHandleService";
 import CombineAction from "../CombineAction";
@@ -34,7 +36,7 @@ class RegisterScreen extends React.Component<Props> {
   // private dayItems: any[] = [];
 
   async componentWillUnmount() {
-    if(this.cancel) await this.props.Logout();
+    if(this.cancel || Platform.OS === "ios") await this.props.Logout();
   }
 
   constructor(props: Props) {
@@ -65,9 +67,12 @@ class RegisterScreen extends React.Component<Props> {
     day: "1",
     value: "male",
     picked: false,
+
+    name: "",
+    email: "",
+    password: "",
+    passwordRepeat: "",
   };
-
-
 
   render() {
     return (
@@ -78,6 +83,42 @@ class RegisterScreen extends React.Component<Props> {
           <Text>안녕하세요, {this.props.LoginState.user.name}님!</Text>
         )}
         <Text>알콩달콩 부부관계 테스트 앱에 오신 걸 환영합니다.</Text>
+
+        {Platform.OS === 'ios' &&
+        <View>
+          <Text>회원 정보를 입력해주세요.</Text>
+        <View style={{marginTop: 30}}>
+          <TextInput  label="이름" 
+                      allowFontScaling={false} 
+                      numberOfLines={1} value={this.state.name} 
+                      onChangeText={str => this.setState({name: str})}>
+          </TextInput>
+          <TextInput  label="이메일" 
+                      allowFontScaling={false}
+                      numberOfLines={1}
+                      style={{marginTop: 10}}
+                      value={this.state.email}
+                      onChangeText={str => this.setState({email: str})}>
+          </TextInput>
+          <TextInput  secureTextEntry={true} 
+                      label="비밀번호" 
+                      allowFontScaling={false} 
+                      numberOfLines={1} 
+                      style={{marginTop: 10}} 
+                      value={this.state.password}
+                      onChangeText={str => this.setState({password: str})}>
+          </TextInput>
+          <TextInput  secureTextEntry={true}
+                      label="비밀번호 확인" 
+                      allowFontScaling={false} 
+                      numberOfLines={1}
+                      style={{marginTop: 10}} 
+                      value={this.state.passwordRepeat}
+                      onChangeText={str => this.setState({passwordRepeat: str})}>
+          </TextInput>
+        </View>
+        </View>}
+
         </View>
         
         
@@ -149,14 +190,43 @@ class RegisterScreen extends React.Component<Props> {
           눌러주세요.
         </Text> */}
 
+
         <Button
           onPress={() => {
-            this.cancel = false;
-            this.props.navigation.goBack();
-            this.props.Register("", this.state.value)
+            if(Platform.OS === "android")
+            { 
+              this.cancel = false;
+              this.props.navigation.goBack();
+              this.props.Register("", this.state.value);
+            }
+              
+            else if (Platform.OS === "ios")
+            {
+              if(
+                this.state.name &&
+                this.state.email &&
+                this.state.password &&
+                this.state.passwordRepeat
+              )
+              {
+                if(this.state.password !== this.state.passwordRepeat)
+                {
+                  Alert.alert("알콩달콩", "비밀번호가 일치하지 않습니다.");
+                  return;
+                }
+                this.props.RegisterApple(this.state.email, this.state.password, this.state.name);
+              }
+              else
+              {
+                Alert.alert("알콩달콩", "입력되지 않은 정보가 있습니다.");
+              }
+              
+            }
+
           }}
           mode="contained"
           labelStyle={{ color: "white" }}
+          contentStyle={{padding: 6}}
         >
           회원가입
         </Button>
@@ -168,6 +238,7 @@ class RegisterScreen extends React.Component<Props> {
 type Props = StackScreenProps<StackParamList, "Register"> & {
   Logout: Function;
   Register: (birth: string, sex: string) => void;
+  RegisterApple: (email: string, password: string, name: string) => void;
   LoginState: LoginState;
 };
 
@@ -179,11 +250,18 @@ function mapStateToProps(state: any) {
 function mapDispatchToProps(dispatch: Function) {
   return {
     Logout: () => {
-      dispatch(CombineAction.LogoutThunk());
+      if(Platform.OS === "android")
+        dispatch(CombineAction.LogoutThunk());
+      else
+        dispatch(CombineAction.AppleLogoutThunk());
     },
 
     Register: (birth: string, sex: string): void => {
       dispatch(CombineAction.RegisterThunk(birth, sex));
+    },
+
+    RegisterApple: (email: string, password: string, name: string): void => {
+      dispatch(CombineAction.AppleRegisterThunk(email, password, name));
     }
   };
 }

@@ -16,11 +16,11 @@ import {
   TextInput,
 } from "react-native-paper";
 import { connect } from "react-redux";
-import { LoginThunk } from "../actions/LoginActions";
 import CombineAction from "../CombineAction";
 import { LoginState } from "../StateTypes";
 import StackParamList from "./StackParamList";
 import EnvGetGoogleService from "../services/EnvGetGoogleService";
+import * as LoginActions from "../actions/LoginActions";
 
 class LoginScreen extends React.Component<Props> {
   state = {
@@ -43,18 +43,26 @@ class LoginScreen extends React.Component<Props> {
   }
 
   async componentDidMount() {
-    
+
     console.log('login init');
 
     try {
       await EnvGetGoogleService().initAsync();
-    } catch(e) {
+    } catch (e) {
       console.log("initialization error: ", e);
     }
 
     if (this.props.LoginState.autoLogin) {
       setTimeout(() => {
-        this.props.AutoLogin();
+        if(Platform.OS === "android")
+        {
+          this.props.AutoLogin();
+        }
+        else
+        {
+          this.props.AppleAutoLogin();
+        }
+        
       }, 800);
     }
   }
@@ -72,47 +80,103 @@ class LoginScreen extends React.Component<Props> {
         <View style={styles.footer}>
           <View style={{ marginBottom: 40 }}>
 
-            {/* 회원가입 창으로 넘어가기 */
-              this.props.LoginState.needRegister && <View onLayout={this.onNeedRegisterLayout} />
-            }
-
-            {/* 로그인되었을 때 */
-            this.props.LoginState.loggedIn? (
-              <View onLayout={this.onLoggedInLayout}>
-                <Text allowFontScaling={false} >로그인 완료</Text>
-              </View>
-            ) :
-            /* 로그인되지 않았을 때 */
-            this.props.LoginState.autoLogin ? (
-              /* 자동 로그인 시 */
-              <View>
-                <ActivityIndicator size="small"></ActivityIndicator>
-                <View style={{ marginTop: 5 }}>
-                  <Text allowFontScaling={false} >자동 로그인 중입니다</Text>
+            {Platform.OS === 'ios' &&  <View>
+              {/* 로그인 시 */
+              this.props.LoginState.loggedIn ? (
+                <View onLayout={this.onLoggedInLayout} style={{marginTop: 50}}>
+                  <Text allowFontScaling={false} >로그인 완료</Text>
                 </View>
-              </View>
-            ) : 
-            (
-              /* 자동 로그인 실패 시 */
-              <View>
-              <Button
-                style={{ backgroundColor: "white" }}
-                onPress={this.onLogin}
-              >
-                <Text allowFontScaling={false}>Google 계정으로 시작하기</Text>
-              </Button>
-              <Button
-                style={{ backgroundColor: "transparent",
+              ) :
+                  /* 로그인되지 않았을 때 */
+                  this.props.LoginState.autoLogin ? (
+                    /* 자동 로그인 시 */
+                    <View>
+                      <ActivityIndicator size="small"></ActivityIndicator>
+                      <View style={{ marginTop: 50 }}>
+                        <Text allowFontScaling={false} >자동 로그인 중입니다</Text>
+                      </View>
+                    </View>
+                  ) :
+                    (
+                      /* 자동 로그인 실패 시 */
+                      <View>
+                        <Button
+                          style={{ backgroundColor: "white", }}
+                          onPress={() => { this.props.navigation.navigate("AppleLogin"); }}
+                          contentStyle={{padding: 6}}
+                        >
+                          <Text allowFontScaling={false}>로그인</Text>
+                        </Button>
+                        <Button
+                          style={{ 
+                            backgroundColor: "white",
+                            marginTop: 10,
+                        }}
+                        contentStyle={{padding: 6}}
+                          onPress={this.onNeedRegisterLayout}
+                        >
+                          <Text allowFontScaling={false}>회원가입</Text>
+                        </Button>
+                        <Button
+                          style={{
+                            backgroundColor: "transparent",
+                            marginTop: 10,
+                          }}
+                          contentStyle={{padding: 6}}
+                          onPress={this.onLoggedInLayout}
+                        >
+                          <Text allowFontScaling={false} style={{ color: "black" }}>로그인하지 않고 둘러보기</Text>
+                        </Button>
+                      </View>
+  
+                    )}
+            </View>}
+            
+            { this.props.LoginState.needRegister && <View onLayout={this.onNeedRegisterLayout} /> }
+
+            {Platform.OS === 'android' && <View>
+              {/* 로그인 시 */
+              this.props.LoginState.loggedIn ? (
+                <View onLayout={this.onLoggedInLayout} style={{marginTop: 50}}>
+                  <Text allowFontScaling={false} >로그인 완료</Text>
+                </View>
+              ) :
+                /* 로그인되지 않았을 때 */
+                this.props.LoginState.autoLogin ? (
+                  /* 자동 로그인 시 */
+                  <View>
+                    <ActivityIndicator size="small"></ActivityIndicator>
+                    <View style={{ marginTop: 50 }}>
+                      <Text allowFontScaling={false} >자동 로그인 중입니다</Text>
+                    </View>
+                  </View>
+                ) :
+                  (
+                    /* 자동 로그인 실패 시 */
+                    <View>
+                      <Button
+                        style={{ backgroundColor: "white", marginTop: 30 }}
+                        onPress={this.onLogin}
+                        contentStyle={{padding: 6}}
+                      >
+                        <Text allowFontScaling={false}>Google 계정으로 시작하기</Text>
+                      </Button>
+                      <Button
+                        style={{
+                          backgroundColor: "transparent",
                           marginTop: 10,
-                }}
-                onPress={this.onLoggedInLayout}
-              >
-                <Text allowFontScaling={false} style={{ color: "black"}}>로그인하지 않고 둘러보기</Text>
-              </Button>
+                        }}
+                        contentStyle={{padding: 6}}
+                        onPress={this.onLoggedInLayout}
+                      >
+                        <Text allowFontScaling={false} style={{ color: "black" }}>로그인하지 않고 둘러보기</Text>
+                      </Button>
+                    </View>
+
+                  )}
               </View>
-              
-            )}
-          </View>
+            }
+            </View>
           <Text allowFontScaling={false} >부부의 행복한 사랑을 응원합니다.</Text>
           <Text allowFontScaling={false} >-알콩달콩 부부학교-</Text>
         </View>
@@ -123,6 +187,7 @@ class LoginScreen extends React.Component<Props> {
 
 type Props = StackScreenProps<StackParamList, "Login"> & {
   AutoLogin: Function;
+  AppleAutoLogin: Function;
   Login: Function;
   LoginState: LoginState;
 };
@@ -136,6 +201,10 @@ function mapDispatchToProps(dispatch: Function) {
   return {
     AutoLogin: () => {
       dispatch(CombineAction.AutoLoginThunk());
+    },
+
+    AppleAutoLogin: () => {
+      dispatch(CombineAction.AppleAutoLoginThunk());
     },
 
     Login: () => {
@@ -174,7 +243,7 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     width: width,
-    height: 100,
+    height: 200,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -187,7 +256,7 @@ const styles = StyleSheet.create({
   footer: {
     position: "absolute",
     width: "100%",
-    height: 180,
+    height: 300,
     bottom: 0,
     left: 0,
     alignItems: "center",

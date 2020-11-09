@@ -22,6 +22,7 @@ type StackParamList = {
     }
     SurveyHistory: undefined;
     Login: undefined;
+    AppleLogin: undefined;
     
     //subScreens
     Announce: undefined;

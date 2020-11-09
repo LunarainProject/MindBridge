@@ -4,6 +4,9 @@ import { GoogleUser } from "expo-google-app-auth";
 import ServerService from "../services/ServerService";
 import { LoginState } from "../StateTypes";
 import EnvGetGoogleService from "../services/EnvGetGoogleService";
+import { indigo100 } from "react-native-paper/lib/typescript/src/styles/colors";
+import { Alert } from "react-native";
+import * as SecureStore from 'expo-secure-store';
 
 export type LoginActions = LoginAction | LogoutAction | RegisterAction;
 
@@ -143,7 +146,7 @@ export const AutoLoginThunk = () => async (dispatch: Function) => {
         autoLogin = false;
         needRegister = false;
         console.log("Registered");
-      } else if(resp === "Failed") {
+      } else if (resp === "Failed") {
         //등록되지 않은 경우
         loggedIn = false;
         autoLogin = false;
@@ -171,4 +174,190 @@ export const CancelMembershipThunk = () => async (dispatch: Function, getState: 
   await ServerService.CancelMembership();
   await EnvGetGoogleService().signOutAsync();
   dispatch(_Logout());
+}
+
+
+/// apple
+export const AppleRegisterThunk = (email: string, password: string, name: string) => async (
+  dispatch: Function,
+  getState: Function
+) => {
+  
+  let registerRes = await ServerService.AppleRegisterAccount(email, password, name);
+
+  console.log('registerRes', registerRes);
+
+  if(registerRes === "NoInternet") return "NoInternet";
+  if(registerRes === "Fetch Failed") return "Fetch Failed";
+  const regresp = registerRes as {log: string, msg: string};
+
+  if(regresp.msg === "email already exist")
+    Alert.alert("알콩달콩", "이미 가입된 이메일입니다.");
+
+  if(regresp.log !== "success") return "failed";
+
+  const res = await ServerService.AppleEmailValidation(email);
+  if(res === "success")
+    Alert.alert("알콩달콩", "인증 메일을 전송했습니다. 인증을 먼저 완료해주세요. 메일을 찾지 못하셨을 경우 스팸 메일함을 확인해주세요.");
+  else
+  {
+    if(res === "failed")
+      Alert.alert("알콩달콩", "인증 메일 발송에 실패했습니다. 로그인 화면에서 다시 인증 메일을 보낼 수 있습니다.");
+  }
+
+};
+
+export const AppleAutoLoginThunk = () => async (dispatch: Function) => {
+  //앱에 저장된 정보를 이용해서 로그인을 수행
+
+  const email = await SecureStore.getItemAsync("email");
+  const password = await SecureStore.getItemAsync("password");
+
+  console.log("securestore", email, password);
+
+  if(email === null || password === null)
+  {
+    const loggedIn = false;
+    const autoLogin = false;
+    const needRegister = false;
+    let user: GoogleUser = {
+      id: "",
+      name: "",
+      givenName: "",
+      familyName: "",
+      photoUrl: "",
+      email: "",
+    }
+    console.log("apple login failed"); 
+    dispatch(_Login(loggedIn, autoLogin, needRegister, user, ""));
+    return;
+  }
+
+  //fetch
+  let rest_name: string = ""
+
+  type Result = { log: string, id: string, name: string };
+  let rest: Result = { log: "failed", id: "", name: "" };
+  const ret = await ServerService.AppleCheckUserRegistered(email, password);
+  if (ret === "NoInternet") return;
+  if (ret === "Fetch Failed") return;
+  else {
+    rest = (ret as Result);
+  }
+
+  rest_name = rest.name ?? "";
+
+  let loggedIn: boolean = false;
+  let autoLogin: boolean = false;
+  let needRegister: boolean = false;
+
+  let user: GoogleUser = {
+    id: email,
+    name: rest_name,
+    givenName: rest_name,
+    familyName: rest_name,
+    photoUrl: "",
+    email: email,
+  }
+  let idToken: string = email;
+
+  if (rest.log === "success") {
+    loggedIn = true;
+    autoLogin = false;
+    needRegister = false;
+    console.log("apple login success");
+  }
+  else {
+    loggedIn = false;
+    autoLogin = false;
+    needRegister = false;
+    console.log("apple login failed");
+  }
+
+  dispatch(_Login(loggedIn, autoLogin, needRegister, user, idToken));
+}
+
+export const AppleLoginThunk = (email: string, password: string) => async (dispatch: Function) => {
+
+  //fetch
+  let rest_name: string = ""
+
+  type Result = { log: string, id: string, name: string, msg: string};
+  let rest: Result = { log: "failed", id: "", name: "", msg: "" };
+  const ret = await ServerService.AppleCheckUserRegistered(email, password);
+  if (ret === "NoInternet") return;
+  if (ret === "Fetch Failed") return;
+  else {
+    rest = (ret as Result);
+  }
+
+  if(rest.msg === "not certification")
+  {
+    Alert.alert("알콩달콩", "이메일 인증을 완료해주세요.");
+    return;
+  }
+
+  if(rest.log === "failed")
+  {
+    Alert.alert("알콩달콩", "아이디 또는 비밀번호가 틀렸습니다.");
+    return;
+  }
+
+  rest_name = rest.name ?? "";
+
+  let loggedIn: boolean = false;
+  let autoLogin: boolean = false;
+  let needRegister: boolean = false;
+
+  let user: GoogleUser = {
+    id: email,
+    name: rest_name,
+    givenName: rest_name,
+    familyName: rest_name,
+    photoUrl: "",
+    email: email,
+  }
+  let idToken: string = email;
+
+  if (rest.log === "success") {
+    loggedIn = true;
+    autoLogin = false;
+    needRegister = false;
+    console.log("apple login success");
+
+    await SecureStore.setItemAsync("email", email);
+    await SecureStore.setItemAsync("password", password);
+  }
+  else {
+    loggedIn = false;
+    autoLogin = false;
+    needRegister = false;
+    console.log("apple login failed");
+  }
+
+  dispatch(_Login(loggedIn, autoLogin, needRegister, user, idToken));
+}
+
+export const AppleCancelMembershipThunk = () => async (dispatch: Function, getState: Function) => {
+  await ServerService.CancelMembership();
+
+  await SecureStore.setItemAsync("email", "");
+  await SecureStore.setItemAsync("password", "");
+  dispatch(_Logout());
+}
+
+export const AppleLogoutThunk = () => async (dispatch: Function, getState: Function) => {
+  dispatch(_Logout());
+}
+
+export const AppleEmailValidationThunk = (email: string) => async (dispatch: Function, getState: Function) => {
+  const res = await ServerService.AppleEmailValidation(email);
+  if(res === "success")
+    Alert.alert("알콩달콩", "인증 메일을 전송했습니다. 인증을 먼저 완료해주세요. 메일을 찾지 못하셨을 경우 스팸 메일함을 확인해주세요.");
+  else
+  {
+    if(res === "failed")
+      Alert.alert("알콩달콩", "인증 메일 발송에 실패했습니다. 로그인 화면에서 다시 인증 메일을 보낼 수 있습니다.");
+  }
+
 }
