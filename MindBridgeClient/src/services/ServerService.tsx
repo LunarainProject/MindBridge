@@ -481,9 +481,6 @@ export default class ServerService {
         return null;
       } else {
 
-        if(Platform.OS === "ios")
-          packet.picture_url = "";
-
         return {
           name: packet?.name ?? "",
           image: packet?.picture_url ?? "",
