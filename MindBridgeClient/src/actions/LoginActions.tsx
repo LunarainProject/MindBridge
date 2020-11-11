@@ -237,7 +237,7 @@ export const AppleAutoLoginThunk = () => async (dispatch: Function) => {
   let rest_name: string = ""
 
   type Result = { log: string, id: string, name: string };
-  let rest: Result = { log: "failed", id: "", name: "" };
+  let rest: Result = { log: "fail", id: "", name: "" };
   const ret = await ServerService.AppleCheckUserRegistered(email, password);
   if (ret === "NoInternet") return;
   if (ret === "Fetch Failed") return;
@@ -283,7 +283,7 @@ export const AppleLoginThunk = (email: string, password: string) => async (dispa
   let rest_name: string = ""
 
   type Result = { log: string, id: string, name: string, msg: string};
-  let rest: Result = { log: "failed", id: "", name: "", msg: "" };
+  let rest: Result = { log: "fail", id: "", name: "", msg: "" };
   const ret = await ServerService.AppleCheckUserRegistered(email, password);
   if (ret === "NoInternet") return;
   if (ret === "Fetch Failed") return;
@@ -296,8 +296,7 @@ export const AppleLoginThunk = (email: string, password: string) => async (dispa
     Alert.alert("알콩달콩", "이메일 인증을 완료해주세요.");
     return;
   }
-
-  if(rest.log === "failed")
+  else if(rest.log === "fail")
   {
     Alert.alert("알콩달콩", "아이디 또는 비밀번호가 틀렸습니다.");
     return;
