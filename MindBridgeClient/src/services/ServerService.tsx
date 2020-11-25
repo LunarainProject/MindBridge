@@ -12,10 +12,14 @@ import { Alert, Platform } from "react-native";
 export default class ServerService {
   private static accessToken: string | null = null;
 
+  private static NetworkAlert(message: string) {
+    Alert.alert("알콩달콩", message);
+  }
+
   private static async InternetCheck() {
     const status = await NetInfo.fetch();
     if (!status.isConnected) {
-      alert("인터넷 연결을 확인해주세요.");
+      Alert.alert("알콩달콩", "인터넷 연결을 확인해주세요.");
       return false;
     }
     return true;
@@ -82,6 +86,7 @@ export default class ServerService {
         response = await build.fetch();
       } catch (e) {
         console.log("fetch error. error Msg: ", e, response);
+        this.NetworkAlert("서버 오류가 발생했습니다.");
         return "Fetch Failed";
       }
 
@@ -120,6 +125,7 @@ export default class ServerService {
         response = await build.fetch();
       } catch (e) {
         console.log("fetch error. error Msg: ", e, response);
+        this.NetworkAlert("서버 오류가 발생했습니다.");
         return "Fetch Failed";
       }
 
@@ -153,6 +159,7 @@ export default class ServerService {
           .fetch();
       } catch (e) {
         console.log("fetch error. error Msg: ", e);
+        this.NetworkAlert("서버 오류가 발생했습니다.");
         return "Fetch Failed";
       }
 
@@ -189,6 +196,7 @@ export default class ServerService {
           .fetch();
       } catch (e) {
         console.log("fetch error. error Msg: ", e);
+        this.NetworkAlert("서버 오류가 발생했습니다.");
         return "Fetch Failed";
       }
 
@@ -432,6 +440,7 @@ export default class ServerService {
           .fetch();
       } catch (e) {
         console.log("fetch error: ", e);
+        this.NetworkAlert("서버 오류가 발생했습니다.");
         return null;
       }
 
@@ -511,6 +520,7 @@ export default class ServerService {
           .fetch();
       } catch (e) {
         console.log("fetch error: ", e);
+        this.NetworkAlert("서버 오류가 발생했습니다.");
         return;
       }
 

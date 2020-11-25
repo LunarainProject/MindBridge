@@ -2,7 +2,7 @@
   "expo": {
     "name": "알콩달콩",
     "slug": "MindBridgeApp",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.dgsw.mindbridgeapp",
-      "buildNumber": "1.2.2",
+      "buildNumber": "1.2.3",
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.500481310176-gu72541ovsjhr5crlt9dcu78fc52k0t5"
@@ -32,7 +32,7 @@
     },
     "android": {
       "package": "com.dgsw.mindbridgeapp",
-      "versionCode": 12,
+      "versionCode": 13,
       "googleServicesFile": "./google-services.json"
     }
   }
