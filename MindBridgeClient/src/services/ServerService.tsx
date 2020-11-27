@@ -27,20 +27,19 @@ export default class ServerService {
 
   private static async RetrieveAccessToken(idToken: string | null) {
     //서버에서 액세스 토큰을 받아옵니다. 근데 그냥 제가 만들 겁니다.
-    if(Platform.OS==="android"){
-    if (idToken !== null) {
-      const decoded = JwtDecode(idToken);
-      console.log(decoded);
-      type Decode = {
-        sub: string;
-      };
-      const uid = (decoded as Decode)?.sub;
-      console.log("userId: ", uid);
-      //uid 를 암호화 (따위 안 함)
-      ServerService.accessToken = uid ?? null;
-    }
-    }
-    else if(Platform.OS==="ios"){
+    if (Platform.OS === "android") {
+      if (idToken !== null) {
+        const decoded = JwtDecode(idToken);
+        console.log(decoded);
+        type Decode = {
+          sub: string;
+        };
+        const uid = (decoded as Decode)?.sub;
+        console.log("userId: ", uid);
+        //uid 를 암호화 (따위 안 함)
+        ServerService.accessToken = uid ?? null;
+      }
+    } else if (Platform.OS === "ios") {
       ServerService.accessToken = idToken;
     }
   }
@@ -107,39 +106,39 @@ export default class ServerService {
     password: string,
     name: string
   ) {
-      if (!(await this.InternetCheck())) {
-        return "NoInternet";
-      }
+    if (!(await this.InternetCheck())) {
+      return "NoInternet";
+    }
 
-      console.log('register', email, password, name);
+    console.log("register", email, password, name);
 
-      let response;
-      try {
-        const build = FetchBuilder.build(
-          "http://gfs3456.cafe24.com/api/apple/join.php"
-        )
-          .param("name", name)
-          .param("email", email)
-          .param("password", password);
-        console.log(build.toString());
-        response = await build.fetch();
-      } catch (e) {
-        console.log("fetch error. error Msg: ", e, response);
-        this.NetworkAlert("서버 오류가 발생했습니다.");
-        return "Fetch Failed";
-      }
+    let response;
+    try {
+      const build = FetchBuilder.build(
+        "http://gfs3456.cafe24.com/api/apple/join.php"
+      )
+        .param("name", name)
+        .param("email", email)
+        .param("password", password);
+      console.log(build.toString());
+      response = await build.fetch();
+    } catch (e) {
+      console.log("fetch error. error Msg: ", e, response);
+      this.NetworkAlert("서버 오류가 발생했습니다.");
+      return "Fetch Failed";
+    }
 
-      console.log('register apple');
+    console.log("register apple");
 
-      let responseJson: { log: string} = {
-        log: "fail"
-      };
-      try {
-        responseJson = await response?.json();
-      } catch (e) {
-        console.log("json request error: ", e);
-      }
-      return responseJson;
+    let responseJson: { log: string } = {
+      log: "fail",
+    };
+    try {
+      responseJson = await response?.json();
+    } catch (e) {
+      console.log("json request error: ", e);
+    }
+    return responseJson;
   }
 
   public static async CheckUserRegistered(idToken: string | null) {
@@ -148,7 +147,7 @@ export default class ServerService {
         return "NoInternet";
       }
 
-      console.log('hi');
+      console.log("hi");
 
       let response;
       try {
@@ -163,7 +162,7 @@ export default class ServerService {
         return "Fetch Failed";
       }
 
-      console.log('check user', idToken);
+      console.log("check user", idToken);
 
       let responseText;
       try {
@@ -172,51 +171,97 @@ export default class ServerService {
         console.log("response parse error: ", e);
       }
 
-      console.log('response : <<', responseText, '>>');
+      console.log("response : <<", responseText, ">>");
 
       if (responseText != "Failed") this.RetrieveAccessToken(idToken);
       return responseText;
     }
   }
 
-  public static async AppleCheckUserRegistered(email: string, password: string) {
-      if (!(await this.InternetCheck())) {
-        return "NoInternet";
-      }
+  public static async ChangePassword(email: string) {
+    if (!(await this.InternetCheck())) {
+      return "NoInternet";
+    }
 
-      console.log('hi');
+    let response;
+    try {
+      response = await FetchBuilder.build(
+        "http://gfs3456.cafe24.com/api/email/password_reissuance.php"
+      )
+        .param("email", email)
+        .fetch();
+    } catch (e) {
+      console.log("fetch error. error Msg: ", e);
+      this.NetworkAlert("서버 오류가 발생했습니다.");
+      return "Fetch Failed";
+    }
 
-      let response;
-      try {
-        response = await FetchBuilder.build(
-          "http://gfs3456.cafe24.com/api/apple/login.php"
-        )
-          .param("email", email)
-          .param("password", password)
-          .fetch();
-      } catch (e) {
-        console.log("fetch error. error Msg: ", e);
-        this.NetworkAlert("서버 오류가 발생했습니다.");
-        return "Fetch Failed";
-      }
+    let responseJson: {
+      log: string;
+    } = { log: "failed" };
+    try {
+      responseJson = await response?.json();
+    } catch (e) {
+      console.log("response parse error: ", e);
+      Alert.alert("알콩달콩", "비밀번호 변경 요청 실패. 다시 시도해주세요.");
+    }
 
-      console.log('check user', email);
+    if (responseJson?.log == "success") {
+      Alert.alert(
+        "알콩달콩",
+        "비밀번호 변경 메일을 보냈습니다. 메일을 확인해주세요."
+      );
+    } else {
+      Alert.alert("알콩달콩", "비밀번호 변경 요청 실패. 다시 시도해주세요.");
+    }
+  }
 
-      let responseJson : {
-        log: string, id: string, name: string
-      } = {
-        log : "falied", id: "", name: ""
-      };
-      try {
-        responseJson = await response?.json();
-      } catch (e) {
-        console.log("response parse error: ", e);
-      }
+  public static async AppleCheckUserRegistered(
+    email: string,
+    password: string
+  ) {
+    if (!(await this.InternetCheck())) {
+      return "NoInternet";
+    }
 
-      console.log('response : <<', responseJson, '>>');
+    console.log("hi");
 
-      if (responseJson.log == "success") this.RetrieveAccessToken(responseJson.id);
-      return responseJson;
+    let response;
+    try {
+      response = await FetchBuilder.build(
+        "http://gfs3456.cafe24.com/api/apple/login.php"
+      )
+        .param("email", email)
+        .param("password", password)
+        .fetch();
+    } catch (e) {
+      console.log("fetch error. error Msg: ", e);
+      this.NetworkAlert("서버 오류가 발생했습니다.");
+      return "Fetch Failed";
+    }
+
+    console.log("check user", email);
+
+    let responseJson: {
+      log: string;
+      id: string;
+      name: string;
+    } = {
+      log: "falied",
+      id: "",
+      name: "",
+    };
+    try {
+      responseJson = await response?.json();
+    } catch (e) {
+      console.log("response parse error: ", e);
+    }
+
+    console.log("response : <<", responseJson, ">>");
+
+    if (responseJson.log == "success")
+      this.RetrieveAccessToken(responseJson.id);
+    return responseJson;
   }
 
   public static async GetSurveyList(): Promise<CardCategoryType[]> {
@@ -285,7 +330,6 @@ export default class ServerService {
       },
     ];
   }
-
 
   public static async GetVideoList(): Promise<CardCategoryType> {
     if (!(await this.InternetCheck())) {
@@ -404,8 +448,7 @@ export default class ServerService {
         };
       }
 
-      if(Platform.OS === "ios")
-        if(user != null) user.photoUrl = "";
+      if (Platform.OS === "ios") if (user != null) user.photoUrl = "";
 
       return {
         name: user?.name ?? "",
@@ -489,7 +532,6 @@ export default class ServerService {
       if (packet === null) {
         return null;
       } else {
-
         return {
           name: packet?.name ?? "",
           image: packet?.picture_url ?? "",
@@ -668,54 +710,58 @@ export default class ServerService {
         return [];
       }
 
-      return await Promise.all(Object.values(packet).map(async (result) => {
-        const res = result as ResultPacket;
-        console.log("SurveyResult: ", res);
+      return await Promise.all(
+        Object.values(packet).map(async (result) => {
+          const res = result as ResultPacket;
+          console.log("SurveyResult: ", res);
 
-        let coupledRes;
-        try {
-          coupledRes = await FetchBuilder.build(
-            "http://gfs3456.cafe24.com/api/CheckCouple.php"
-          )
-            .param("pkg_id", res.pkg_id)
-            .fetch();
-        } catch (e) {
-          console.log("fetch error: ", e);
-        }
+          let coupledRes;
+          try {
+            coupledRes = await FetchBuilder.build(
+              "http://gfs3456.cafe24.com/api/CheckCouple.php"
+            )
+              .param("pkg_id", res.pkg_id)
+              .fetch();
+          } catch (e) {
+            console.log("fetch error: ", e);
+          }
 
-        let coupledJson;
-        try {
-          coupledJson = await coupledRes?.json() ?? {};
-        } catch (e) {
-          console.log('json parse error: ', e);
-        }
+          let coupledJson;
+          try {
+            coupledJson = (await coupledRes?.json()) ?? {};
+          } catch (e) {
+            console.log("json parse error: ", e);
+          }
 
-        type Couple = {
-          couple: string;
-        }
+          type Couple = {
+            couple: string;
+          };
 
-        let isCoupled: boolean = false;
-        if ((coupledJson as Couple).couple == "false") isCoupled = false;
-        if ((coupledJson as Couple).couple == "null") isCoupled = false;
-        if ((coupledJson as Couple).couple == "true") isCoupled = true;
+          let isCoupled: boolean = false;
+          if ((coupledJson as Couple).couple == "false") isCoupled = false;
+          if ((coupledJson as Couple).couple == "null") isCoupled = false;
+          if ((coupledJson as Couple).couple == "true") isCoupled = true;
 
-        const [year, month, date] = res.date.split(".");
-        console.log(year, month, date);
-        return {
-          Title: res.title,
-          Count: res.count,
-          Image: res.img_url,
-          Date: new Date(parseInt(year), parseInt(month) - 1, parseInt(date)),
-          Id: res.pkg_id,
-          IsCoupled: isCoupled,
-        };
-      }));
+          const [year, month, date] = res.date.split(".");
+          console.log(year, month, date);
+          return {
+            Title: res.title,
+            Count: res.count,
+            Image: res.img_url,
+            Date: new Date(parseInt(year), parseInt(month) - 1, parseInt(date)),
+            Id: res.pkg_id,
+            IsCoupled: isCoupled,
+          };
+        })
+      );
     }
 
     return [];
   }
 
-  public static async GetSpouseResultList(pkgId: string): Promise<SurveyResultCardType[]> {
+  public static async GetSpouseResultList(
+    pkgId: string
+  ): Promise<SurveyResultCardType[]> {
     console.log("GSPOUSERL, accessToken: ", this.accessToken);
 
     if (!(await this.InternetCheck())) {
@@ -802,17 +848,18 @@ export default class ServerService {
     try {
       response = await FetchBuilder.build(
         "http://gfs3456.cafe24.com/api/email/send.php"
-      ).param("email", email).fetch();
-    } catch(e) {
+      )
+        .param("email", email)
+        .fetch();
+    } catch (e) {
       console.log("fetch error", e);
       return "failed";
     }
 
     let respJson;
-    try{
+    try {
       respJson = await response.json();
-    } catch(e)
-    {
+    } catch (e) {
       console.log("json parse error", e);
       return "failed";
     }
@@ -821,19 +868,14 @@ export default class ServerService {
       log: string;
       count: string;
       msg: string;
-    }
+    };
 
-    if((respJson as Packet).log === "success")
-      return "success";
-    else
-    {
-      if(respJson.msg === "email already certified")
-      {
+    if ((respJson as Packet).log === "success") return "success";
+    else {
+      if (respJson.msg === "email already certified") {
         Alert.alert("이메일이 이미 인증되었습니다.");
         return "email already certified";
-      }
-      else
-      {
+      } else {
         return "failed";
       }
     }

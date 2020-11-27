@@ -95,6 +95,20 @@ class AppleLoginScreen extends React.Component<Props> {
                       >
                         <Text allowFontScaling={false} style={{ color: "black" }}>인증 메일 보내기</Text>
                       </Button>
+                      <Button
+                        style={{
+                          backgroundColor: "transparent",
+                          marginTop: 10,
+                        }}
+                        contentStyle={{padding: 6}}
+                        onPress={() => { if(this.state.email === "") {
+                            Alert.alert("알콩달콩", "이메일을 입력해주세요.");
+                        } else {
+                            this.props.ChangePassword(this.state.email);
+                        }}}
+                      >
+                        <Text allowFontScaling={false} style={{ color: "black" }}>인증 메일 보내기</Text>
+                      </Button>
             </View>
         );
     }
@@ -104,6 +118,7 @@ type Props = StackScreenProps<StackParamList, "AppleLogin"> & {
     AppleLogin: (email: string, password: string) => void
     LoginState: LoginState;
     EmailCheck: (email: string) => void;
+    ChangePassword: (email: string) => void;
 };
 
 function mapStateToProps(state: any) {
@@ -118,7 +133,10 @@ function mapDispatchToProps(dispatch: Function) {
         },
         EmailCheck: (email: string) => {
           dispatch(CombineAction.AppleEmailValidationThunk(email));
-        }
+        },
+        ChangePassword: (email: string) => {
+            dispatch(CombineAction.ApplePasswordChangeThunk(email));
+          }
     };
 }
 

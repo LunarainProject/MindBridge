@@ -360,3 +360,7 @@ export const AppleEmailValidationThunk = (email: string) => async (dispatch: Fun
   }
 
 }
+
+export const ApplePasswordChangeThunk = (email: string) => async (dispatch: Function, getState: Function) => {
+  await ServerService.ChangePassword(email);
+}
