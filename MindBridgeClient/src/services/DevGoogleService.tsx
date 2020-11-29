@@ -22,7 +22,7 @@ export default class DevGoogleService implements IGoogleService {
         androidClientId: "500481310176-t8l7tr9jhvg8v0jc2a8f378oqsdirrbn.apps.googleusercontent.com",
         scopes: ["profile", "email"],
       });
-      console.log("google signed out");
+      //console.log("google signed out");
     } catch (e) {
       alert("sign out failed: " + e);
     }

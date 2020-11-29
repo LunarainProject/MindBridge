@@ -30,12 +30,12 @@ export default class ServerService {
     if (Platform.OS === "android") {
       if (idToken !== null) {
         const decoded = JwtDecode(idToken);
-        console.log(decoded);
+        //console.log(decoded);
         type Decode = {
           sub: string;
         };
         const uid = (decoded as Decode)?.sub;
-        console.log("userId: ", uid);
+        //console.log("userId: ", uid);
         //uid 를 암호화 (따위 안 함)
         ServerService.accessToken = uid ?? null;
       }
@@ -81,10 +81,10 @@ export default class ServerService {
           .param("id_token", idToken)
           .param("birth", birth)
           .param("sex", sex);
-        console.log(build.toString());
+        //console.log(build.toString());
         response = await build.fetch();
       } catch (e) {
-        console.log("fetch error. error Msg: ", e, response);
+        //console.log("fetch error. error Msg: ", e, response);
         this.NetworkAlert("서버 오류가 발생했습니다.");
         return "Fetch Failed";
       }
@@ -93,7 +93,7 @@ export default class ServerService {
       try {
         responseText = await response?.text();
       } catch (e) {
-        console.log("text request error: ", e);
+        //console.log("text request error: ", e);
       }
 
       this.RetrieveAccessToken(idToken);
@@ -110,7 +110,7 @@ export default class ServerService {
       return "NoInternet";
     }
 
-    console.log("register", email, password, name);
+    //console.log("register", email, password, name);
 
     let response;
     try {
@@ -120,15 +120,15 @@ export default class ServerService {
         .param("name", name)
         .param("email", email)
         .param("password", password);
-      console.log(build.toString());
-      response = await build.fetch();
+      //console.log(build.toString());
+      response = await build.fetch("post");
     } catch (e) {
-      console.log("fetch error. error Msg: ", e, response);
+      //console.log("fetch error. error Msg: ", e, response);
       this.NetworkAlert("서버 오류가 발생했습니다.");
       return "Fetch Failed";
     }
 
-    console.log("register apple");
+    //console.log("register apple");
 
     let responseJson: { log: string } = {
       log: "fail",
@@ -136,7 +136,7 @@ export default class ServerService {
     try {
       responseJson = await response?.json();
     } catch (e) {
-      console.log("json request error: ", e);
+      //console.log("json request error: ", e);
     }
     return responseJson;
   }
@@ -147,7 +147,7 @@ export default class ServerService {
         return "NoInternet";
       }
 
-      console.log("hi");
+      //console.log("hi");
 
       let response;
       try {
@@ -157,21 +157,21 @@ export default class ServerService {
           .param("id_token", idToken)
           .fetch();
       } catch (e) {
-        console.log("fetch error. error Msg: ", e);
+        //console.log("fetch error. error Msg: ", e);
         this.NetworkAlert("서버 오류가 발생했습니다.");
         return "Fetch Failed";
       }
 
-      console.log("check user", idToken);
+      //console.log("check user", idToken);
 
       let responseText;
       try {
         responseText = await response?.text();
       } catch (e) {
-        console.log("response parse error: ", e);
+        //console.log("response parse error: ", e);
       }
 
-      console.log("response : <<", responseText, ">>");
+      //console.log("response : <<", responseText, ">>");
 
       if (responseText != "Failed") this.RetrieveAccessToken(idToken);
       return responseText;
@@ -191,7 +191,7 @@ export default class ServerService {
         .param("email", email)
         .fetch();
     } catch (e) {
-      console.log("fetch error. error Msg: ", e);
+      //console.log("fetch error. error Msg: ", e);
       this.NetworkAlert("서버 오류가 발생했습니다.");
       return "Fetch Failed";
     }
@@ -202,7 +202,7 @@ export default class ServerService {
     try {
       responseJson = await response?.json();
     } catch (e) {
-      console.log("response parse error: ", e);
+      //console.log("response parse error: ", e);
       Alert.alert("알콩달콩", "비밀번호 변경 요청 실패. 다시 시도해주세요.");
     }
 
@@ -224,7 +224,7 @@ export default class ServerService {
       return "NoInternet";
     }
 
-    console.log("hi");
+    //console.log("hi");
 
     let response;
     try {
@@ -233,14 +233,14 @@ export default class ServerService {
       )
         .param("email", email)
         .param("password", password)
-        .fetch();
+        .fetch("post");
     } catch (e) {
-      console.log("fetch error. error Msg: ", e);
+      //console.log("fetch error. error Msg: ", e);
       this.NetworkAlert("서버 오류가 발생했습니다.");
       return "Fetch Failed";
     }
 
-    console.log("check user", email);
+    //console.log("check user", email);
 
     let responseJson: {
       log: string;
@@ -254,10 +254,10 @@ export default class ServerService {
     try {
       responseJson = await response?.json();
     } catch (e) {
-      console.log("response parse error: ", e);
+      //console.log("response parse error: ", e);
     }
 
-    console.log("response : <<", responseJson, ">>");
+    //console.log("response : <<", responseJson, ">>");
 
     if (responseJson.log == "success")
       this.RetrieveAccessToken(responseJson.id);
@@ -280,7 +280,7 @@ export default class ServerService {
         "http://gfs3456.cafe24.com/api/testlist.php"
       ).fetch();
     } catch (e) {
-      console.log("fetch error: ", e);
+      //console.log("fetch error: ", e);
       return [
         {
           Title: "부부 관계성 테스트",
@@ -301,7 +301,7 @@ export default class ServerService {
     try {
       data = await response?.json();
     } catch (e) {
-      console.log("json parse error:", e);
+      //console.log("json parse error:", e);
       data = null;
     }
 
@@ -345,7 +345,7 @@ export default class ServerService {
         "http://gfs3456.cafe24.com/api/videolist.php"
       ).fetch();
     } catch (e) {
-      console.log("fetch error: ", e);
+      //console.log("fetch error: ", e);
       return {
         Title: "행복부부팁",
         Cards: [],
@@ -365,7 +365,7 @@ export default class ServerService {
     try {
       packet = await response?.json();
     } catch (e) {
-      console.log("json parse error :", e);
+      //console.log("json parse error :", e);
     }
 
     if (packet === null) {
@@ -420,7 +420,7 @@ export default class ServerService {
           .param("access_token", ServerService.accessToken)
           .fetch();
       } catch (e) {
-        console.log("fetch error: ", e);
+        //console.log("fetch error: ", e);
         return {
           name: user?.name ?? "",
           image: user?.photoUrl ?? "",
@@ -434,10 +434,10 @@ export default class ServerService {
         packet = await response?.json();
       } catch (e) {
         packet = null;
-        console.log("json parse error: ", e);
+        //console.log("json parse error: ", e);
       }
 
-      console.log("userInfoPacket: ", packet);
+      //console.log("userInfoPacket: ", packet);
 
       if (packet === null) {
         return {
@@ -467,7 +467,7 @@ export default class ServerService {
   }
 
   public static async GetSpouseInfo(): Promise<UserInfo | null> {
-    console.log("GET SPOUSE INFO, access token: ", this.accessToken);
+    //console.log("GET SPOUSE INFO, access token: ", this.accessToken);
 
     if (this.accessToken !== null) {
       if (!(await this.InternetCheck())) {
@@ -482,30 +482,30 @@ export default class ServerService {
           .param("access_token", this.accessToken)
           .fetch();
       } catch (e) {
-        console.log("fetch error: ", e);
+        //console.log("fetch error: ", e);
         this.NetworkAlert("서버 오류가 발생했습니다.");
         return null;
       }
 
-      console.log("fetch end");
+      //console.log("fetch end");
 
       let text: string | undefined;
       try {
         text = await response?.text();
-        console.log("[text : ", text, "]");
+        //console.log("[text : ", text, "]");
         switch (text) {
           case "등록되지 않은 유저입니다.":
-            console.log("등록되지 않은 유저입니다.");
+            //console.log("등록되지 않은 유저입니다.");
             return null;
           case "파트너 등록 혹은 매칭이 되지 않았습니다.":
-            console.log("파트너 등록을 하지 않았습니다.");
+            //console.log("파트너 등록을 하지 않았습니다.");
             return null;
           case "파트너 등록은 되었으나 매칭은 되지 않았습니다.":
-            console.log("매칭된 파트너가 없습니다.");
+            //console.log("매칭된 파트너가 없습니다.");
             return null;
         }
       } catch (e) {
-        console.log("text parse error: ", e);
+        //console.log("text parse error: ", e);
       }
 
       if (text == undefined) {
@@ -525,7 +525,7 @@ export default class ServerService {
       try {
         packet = await JSON.parse(text);
       } catch (e) {
-        console.log("json parse error: ", e);
+        //console.log("json parse error: ", e);
         return null;
       }
 
@@ -545,7 +545,7 @@ export default class ServerService {
   }
 
   public static async MatchSpouse(spouseEmail: string) {
-    console.log("Match Spouse, access token: ", this.accessToken);
+    //console.log("Match Spouse, access token: ", this.accessToken);
 
     if (this.accessToken !== null) {
       if (!(await this.InternetCheck())) {
@@ -561,7 +561,7 @@ export default class ServerService {
           .param("partner_email", spouseEmail)
           .fetch();
       } catch (e) {
-        console.log("fetch error: ", e);
+        //console.log("fetch error: ", e);
         this.NetworkAlert("서버 오류가 발생했습니다.");
         return;
       }
@@ -569,7 +569,7 @@ export default class ServerService {
       let text;
       try {
         text = await response?.text();
-        console.log(`[text: ${text}]`);
+        //console.log(`[text: ${text}]`);
         switch (text) {
           case "1 => 커플 등록이 완료되었습니다.":
             alert("배우자가 나를 등록하면 매칭이 완료됩니다.");
@@ -608,7 +608,7 @@ export default class ServerService {
             return;
         }
       } catch (e) {
-        console.log("text parse error: ", e);
+        //console.log("text parse error: ", e);
       }
     }
     return;
@@ -628,7 +628,7 @@ export default class ServerService {
         "http://gfs3456.cafe24.com/api/columnlist.php"
       ).fetch();
     } catch (e) {
-      console.log("fetch error: ", e);
+      //console.log("fetch error: ", e);
       return {
         Title: "부부 팁 칼럼",
         Cards: [],
@@ -646,7 +646,7 @@ export default class ServerService {
     try {
       packet = await response?.json();
     } catch (e) {
-      console.log("json parse error: ", e);
+      //console.log("json parse error: ", e);
     }
 
     const ret: CardCategoryType = {
@@ -670,7 +670,7 @@ export default class ServerService {
   }
 
   public static async GetSurveyResultList(): Promise<SurveyResultCardType[]> {
-    console.log("GSRL, accessToken: ", ServerService.accessToken);
+    //console.log("GSRL, accessToken: ", ServerService.accessToken);
 
     if (!(await this.InternetCheck())) {
       return [];
@@ -685,7 +685,7 @@ export default class ServerService {
           .param("access_token", this.accessToken)
           .fetch();
       } catch (e) {
-        console.log("fetch error: ", e);
+        //console.log("fetch error: ", e);
         return [];
       }
 
@@ -701,9 +701,9 @@ export default class ServerService {
 
       try {
         packet = await response?.json();
-        console.log(packet);
+        //console.log(packet);
       } catch (e) {
-        console.log("json parse error :", e);
+        //console.log("json parse error :", e);
       }
 
       if (packet === null) {
@@ -713,7 +713,7 @@ export default class ServerService {
       return await Promise.all(
         Object.values(packet).map(async (result) => {
           const res = result as ResultPacket;
-          console.log("SurveyResult: ", res);
+          //console.log("SurveyResult: ", res);
 
           let coupledRes;
           try {
@@ -723,14 +723,14 @@ export default class ServerService {
               .param("pkg_id", res.pkg_id)
               .fetch();
           } catch (e) {
-            console.log("fetch error: ", e);
+            //console.log("fetch error: ", e);
           }
 
           let coupledJson;
           try {
             coupledJson = (await coupledRes?.json()) ?? {};
           } catch (e) {
-            console.log("json parse error: ", e);
+            //console.log("json parse error: ", e);
           }
 
           type Couple = {
@@ -743,7 +743,7 @@ export default class ServerService {
           if ((coupledJson as Couple).couple == "true") isCoupled = true;
 
           const [year, month, date] = res.date.split(".");
-          console.log(year, month, date);
+          //console.log(year, month, date);
           return {
             Title: res.title,
             Count: res.count,
@@ -762,7 +762,7 @@ export default class ServerService {
   public static async GetSpouseResultList(
     pkgId: string
   ): Promise<SurveyResultCardType[]> {
-    console.log("GSPOUSERL, accessToken: ", this.accessToken);
+    //console.log("GSPOUSERL, accessToken: ", this.accessToken);
 
     if (!(await this.InternetCheck())) {
       return [];
@@ -778,7 +778,7 @@ export default class ServerService {
           .param("pkg_id", pkgId)
           .fetch();
       } catch (e) {
-        console.log("fetch error: ", e);
+        //console.log("fetch error: ", e);
         return [];
       }
 
@@ -794,9 +794,9 @@ export default class ServerService {
 
       try {
         packet = await response?.json();
-        console.log(packet);
+        //console.log(packet);
       } catch (e) {
-        console.log("json parse error :", e);
+        //console.log("json parse error :", e);
       }
 
       if (packet === null) {
@@ -806,7 +806,7 @@ export default class ServerService {
       return Object.values(packet).map((result) => {
         const res = result as ResultPacket;
         const [year, month, date] = res.date.split(".");
-        console.log(res);
+        //console.log(res);
         return {
           Title: res.title,
           Count: res.count,
@@ -835,11 +835,11 @@ export default class ServerService {
           .param("access_token", this.accessToken)
           .fetch();
       } catch (e) {
-        console.log("fetch error: ", e);
+        //console.log("fetch error: ", e);
         return;
       }
 
-      console.log(await response?.text());
+      //console.log(await response?.text());
     }
   }
 
@@ -852,7 +852,7 @@ export default class ServerService {
         .param("email", email)
         .fetch();
     } catch (e) {
-      console.log("fetch error", e);
+      //console.log("fetch error", e);
       return "failed";
     }
 
@@ -860,7 +860,7 @@ export default class ServerService {
     try {
       respJson = await response.json();
     } catch (e) {
-      console.log("json parse error", e);
+      //console.log("json parse error", e);
       return "failed";
     }
 
@@ -902,7 +902,31 @@ class FetchBuilder {
       this._param.map(({ param, value }) => `${param}=${value}`).join("&")
     );
   }
-  public async fetch(init: RequestInit | undefined = undefined) {
-    return await fetch(this.toString(), init);
+  public async fetch(mode?: "post") {
+    let json: any = this._param.reduce(
+      (acc, param) => Object.assign(acc, { [param.param]: param.value }),
+      {}
+    );
+
+    //console.log(json);
+
+    let formData = new FormData();
+    for(var k in json)
+    {
+      formData.append(k, json[k]);
+    }
+
+    if (mode === "post") {
+      return await fetch(this._url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        cache: "no-cache",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formData,
+      });
+    } else {
+      return await fetch(this.toString());
+    }
   }
 }

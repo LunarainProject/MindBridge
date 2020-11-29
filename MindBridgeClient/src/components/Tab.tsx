@@ -51,7 +51,7 @@ export default class Tab extends React.Component<Props> {
   }
 
   private _handler = () => {
-    console.log('orientation changed. now width: ', Dimensions.get("screen").width);
+    //console.log('orientation changed. now width: ', Dimensions.get("screen").width);
     this.setState({width: Dimensions.get('screen').width});
   }
 

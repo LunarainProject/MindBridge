@@ -57,7 +57,7 @@ export const RetrieveSpouseInfoThunk = () => async (dispatch: Function, getState
 }
 
 export const MatchSpouseThunk = (spouseEmail: string) => async (dispatch: Function, getState: Function) => {
-  console.log('match spouse thunk');
+  //console.log('match spouse thunk');
   await ServerService.MatchSpouse(spouseEmail);
   setTimeout(() => {
     ServerService.GetSpouseInfo().then((spouseInfo) => {

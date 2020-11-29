@@ -8,7 +8,7 @@ export default (state: SystemState = {
   switch (action.type) {
     case ActionTypes.SET_APP_STATE:
     {
-      console.log('Go '+(action as SetAppStateAction).appState)
+      //console.log('Go '+(action as SetAppStateAction).appState)
       state = { ...state, appState: (action as SetAppStateAction).appState}
       return state;
     }

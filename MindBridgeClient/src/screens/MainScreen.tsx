@@ -113,7 +113,7 @@ class MainScreen extends React.Component<Props> {
   }
 
   componentDidMount() {
-    console.log("main screen init");
+    //console.log("main screen init");
     this.props.InitUserInfo();
     this.props.InitSpouseInfo();
     this.props.InitSurvey();

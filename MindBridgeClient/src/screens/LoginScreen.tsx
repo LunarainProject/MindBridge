@@ -44,12 +44,12 @@ class LoginScreen extends React.Component<Props> {
 
   async componentDidMount() {
 
-    console.log('login init');
+    //console.log('login init');
 
     try {
       await EnvGetGoogleService().initAsync();
     } catch (e) {
-      console.log("initialization error: ", e);
+      //console.log("initialization error: ", e);
     }
 
     if (this.props.LoginState.autoLogin) {

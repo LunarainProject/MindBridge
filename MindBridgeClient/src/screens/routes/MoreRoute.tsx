@@ -61,7 +61,7 @@ class MoreRoute extends React.Component<Props> {
 
   render() {
 
-    console.log("ReRendered");
+    //console.log("ReRendered");
     return (
       <View style={{ flex: 1, backgroundColor: "#FCDCFA", position: "relative" }}>
         <Portal>
@@ -105,9 +105,9 @@ class MoreRoute extends React.Component<Props> {
               <Button
                 labelStyle={{ margin: 10, color: "#F970B9" }}
                 onPress={() => {
-                  console.log("match spouse");
+                  //console.log("match spouse");
                   this.props.MatchSpouse(this.state.email);
-                  console.log("match spouse end");
+                  //console.log("match spouse end");
                   this.setState({ dialog: false });
                 }}
               >

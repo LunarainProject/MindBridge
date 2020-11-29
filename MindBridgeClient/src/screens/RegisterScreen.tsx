@@ -47,7 +47,7 @@ class RegisterScreen extends React.Component<Props> {
     // for(var i = 1; i <= 12; i++) {
     //   this.monthItems.push(<Picker.Item key={i} label={`${i}`} value={`${i}`} />)
     // }
-    // console.log(this.getDays("2000", "1"));
+    // //console.log(this.getDays("2000", "1"));
     // for(var i = 1; i <= this.getDays("2000", "1"); i++) {
     //   this.dayItems.push(<Picker.Item key={i} label={`${i}`} value={`${i}`} />)
     // }

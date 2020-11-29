@@ -25,7 +25,7 @@ export default class AppInfoScreen extends React.Component<Props> {
         await file.downloadAsync() // Optional, saves file into cache
         let res = await fetch(file.uri);
         let text = await res.text();
-        console.log("markdown:", text);
+        //console.log("markdown:", text);
         this.setState({release: text});
     }
     

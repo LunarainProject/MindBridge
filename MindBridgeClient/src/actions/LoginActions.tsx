@@ -22,7 +22,7 @@ export const RegisterThunk = (birth: string, sex: string) => async (
   dispatch: Function,
   getState: Function
 ) => {
-  console.log((getState().Login as LoginState).idToken);
+  //console.log((getState().Login as LoginState).idToken);
   await ServerService.RegisterAccount(
     (getState().Login as LoginState).idToken,
     birth,
@@ -77,37 +77,37 @@ export const LoginThunk = () => async (dispatch: Function) => {
   let autoLogin: boolean;
   let needRegister: boolean;
 
-  console.log(user, idToken);
+  //console.log(user, idToken);
 
   if (user !== null) {
     //시작하기 성공
     const resp = await ServerService.CheckUserRegistered(idToken);
-    console.log(resp);
+    //console.log(resp);
     if (resp === "Success") {
       //이미 등록된 경우
       loggedIn = true;
       autoLogin = false;
       needRegister = false;
-      console.log("Registered");
+      //console.log("Registered");
     } else if (resp === "Failed") {
       //등록되지 않은 경우
       loggedIn = false;
       autoLogin = false;
       needRegister = true;
-      console.log("Unregistered");
+      //console.log("Unregistered");
     } else {
       //시작하기 실패
       loggedIn = false;
       autoLogin = false;
       needRegister = false;
-      console.log("시작하기 실패: [", resp, "]")
+      //console.log("시작하기 실패: [", resp, "]")
     }
   } else {
     //시작하기 실패
     loggedIn = false;
     autoLogin = false;
     needRegister = false;
-    console.log("google login failed");
+    //console.log("google login failed");
   }
   dispatch(_Login(loggedIn, autoLogin, needRegister, user, idToken));
 };
@@ -116,11 +116,11 @@ export const AutoLoginThunk = () => async (dispatch: Function) => {
   //자동 로그인 부분 구현
   //기존의 Auth정보를 이용하여 구글 로그인을 암묵적으로 수행합니다
 
-  console.log("autologin");
+  //console.log("autologin");
 
   if (__DEV__) {
     //바로 자동 로그인 실패
-    console.log("development mode")
+    //console.log("development mode")
     const loggedIn: boolean = false;
     const autoLogin: boolean = false;
     const needRegister: boolean = false;
@@ -134,10 +134,10 @@ export const AutoLoginThunk = () => async (dispatch: Function) => {
     let autoLogin: boolean;
     let needRegister: boolean;
 
-    console.log(user, idToken);
+    //console.log(user, idToken);
 
     if (user !== null) {
-      console.log("production mode");
+      //console.log("production mode");
       //시작하기 성공
       const resp = await ServerService.CheckUserRegistered(idToken);
       if (resp === "Success") {
@@ -145,26 +145,26 @@ export const AutoLoginThunk = () => async (dispatch: Function) => {
         loggedIn = true;
         autoLogin = false;
         needRegister = false;
-        console.log("Registered");
+        //console.log("Registered");
       } else if (resp === "Failed") {
         //등록되지 않은 경우
         loggedIn = false;
         autoLogin = false;
         needRegister = true;
-        console.log("Unregistered");
+        //console.log("Unregistered");
       } else {
         //시작하기 실패
         loggedIn = false;
         autoLogin = false;
         needRegister = false;
-        console.log("google login failed");
+        //console.log("google login failed");
       }
     } else {
       //시작하기 실패
       loggedIn = false;
       autoLogin = false;
       needRegister = false;
-      console.log("google login failed");
+      //console.log("google login failed");
     }
     dispatch(_Login(loggedIn, autoLogin, needRegister, user, idToken));
   }
@@ -185,7 +185,7 @@ export const AppleRegisterThunk = (email: string, password: string, name: string
   
   let registerRes = await ServerService.AppleRegisterAccount(email, password, name);
 
-  console.log('registerRes', registerRes);
+  //console.log('registerRes', registerRes);
 
   if(registerRes === "NoInternet") return "NoInternet";
   if(registerRes === "Fetch Failed") return "Fetch Failed";
@@ -213,7 +213,7 @@ export const AppleAutoLoginThunk = () => async (dispatch: Function) => {
   const email = await SecureStore.getItemAsync("email");
   const password = await SecureStore.getItemAsync("password");
 
-  console.log("securestore", email, password);
+  //console.log("securestore", email, password);
 
   if(email === null || password === null)
   {
@@ -228,7 +228,7 @@ export const AppleAutoLoginThunk = () => async (dispatch: Function) => {
       photoUrl: "",
       email: "",
     }
-    console.log("apple login failed"); 
+    //console.log("apple login failed"); 
     dispatch(_Login(loggedIn, autoLogin, needRegister, user, ""));
     return;
   }
@@ -265,13 +265,13 @@ export const AppleAutoLoginThunk = () => async (dispatch: Function) => {
     loggedIn = true;
     autoLogin = false;
     needRegister = false;
-    console.log("apple login success");
+    //console.log("apple login success");
   }
   else {
     loggedIn = false;
     autoLogin = false;
     needRegister = false;
-    console.log("apple login failed");
+    //console.log("apple login failed");
   }
 
   dispatch(_Login(loggedIn, autoLogin, needRegister, user, idToken));
@@ -322,7 +322,7 @@ export const AppleLoginThunk = (email: string, password: string) => async (dispa
     loggedIn = true;
     autoLogin = false;
     needRegister = false;
-    console.log("apple login success");
+    //console.log("apple login success");
 
     await SecureStore.setItemAsync("email", email);
     await SecureStore.setItemAsync("password", password);
@@ -331,7 +331,7 @@ export const AppleLoginThunk = (email: string, password: string) => async (dispa
     loggedIn = false;
     autoLogin = false;
     needRegister = false;
-    console.log("apple login failed");
+    //console.log("apple login failed");
   }
 
   dispatch(_Login(loggedIn, autoLogin, needRegister, user, idToken));

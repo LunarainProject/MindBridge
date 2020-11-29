@@ -85,14 +85,14 @@ export class BackHandleService {
         this._AppState.match(/inactive|background/) &&
         nextAppState === "active"
       ) {
-        console.log("add handler again");
+        //console.log("add handler again");
         BackHandler.addEventListener(
           "hardwareBackPress",
           this.handleBackButton
         );
         BackHandleService.focusCallback();
       } else if (nextAppState === "background") {
-        console.log("remove handler");
+        //console.log("remove handler");
         BackHandler.removeEventListener(
           "hardwareBackPress",
           this.handleBackButton
@@ -108,12 +108,12 @@ export class BackHandleService {
   }
   
   public static MainScreenDidMount() {
-    console.log('mainscreen didmount');
+    //console.log('mainscreen didmount');
     AppState.addEventListener("change", this._handleAppStateChange);
     this._mainNavigation.addListener("focus", this._handleFocus);
   }
   public static MainScreenWillUnmount() {
-    console.log('mainscreen willunmount');
+    //console.log('mainscreen willunmount');
     AppState.removeEventListener("change", this._handleAppStateChange);
     BackHandler.removeEventListener("hardwareBackPress", this.handleBackButton);
     this._mainNavigation.removeListener("focus", this._handleFocus);

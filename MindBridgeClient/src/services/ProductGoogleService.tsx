@@ -76,8 +76,8 @@ export default class ProductGoogleService implements IGoogleService {
     try {
       const result = await GoogleSignIn.signInAsync();
       if (result.type === "success") {
-        console.log(JSON.stringify(result.user));
-        console.log(JSON.stringify(GoogleSignIn.getCurrentUser()));
+        //console.log(JSON.stringify(result.user));
+        //console.log(JSON.stringify(GoogleSignIn.getCurrentUser()));
 
         return {
           user:
@@ -98,7 +98,7 @@ export default class ProductGoogleService implements IGoogleService {
         };
       }
     } catch (e) {
-      console.log("sign in error: ", e);
+      //console.log("sign in error: ", e);
 
       return {
         user: null,
